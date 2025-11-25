@@ -1,0 +1,114 @@
+#include "command.h"
+#include "constants.h"
+
+#include <stdio.h>
+#include <string.h>
+
+Command parseCommand(const char* query) {
+	Command cmd = { .type = CMD_UNKNOWN, .arg1 = "", .arg2 = "", .message = ""};
+	char input[MAX_INPUT_LENGTH];
+	strcpy_s(input, sizeof(input), query);
+
+	char* context = NULL;
+	char* token = strtok_s(input, " ", &context);
+
+	if (token == NULL) {
+		return cmd;
+	}
+
+	// ¸í·É¾î ÆÄ½Ì
+	if (strcmp(token, "help") == 0) {
+		cmd.type = CMD_HELP;
+	}
+	else if (strcmp(token, "a") == 0 || strcmp(token, "attack") == 0) {
+		cmd.type = CMD_ATTACK;
+		// attack [skill] [target]
+		token = strtok_s(NULL, " ", &context);
+		if (token == NULL) {
+			cmd.type = CMD_ERROR;
+			strcpy_s(cmd.message, sizeof(cmd.message), "Error: Missing skill name");
+			return cmd;
+		}
+		if (strlen(token) >= MAX_ARG_LENGTH) {
+			cmd.type = CMD_ERROR;
+			sprintf_s(cmd.message, sizeof(cmd.message), "Error: Skill name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+			return cmd;
+		}
+
+		strcpy_s(cmd.arg1, sizeof(cmd.arg1), token);
+		token = strtok_s(NULL, " ", &context);
+		if (token == NULL) {
+			cmd.type = CMD_ERROR;
+			strcpy_s(cmd.message, sizeof(cmd.message), "Error: Missing target name");
+			return cmd;
+		}
+		if (strlen(token) >= MAX_ARG_LENGTH) {
+			cmd.type = CMD_ERROR;
+			sprintf_s(cmd.message, sizeof(cmd.message), "Error: Target name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+			return cmd;
+		}
+		strcpy_s(cmd.arg2, sizeof(cmd.arg2), token);
+	}
+	else if (strcmp(token, "al") == 0 || strcmp(token, "attacklist") == 0) {
+		cmd.type = CMD_ATTACKLIST;
+	}
+	else if (strcmp(token, "use") == 0) {
+		cmd.type = CMD_USEITEM;
+		// use [item]
+		token = strtok_s(NULL, " ", &context);
+		if (token == NULL) {
+			cmd.type = CMD_ERROR;
+			strcpy_s(cmd.message, sizeof(cmd.message), "Error: Missing item name");
+			return cmd;
+		}
+		if (strlen(token) >= MAX_ARG_LENGTH) {
+			cmd.type = CMD_ERROR;
+			sprintf_s(cmd.message, sizeof(cmd.message), "Error: Item name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+			return cmd;
+		}
+		strcpy_s(cmd.arg1, sizeof(cmd.arg1), token);
+	}
+	else if (strcmp(token, "run") == 0) {
+		cmd.type = CMD_RUN;
+	}
+	else if (strcmp(token, "save") == 0) {
+		cmd.type = CMD_SAVE;
+		// save [name]
+		token = strtok_s(NULL, " ", &context);
+		if (token == NULL) {
+			cmd.type = CMD_ERROR;
+			strcpy_s(cmd.message, sizeof(cmd.message), "Error: Missing save name");
+			return cmd;
+		}
+		if (strlen(token) >= MAX_ARG_LENGTH) {
+			cmd.type = CMD_ERROR;
+			sprintf_s(cmd.message, sizeof(cmd.message), "Error: Save name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+			return cmd;
+		}
+		strcpy_s(cmd.arg1, sizeof(cmd.arg1), token);
+	}
+	else if (strcmp(token, "load") == 0) {
+		cmd.type = CMD_LOAD;
+		// load [name]
+		token = strtok_s(NULL, " ", &context);
+		if (token == NULL) {
+			cmd.type = CMD_ERROR;
+			strcpy_s(cmd.message, sizeof(cmd.message), "Error: Missing load name");
+			return cmd;
+		}
+		if (strlen(token) >= MAX_ARG_LENGTH) {
+			cmd.type = CMD_ERROR;
+			sprintf_s(cmd.message, sizeof(cmd.message), "Error: Load name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+			return cmd;
+		}
+		strcpy_s(cmd.arg1, sizeof(cmd.arg1), token);
+	}
+	else if (strcmp(token, "sl") == 0 || strcmp(token, "savelist") == 0) {
+		cmd.type = CMD_SAVELIST;
+	}
+	else if (strcmp(token, "exit") == 0 || strcmp(token, "quit") == 0) {
+		cmd.type = CMD_QUIT;
+	}
+
+	return cmd;
+}
