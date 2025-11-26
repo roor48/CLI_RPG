@@ -27,21 +27,27 @@
     <ClCompile Include="src\input.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\inventory.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\player.h">
+    <ClInclude Include="include\command.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\constants.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\command.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="include\input.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\constants.h">
+    <ClInclude Include="include\inventory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

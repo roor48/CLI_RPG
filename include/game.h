@@ -1,17 +1,19 @@
 #pragma once
 #include "player.h"
+#include "inventory.h"
 #include "constants.h"
 
-enum GAME_SATE {
+typedef enum {
 	STATE_INIT,
 	STATE_RUNNING,
 	STATE_PAUSED,
 	STATE_FINISHED
-};
+} GameState;
 
 typedef struct {
-	enum GAME_SATE state;
+	GameState state;
 	Player player;
+	Inventory inventory;
 } Game;
 
 unsigned long long startGame();

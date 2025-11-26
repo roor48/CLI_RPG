@@ -6,6 +6,7 @@
 #include "../include/input.h"
 #include "../include/command.h"
 #include "../include/player.h"
+#include "../include/inventory.h"
 
 void initGame(Game *game);
 void executeCommand(Game* game, Command cmd);
@@ -49,7 +50,8 @@ unsigned long long startGame() {
 
 void initGame(Game *game) {
 	Player player = (Player){ .health = 100, .level = 1 };
-	*game = (Game){ .state = STATE_INIT, .player = player };
+	Inventory inventory = { 0 };
+	*game = (Game){ .state = STATE_INIT, .player = player, .inventory = inventory };
 }
 
 void executeCommand(Game* game, Command cmd) {

@@ -131,12 +131,14 @@
     <ClCompile Include="src\command.c" />
     <ClCompile Include="src\game.c" />
     <ClCompile Include="src\input.c" />
+    <ClCompile Include="src\inventory.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h" />
     <ClInclude Include="include\constants.h" />
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\input.h" />
+    <ClInclude Include="include\inventory.h" />
     <ClInclude Include="include\player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
