@@ -1,11 +1,11 @@
-#include "game.h"
+#include "../include/game.h"
 
 #include <stdio.h>
 #include <string.h>
 
-#include "input.h"
-#include "command.h"
-#include "player.h"
+#include "../include/input.h"
+#include "../include/command.h"
+#include "../include/player.h"
 
 void initGame(Game *game);
 void executeCommand(Game* game, Command cmd);

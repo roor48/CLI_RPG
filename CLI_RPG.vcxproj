@@ -128,16 +128,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CLI_RPG.c" />
-    <ClCompile Include="command.c" />
-    <ClCompile Include="game.c" />
-    <ClCompile Include="input.c" />
+    <ClCompile Include="src\command.c" />
+    <ClCompile Include="src\game.c" />
+    <ClCompile Include="src\input.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="command.h" />
-    <ClInclude Include="constants.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="player.h" />
+    <ClInclude Include="include\command.h" />
+    <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\input.h" />
+    <ClInclude Include="include\player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

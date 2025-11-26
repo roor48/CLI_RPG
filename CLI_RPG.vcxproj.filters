@@ -18,30 +18,30 @@
     <ClCompile Include="CLI_RPG.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="game.c">
+    <ClCompile Include="src\game.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="command.c">
+    <ClCompile Include="src\command.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="input.c">
+    <ClCompile Include="src\input.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h">
+    <ClInclude Include="include\player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="game.h">
+    <ClInclude Include="include\game.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="command.h">
+    <ClInclude Include="include\command.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="input.h">
+    <ClInclude Include="include\input.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="constants.h">
+    <ClInclude Include="include\constants.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
