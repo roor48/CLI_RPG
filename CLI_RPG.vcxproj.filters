@@ -30,6 +30,9 @@
     <ClCompile Include="src\inventory.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\shop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h">
@@ -48,6 +51,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\player.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shop.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

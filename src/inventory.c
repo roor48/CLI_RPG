@@ -2,198 +2,120 @@
 
 #include <stdio.h>
 
-#pragma region Item
-int hasItem(Inventory* inventory, ItemType itemType) {
-	int have = -1;
-	switch (itemType) {
-		case ITEM_LOW_HEAL_POTION:
-			have = !!inventory->lowHealPotion;
-			break;
+void showInventory(Inventory* inventory) {
+	printf("Showing inventory...\n");
 
-		case ITEM_HEAL_POTION:
-			have = !!inventory->healPotion;
-			break;
-
-		case ITEM_HIGH_HEAL_POTION:
-			have = !!inventory->highHealPotion;
-			break;
-
-		case ITEM_UNKNOWN:
-		default:
-			printf("Unknown item name\n");
-			have = -1;
-			break;
+	printf("Gold: %d\n", inventory->gold);
+	printf("Items:\n");
+	if (hasItem(inventory, ITEM_LOW_HEAL_POTION)) {
+		printf("  LowHealPotion: %d\n", getItem(inventory, ITEM_LOW_HEAL_POTION));
+	}
+	if (hasItem(inventory, ITEM_HEAL_POTION)) {
+		printf("  HealPotion: %d\n", getItem(inventory, ITEM_HEAL_POTION));
+	}
+	if (hasItem(inventory, ITEM_HIGH_HEAL_POTION)) {
+		printf("  HighHealPotion: %d\n", getItem(inventory, ITEM_HIGH_HEAL_POTION));
 	}
 
-	return have;
+	printf("Weapons:\n");
+	if (hasWeapon(inventory, WEAPON_COOPER_SWORD)) {
+		printf("  CooperSword\n");
+	}
+	if (hasWeapon(inventory, WEAPON_IRON_SWORD)) {
+		printf("  IronSword\n");
+	}
+
+	printf("Armors:\n");
+	if (hasArmor(inventory, ARMOR_WOOD_CHESTPLATE)) {
+		printf(" WoodChestplate\n");
+	}
+}
+
+int addGold(Inventory* inventory, int amount) {
+	return inventory->gold += amount;
+}
+
+int removeGold(Inventory* inventory, int amount) {
+	if (inventory->gold < amount) {
+		printf("ERROR in inventory.removeGold: inventory->gold < amount");
+		return -1;
+	}
+
+	return inventory->gold -= amount;
+}
+
+#pragma region Item
+int hasItem(Inventory* inventory, ItemType itemType) {
+	if (itemType == ITEM_UNKNOWN) {
+		printf("Unknown item name\n");
+		return -1;
+	}
+
+	return !!getItem(inventory, itemType);
+}
+
+int getItem(Inventory* inventory, ItemType itemType) {
+	if (itemType == ITEM_UNKNOWN) {
+		printf("Unknown item name\n");
+		return -1;
+	}
+
+	int result = inventory->items[itemType];
+	return result;
 }
 
 // ¾ÆÀÌÅÛ Ãß°¡
 int addItem(Inventory* inventory, ItemType itemType, int cnt) {
-	int result = 0;
-	switch (itemType) {
-		case ITEM_LOW_HEAL_POTION:
-			addLowHealPotion(inventory, cnt);
-			result = inventory->lowHealPotion;
-			break;
-
-		case ITEM_HEAL_POTION:
-			addHealPotion(inventory, cnt);
-			result = inventory->healPotion;
-			break;
-
-		case ITEM_HIGH_HEAL_POTION:
-			addHighHealPotion(inventory, cnt);
-			result = inventory->highHealPotion;
-			break;
-
-		case ITEM_UNKNOWN:
-		default:
-			result = -1;
-			printf("Unknown item name\n");
-			break;
+	if (itemType == ITEM_UNKNOWN) {
+		printf("Unknown item name\n");
+		return -1;
 	}
 
-	return result;
+	inventory->items[itemType] += cnt;
+	return inventory->items[itemType];
 }
 
 // ¾ÆÀÌÅÛ Á¦°Å
 int removeItem(Inventory* inventory, ItemType itemType, int cnt) {
-	int result = 0;
-	switch (itemType) {
-		case ITEM_LOW_HEAL_POTION:
-			removeLowHealPotion(inventory, cnt);
-			result = inventory->lowHealPotion;
-			break;
-
-		case ITEM_HEAL_POTION:
-			removeHealPotion(inventory, cnt);
-			result = inventory->healPotion;
-			break;
-
-		case ITEM_HIGH_HEAL_POTION:
-			removeHighHealPotion(inventory, cnt);
-			result = inventory->highHealPotion;
-			break;
-
-		case ITEM_UNKNOWN:
-		default:
-			result = -1;
-			printf("Unknown item name\n");
-			break;
+	if (itemType == ITEM_UNKNOWN) {
+		printf("Unknown item name\n");
+		return -1;
+	}
+	if (inventory->items[itemType] < cnt) {
+		printf("Amount is too big (have: %d, input: %d)", inventory->items[itemType], cnt);
+		return -2;
 	}
 
-	return result;
-}
-
-// ¾ÆÀÌÅÛ Ãß°¡
-int addLowHealPotion(Inventory* inventory, int cnt) {
-	return inventory->lowHealPotion += cnt;
-}
-int addHealPotion(Inventory* inventory, int cnt) {
-	return inventory->healPotion += cnt;
-}
-int addHighHealPotion(Inventory* inventory, int cnt) {
-	return inventory->highHealPotion += cnt;
-}
-
-// ¾ÆÀÌÅÛ Á¦°Å
-int removeLowHealPotion(Inventory* inventory, int cnt) {
-	inventory->lowHealPotion -= cnt;
-	if (inventory->lowHealPotion < 0) {
-		inventory->lowHealPotion = 0;
-	}
-
-	return inventory->lowHealPotion;
-}
-int removeHealPotion(Inventory* inventory, int cnt) {
-	inventory->healPotion -= cnt;
-	if (inventory->healPotion < 0) {
-		inventory->healPotion = 0;
-	}
-
-	return inventory->healPotion;
-}
-int removeHighHealPotion(Inventory* inventory, int cnt) {
-	inventory->highHealPotion -= cnt;
-	if (inventory->highHealPotion < 0) {
-		inventory->highHealPotion = 0;
-	}
-
-	return inventory->highHealPotion;
+	return inventory->items[itemType] -= cnt;
 }
 #pragma endregion
 
 
 #pragma region Weapon
 int hasWeapon(Inventory* inventory, WeaponType weaponType) {
-	int have = -1;
-	switch (weaponType) {
-	case WEAPON_COOPER_SWORD:
-		have = inventory->cooperSword;
-		break;
-	case WEAPON_IRON_SWORD:
-		have = inventory->ironSword;
-		break;
-
-	case WEAPON_UNKNOWN:
-	default:
-		have = -1;
-		break;
+	if (weaponType == WEAPON_UNKNOWN) {
+		printf("Unknown weapon name\n");
+		return -1;
 	}
 
-	return have;
+	return inventory->weapons[weaponType];
 }
-int getWeapon(Inventory* inventory, WeaponType weaponType) {
-	int have = 0;
-	switch (weaponType) {
-	case WEAPON_COOPER_SWORD:
-		have = getCooperSword(inventory);
-		break;
 
-	case WEAPON_IRON_SWORD:
-		have = getIronSword(inventory);
-		break;
-
-	case WEAPON_UNKNOWN:
-	default:
-		have = -1;
-		break;
+int addWeapon(Inventory* inventory, WeaponType weaponType) {
+	if (weaponType == WEAPON_UNKNOWN) {
+		printf("Unknown weapon name\n");
+		return -1;
 	}
+
+	return inventory->weapons[weaponType] = 1;
 }
 int removeWeapon(Inventory* inventory, WeaponType weaponType) {
-	int have = 0;
-	switch (weaponType) {
-		case WEAPON_COOPER_SWORD:
-			have = removeCooperSword(inventory);
-			break;
-		case WEAPON_IRON_SWORD:
-			have = removeIronSword(inventory);
-			break;
-
-		case WEAPON_UNKNOWN:
-		default:
-			have = -1;
-			break;
+	if (weaponType == WEAPON_UNKNOWN) {
+		printf("Unknown weapon name\n");
+		return -1;
 	}
 
-	return have;
-}
-
-// ¹«±â È¹µæ
-int getCooperSword(Inventory* inventory) {
-	return inventory->cooperSword = 1;
-}
-int getIronSword(Inventory* inventory) {
-	return inventory->ironSword = 1;
-}
-
-// ¹«±â Á¦°Å
-int removeCooperSword(Inventory* inventory) {
-	return inventory->cooperSword = 0;
-}
-int removeIronSword(Inventory* inventory) {
-	return inventory->ironSword = 0;
+	return inventory->weapons[weaponType] = 0;
 }
 
 #pragma endregion
@@ -201,59 +123,28 @@ int removeIronSword(Inventory* inventory) {
 
 #pragma region Armor
 int hasArmor(Inventory* inventory, ArmorType armorType) {
-	int have = -1;
-	switch (armorType) {
-		case ARMOR_WOOD_CHESTPLATE:
-			have = inventory->woodChestplate;
-			break;
-
-		case ARMOR_UNKNOWN:
-		default:
-			have = -1;
-			break;
+	if (armorType == ARMOR_UNKNOWN) {
+		printf("Unknown armor name\n");
+		return -1;
 	}
 
-	return have;
+	return inventory->armors[armorType];
 }
-int getArmor(Inventory* inventory, ArmorType armorType) {
-	int have = -1;
-	switch (armorType) {
-	case ARMOR_WOOD_CHESTPLATE:
-		have = getWoodChestplate(inventory);
-		break;
-
-	case ARMOR_UNKNOWN:
-	default:
-		have = -1;
-		break;
+int addArmor(Inventory* inventory, ArmorType armorType) {
+	if (armorType == ARMOR_UNKNOWN) {
+		printf("Unknown armor name\n");
+		return -1;
 	}
 
-	return have;
+	return inventory->armors[armorType] = 1;
 }
 int removeArmor(Inventory* inventory, ArmorType armorType) {
-	int have = -1;
-	switch (armorType) {
-	case ARMOR_WOOD_CHESTPLATE:
-		have = removeWoodChestplate(inventory);
-		break;
-
-	case ARMOR_UNKNOWN:
-	default:
-		have = -1;
-		break;
+	if (armorType == ARMOR_UNKNOWN) {
+		printf("Unknown armor name\n");
+		return -1;
 	}
 
-	return have;
-}
-
-// °©¿Ê È¹µæ
-int getWoodChestplate(Inventory* inventory) {
-	return inventory->woodChestplate = 1;
-}
-
-// °©¿Ê Á¦°Å
-int removeWoodChestplate(Inventory* inventory) {
-	return inventory->woodChestplate = 0;
+	return inventory->armors[armorType] = 0;
 }
 
 #pragma endregion

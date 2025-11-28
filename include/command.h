@@ -2,10 +2,15 @@
 
 #include "constants.h"
 
-enum COMMAND_TYPE {
+typedef enum {
 	CMD_HELP,
 	CMD_ATTACK,
 	CMD_ATTACKLIST,
+	CMD_INVENTORY,
+	CMD_SHOP,
+	CMD_BUY,
+	CMD_SELL,
+	CMD_EQUIP,
 	CMD_USEITEM,
 	CMD_RUN,
 	CMD_SAVE,
@@ -14,10 +19,10 @@ enum COMMAND_TYPE {
 	CMD_QUIT,
 	CMD_ERROR,
 	CMD_UNKNOWN
-};
+} COMMAND_TYPE;
 
 typedef struct {
-	enum COMMAND_TYPE type;
+	COMMAND_TYPE type;
 	char arg1[MAX_ARG_LENGTH];
 	char arg2[MAX_ARG_LENGTH];
 	char message[200];

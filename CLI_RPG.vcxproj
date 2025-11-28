@@ -132,6 +132,7 @@
     <ClCompile Include="src\game.c" />
     <ClCompile Include="src\input.c" />
     <ClCompile Include="src\inventory.c" />
+    <ClCompile Include="src\shop.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h" />
@@ -140,6 +141,7 @@
     <ClInclude Include="include\input.h" />
     <ClInclude Include="include\inventory.h" />
     <ClInclude Include="include\player.h" />
+    <ClInclude Include="include\shop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

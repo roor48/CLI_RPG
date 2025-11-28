@@ -1,47 +1,50 @@
 #pragma once
 
+#include "constants.h"
+
 typedef enum {
-	ITEM_LOW_HEAL_POTION,
-	ITEM_HEAL_POTION,
-	ITEM_HIGH_HEAL_POTION,
-	ITEM_UNKNOWN
+	ITEM_UNKNOWN = 0,
+	ITEM_LOW_HEAL_POTION = 1,
+	ITEM_HEAL_POTION = 2,
+	ITEM_HIGH_HEAL_POTION = 3
 } ItemType;
 
 typedef enum {
-	WEAPON_COOPER_SWORD,
-	WEAPON_IRON_SWORD,
-	WEAPON_UNKNOWN
+	WEAPON_UNKNOWN = 0,
+	WEAPON_COOPER_SWORD = 1,
+	WEAPON_IRON_SWORD = 2
 } WeaponType;
 
 typedef enum {
-	ARMOR_WOOD_CHESTPLATE,
-	ARMOR_UNKNOWN
+	ARMOR_UNKNOWN = 0,
+	ARMOR_WOOD_CHESTPLATE = 1,
 } ArmorType;
 
 typedef struct {
+	// Currencies (integer)
+	int gold;
 	// Items (integer)
-	int lowHealPotion;
-	int healPotion;
-	int highHealPotion;
-
+	int items[MAX_ITEM_TYPES];
 	// Weapons (boolean)
-	int cooperSword;
-	int ironSword;
-
+	int weapons[MAX_WEAPON_TYPES];
 	// Armors (boolean)
-	int woodChestplate;
+	int armors[MAX_ARMOR_TYPES];
 } Inventory;
 
+void showInventory(Inventory* inventory);
+
+int addGold(Inventory* inventory, int amount);
+int removeGold(Inventory* inventory, int amount);
+
 int hasItem(Inventory *inventory, ItemType itemType);
+int getItem(Inventory* inventory, ItemType itemType);
 int addItem(Inventory* inventory, ItemType itemType, int cnt);
-//int addItem(Inventory *inventory, ItemType itemType);
 int removeItem(Inventory* inventory, ItemType itemType, int cnt);
-//int removeItem(Inventory *inventory, ItemType itemType);
 
 int hasWeapon(Inventory *inventory, WeaponType weaponType);
-int getWeapon(Inventory *inventory, WeaponType weaponType);
+int addWeapon(Inventory *inventory, WeaponType weaponType);
 int removeWeapon(Inventory *inventory, WeaponType weaponType);
 
 int hasArmor(Inventory *inventory, ArmorType armorType);
-int getArmor(Inventory *inventory, ArmorType armorType);
+int addArmor(Inventory *inventory, ArmorType armorType);
 int removeArmor(Inventory *inventory, ArmorType armorType);

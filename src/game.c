@@ -7,23 +7,29 @@
 #include "../include/command.h"
 #include "../include/player.h"
 #include "../include/inventory.h"
+#include "../include/shop.h"
 
-void initGame(Game *game);
-void executeCommand(Game* game, Command cmd);
+void initGame();
+void executeCommand(Command cmd);
 
 void help();
-void attack(Game* game, Command cmd);
-void attackList(Game* game);
-void useItem(Game* game, Command cmd);
-void run(Game* game);
-void save(Game* game, Command cmd);
-void load(Game* game, Command cmd);
-void saveList(Game* game);
-void quit(Game* game);
+void attack(Command cmd);
+void attackList();
+void inventory();
+void shop();
+void buy(Command cmd);
+void sell(Command cmd);
+void equip(Command cmd);
+void useItem(Command cmd);
+void run();
+void save(Command cmd);
+void load(Command cmd);
+void saveList();
+void quit();
 
 
+Game game;
 unsigned long long startGame() {
-	Game game;
 	initGame(&game);
 
 	char query[MAX_INPUT_LENGTH];
@@ -42,54 +48,77 @@ unsigned long long startGame() {
 		}
 
 		Command cmd = parseCommand(query);
-		executeCommand(&game, cmd);
+		executeCommand(cmd);
 	}
 
 	return loopCnt;
 }
 
-void initGame(Game *game) {
+void initGame() {
 	Player player = (Player){ .health = 100, .level = 1 };
 	Inventory inventory = { 0 };
-	*game = (Game){ .state = STATE_INIT, .player = player, .inventory = inventory };
+	inventory.gold = 10000;
+
+	game = (Game){ .state = STATE_INIT, .player = player, .inventory = inventory };
+	initShop();
 }
 
-void executeCommand(Game* game, Command cmd) {
+void executeCommand(Command cmd) {
 	switch (cmd.type) {
 	case CMD_HELP:
 		help();
 		break;
 
 	case CMD_ATTACK:
-		attack(game, cmd);
+		attack(cmd);
 		break;
 
 	case CMD_ATTACKLIST:
-		attackList(game);
+		attackList();
+		break;
+
+	case CMD_INVENTORY:
+		inventory();
+		break;
+
+	case CMD_SHOP:
+		shop(cmd);
+		break;
+
+	case CMD_BUY:
+		buy(cmd);
+		break;
+
+	case CMD_SELL:
+		sell(cmd);
+		break;
+
+	case CMD_EQUIP:
+		equip(cmd);
 		break;
 
 	case CMD_USEITEM:
-		useItem(game, cmd);
+		useItem(cmd);
 		break;
 
 	case CMD_RUN:
-		run(game);
+		run();
 		break;
 
 	case CMD_SAVE:
-		save(game, cmd);
+		save(cmd);
 		break;
 
 	case CMD_LOAD:
-		load(game, cmd);
+		load(cmd);
 		break;
 
 	case CMD_SAVELIST:
-		saveList(game);
+		saveList();
 		break;
 
 	case CMD_QUIT:
-		quit(game);
+		quit();
 		break;
 
 	case CMD_ERROR:
@@ -105,59 +134,85 @@ void executeCommand(Game* game, Command cmd) {
 
 void help() {
 	puts("Available commands:");
-	puts("  help - Show this help message");
-	puts("  attack [skill] [target] - Attack enemy");
-	puts("  a [skill] [target] - ");
-	puts("  attacklist - List skills");
-	puts("  al - ");
-	puts("  use [item] - Use Item");
-	puts("  run - Run away from battle");
-	puts("  save [name] - Save game");
-	puts("  savelist - List saved games");
-	puts("  sl - ");
-	puts("  load [name] - Load game");
-	puts("  quit - save and leave game");
-	puts("  exit - ");
+	puts("  * help - Show this help message");
+	puts("  * attack [skill] [target] - Attack enemy");
+	puts("    a [skill] [target] - ");
+	puts("  * attacklist - List skills");
+	puts("    al - ");
+	puts("  * inventory - Show inventory");
+	puts("    inv - ");
+	puts("  * shop - List buyable items");
+	puts("  * buy [name] [amount] - Buy itmes");
+	puts("  * sell [name] [amount] - Sell itmes");
+	puts("  * euqip [name] - Equip weapon or armor");
+	puts("  * use [item] - Use Item");
+	puts("  * run - Run away from battle");
+	puts("  * save [name] - Save game");
+	puts("  * savelist - List saved games");
+	puts("    sl - ");
+	puts("  * load [name] - Load game");
+	puts("  * quit - save and leave game");
+	puts("    exit - ");
 }
 
-void attack(Game *game, Command cmd) {
+void attack(Command cmd) {
 	printf("Attacking with skill: %s, target: %s\n", cmd.arg1, cmd.arg2);
 	// TODO: 실제 공격 로직 구현
 }
 
-void attackList(Game *game) {
+void attackList() {
 	printf("Listing skills...\n");
 	// TODO: 스킬 리스트 출력 로직 구현
 }
 
-void useItem(Game *game, Command cmd) {
+void inventory() {
+	showInventory(&game.inventory);
+}
+
+void shop() {
+	showShop();
+}
+
+void buy(Command cmd) {
+	buyShop(&game.inventory, &cmd);
+}
+
+void sell(Command cmd) {
+	sellShop(&game.inventory, &cmd);
+}
+
+void equip(Command cmd) {
+	printf("Equiping %s...\n", cmd.arg1);
+}
+
+void useItem(Command cmd) {
 	printf("Using item: %s\n", cmd.arg1);
 	// TODO: 아이템 사용 로직 구현
 }
 
-void run(Game *game) {
+void run() {
 	printf("Running away...\n");
 	// TODO: 전투 종료 로직 구현
 }
 
-void save(Game *game, Command cmd) {
+void save(Command cmd) {
 	printf("Saving game as: %s\n", cmd.arg1);
 	// TODO: 실제 저장 로직 구현
 }
 
 
-void load(Game *game, Command cmd) {
+void load(Command cmd) {
 	printf("Loading game: %s\n", cmd.arg1);
 	// TODO: 실제 로드 로직 구현
 }
 
-void saveList(Game *game) {
+void saveList() {
 	printf("Listing saved games...\n");
 	// TODO: 실제 저장 목록 로직 구현
 }
 
-void quit(Game *game) {
+void quit() {
 	printf("Quitting game...\n");
-	save(game, (Command){.arg1 = "temp"});
-	game->state = STATE_FINISHED;
+	save((Command){.arg1 = "temp"});
+	game.state = STATE_FINISHED;
 }
