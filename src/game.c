@@ -56,8 +56,7 @@ unsigned long long startGame() {
 
 void initGame() {
 	Player player = (Player){ .health = 100, .level = 1 };
-	Inventory inventory = { 0 };
-	inventory.gold = 10000;
+	Inventory inventory = (Inventory){ .gold = 100 };
 
 	game = (Game){ .state = STATE_INIT, .player = player, .inventory = inventory };
 	initShop();
