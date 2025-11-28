@@ -24,7 +24,7 @@ int itemPrices[MAX_ITEM_TYPES], weaponPrices[MAX_WEAPON_TYPES], armorPrices[MAX_
 
 void toLowerCase(char *str) {
 	for (int i = 0; str[i]; i++) {
-		str[i] = tolower((unsigned char)str[i]);
+		str[i] = tolower(str[i]);
 	}
 }
 
@@ -182,6 +182,11 @@ int sellItem(Inventory* inventory, ItemType itemType, char *itemName, int amount
 int buyWeapon(Inventory* inventory, WeaponType weaponType, char *itemName) {
 	printf("Purchasing weapon: %s\n", itemName);
 
+	if (hasWeapon(inventory, weaponType)) {
+		printf("You already have the weapon: %s\n", itemName);
+		return -1;
+	}
+
 	int beforeGold = inventory->gold;
 	int value = weaponPrices[weaponType];
 
@@ -221,6 +226,11 @@ int sellWeapon(Inventory* inventory, WeaponType weaponType, char *itemName) {
 // Armor
 int buyArmor(Inventory* inventory, ArmorType armorType, char* itemName) {
 	printf("Purchasing armor: %s\n", itemName);
+
+	if (hasArmor(inventory, armorType)) {
+		printf("You already have the armor: %s\n", itemName);
+		return -1;
+	}
 
 	int beforeGold = inventory->gold;
 	int value = armorPrices[armorType];
