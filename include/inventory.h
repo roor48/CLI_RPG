@@ -50,20 +50,21 @@ typedef struct {
 	int armors[MAX_ARMOR_TYPES];
 } Inventory;
 
-void showInventory(Inventory* inventory);
+void showInventory(const Inventory* inventory);
 
-int addGold(Inventory* inventory, int amount);
-int removeGold(Inventory* inventory, int amount);
+int getGold(const Inventory* inventory);
+int addGold(Inventory* inventory, const int amount);
+int removeGold(Inventory* inventory, const int amount);
 
-int hasItem(Inventory *inventory, ItemType itemType);
-int getItem(Inventory* inventory, ItemType itemType);
-int addItem(Inventory* inventory, ItemType itemType, int cnt);
-int removeItem(Inventory* inventory, ItemType itemType, int cnt);
+int hasItem(const Inventory *inventory, const ItemType itemType);
+int getItem(const Inventory* inventory, const ItemType itemType);
+int addItem(Inventory* inventory, const ItemType itemType, const int cnt);
+int removeItem(Inventory* inventory, const ItemType itemType, const int cnt);
 
-int hasWeapon(Inventory *inventory, WeaponType weaponType);
-int addWeapon(Inventory *inventory, WeaponType weaponType);
-int removeWeapon(Inventory *inventory, WeaponType weaponType);
+int hasWeapon(const Inventory *inventory, const WeaponType weaponType);
+int addWeapon(Inventory *inventory, const WeaponType weaponType);
+int removeWeapon(Inventory *inventory, const WeaponType weaponType);
 
-int hasArmor(Inventory *inventory, ArmorType armorType);
-int addArmor(Inventory *inventory, ArmorType armorType);
-int removeArmor(Inventory *inventory, ArmorType armorType);
+int hasArmor(const Inventory *inventory, const ArmorType armorType);
+int addArmor(Inventory *inventory, const ArmorType armorType);
+int removeArmor(Inventory *inventory, const ArmorType armorType);

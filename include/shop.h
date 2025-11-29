@@ -5,5 +5,5 @@
 
 void initShop();
 void showShop();
-void buyShop(Inventory* inventory, Command *cmd);
-void sellShop(Inventory* inventory, Command *cmd);
+int buyShop(Inventory* inventory, const Command *cmd);
+int sellShop(Inventory* inventory, const Command *cmd);

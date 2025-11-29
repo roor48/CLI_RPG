@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-void showInventory(Inventory* inventory) {
+void showInventory(const Inventory* inventory) {
 	printf("Showing inventory...\n");
 
 	printf("Gold: %d\n", inventory->gold);
@@ -31,11 +31,13 @@ void showInventory(Inventory* inventory) {
 	}
 }
 
-int addGold(Inventory* inventory, int amount) {
+int getGold(const Inventory* inventory) {
+	return inventory->gold;
+}
+int addGold(Inventory* inventory, const int amount) {
 	return inventory->gold += amount;
 }
-
-int removeGold(Inventory* inventory, int amount) {
+int removeGold(Inventory* inventory, const int amount) {
 	if (inventory->gold < amount) {
 		printf("ERROR in inventory.removeGold: inventory->gold < amount");
 		return -1;
@@ -45,7 +47,7 @@ int removeGold(Inventory* inventory, int amount) {
 }
 
 #pragma region Item
-int hasItem(Inventory* inventory, ItemType itemType) {
+int hasItem(const Inventory* inventory, const ItemType itemType) {
 	if (itemType == ITEM_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
@@ -53,8 +55,7 @@ int hasItem(Inventory* inventory, ItemType itemType) {
 
 	return !!getItem(inventory, itemType);
 }
-
-int getItem(Inventory* inventory, ItemType itemType) {
+int getItem(const Inventory* inventory, const ItemType itemType) {
 	if (itemType == ITEM_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
@@ -63,9 +64,7 @@ int getItem(Inventory* inventory, ItemType itemType) {
 	int result = inventory->items[itemType];
 	return result;
 }
-
-// 아이템 추가
-int addItem(Inventory* inventory, ItemType itemType, int cnt) {
+int addItem(Inventory* inventory, const ItemType itemType, const int cnt) {
 	if (itemType == ITEM_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
@@ -74,9 +73,7 @@ int addItem(Inventory* inventory, ItemType itemType, int cnt) {
 	inventory->items[itemType] += cnt;
 	return inventory->items[itemType];
 }
-
-// 아이템 제거
-int removeItem(Inventory* inventory, ItemType itemType, int cnt) {
+int removeItem(Inventory* inventory, const ItemType itemType, const int cnt) {
 	if (itemType == ITEM_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
@@ -92,7 +89,7 @@ int removeItem(Inventory* inventory, ItemType itemType, int cnt) {
 
 
 #pragma region Weapon
-int hasWeapon(Inventory* inventory, WeaponType weaponType) {
+int hasWeapon(const Inventory* inventory, const WeaponType weaponType) {
 	if (weaponType == WEAPON_UNKNOWN) {
 		printf("Unknown weapon name\n");
 		return -1;
@@ -100,8 +97,7 @@ int hasWeapon(Inventory* inventory, WeaponType weaponType) {
 
 	return inventory->weapons[weaponType];
 }
-
-int addWeapon(Inventory* inventory, WeaponType weaponType) {
+int addWeapon(Inventory* inventory, const WeaponType weaponType) {
 	if (weaponType == WEAPON_UNKNOWN) {
 		printf("Unknown weapon name\n");
 		return -1;
@@ -109,7 +105,7 @@ int addWeapon(Inventory* inventory, WeaponType weaponType) {
 
 	return inventory->weapons[weaponType] = 1;
 }
-int removeWeapon(Inventory* inventory, WeaponType weaponType) {
+int removeWeapon(Inventory* inventory, const WeaponType weaponType) {
 	if (weaponType == WEAPON_UNKNOWN) {
 		printf("Unknown weapon name\n");
 		return -1;
@@ -117,12 +113,11 @@ int removeWeapon(Inventory* inventory, WeaponType weaponType) {
 
 	return inventory->weapons[weaponType] = 0;
 }
-
 #pragma endregion
 
 
 #pragma region Armor
-int hasArmor(Inventory* inventory, ArmorType armorType) {
+int hasArmor(const Inventory* inventory, const ArmorType armorType) {
 	if (armorType == ARMOR_UNKNOWN) {
 		printf("Unknown armor name\n");
 		return -1;
@@ -130,7 +125,7 @@ int hasArmor(Inventory* inventory, ArmorType armorType) {
 
 	return inventory->armors[armorType];
 }
-int addArmor(Inventory* inventory, ArmorType armorType) {
+int addArmor(Inventory* inventory, const ArmorType armorType) {
 	if (armorType == ARMOR_UNKNOWN) {
 		printf("Unknown armor name\n");
 		return -1;
@@ -138,7 +133,7 @@ int addArmor(Inventory* inventory, ArmorType armorType) {
 
 	return inventory->armors[armorType] = 1;
 }
-int removeArmor(Inventory* inventory, ArmorType armorType) {
+int removeArmor(Inventory* inventory, const ArmorType armorType) {
 	if (armorType == ARMOR_UNKNOWN) {
 		printf("Unknown armor name\n");
 		return -1;
@@ -146,6 +141,4 @@ int removeArmor(Inventory* inventory, ArmorType armorType) {
 
 	return inventory->armors[armorType] = 0;
 }
-
 #pragma endregion
-
