@@ -20,6 +20,25 @@ typedef enum {
 	ARMOR_WOOD_CHESTPLATE = 1,
 } ArmorType;
 
+typedef enum {
+	ITEMTAG_UNKNOWN = 0,
+	ITEMTAG_ITEM = 1,
+	ITEMTAG_WEAPON = 2,
+	ITEMTAG_ARMOR = 3
+} ItemTag;
+
+typedef union {
+	ItemType itemType;
+	WeaponType weaponType;
+	ArmorType armorType;
+} InventoryItemUnion;
+
+typedef struct {
+	ItemTag tag;
+	InventoryItemUnion data;
+} InventoryItem;
+
+
 typedef struct {
 	// Currencies (integer)
 	int gold;

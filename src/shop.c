@@ -11,7 +11,7 @@
 
 #define SELL_RATE 0.5
 
-void getItemTypeFromName(Command *cmd, ItemType *itemType, WeaponType *weaponType, ArmorType *armorType, int *amount);
+void getItemTypeFromName(Command *cmd, InventoryItem *inventoryItem, int *amount);
 
 int buyItem(Inventory* inventory, ItemType itemType, char* itemName, int amount);
 int sellItem(Inventory* inventory, ItemType itemType, char* itemName, int amount);
@@ -28,7 +28,7 @@ void toLowerCase(char *str) {
 	}
 }
 
-void getItemTypeFromName(Command *cmd, ItemType *itemType, WeaponType *weaponType, ArmorType *armorType, int *amount) {
+void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *amount) {
 	*amount = 1;  // default 1
 
 	// char* to int
@@ -49,24 +49,30 @@ void getItemTypeFromName(Command *cmd, ItemType *itemType, WeaponType *weaponTyp
 	// char* 형태를 enum으로 변환
 	// ITEM
 	if (strcmp(itemName, "lowhealpotion") == 0 || strcmp(itemName, "low") == 0) {
-		*itemType = ITEM_LOW_HEAL_POTION;
+		inventoryItem->data.itemType = ITEM_LOW_HEAL_POTION;
+		inventoryItem->tag = ITEMTAG_ITEM;
 	}
 	else if (strcmp(itemName, "healpotion") == 0 || strcmp(itemName, "heal") == 0) {
-		*itemType = ITEM_HEAL_POTION;
+		inventoryItem->data.itemType = ITEM_HEAL_POTION;
+		inventoryItem->tag = ITEMTAG_ITEM;
 	}
 	else if (strcmp(itemName, "highhealpotion") == 0 || strcmp(itemName, "high") == 0) {
-		*itemType = ITEM_HIGH_HEAL_POTION;
+		inventoryItem->data.itemType = ITEM_HIGH_HEAL_POTION;
+		inventoryItem->tag = ITEMTAG_ITEM;
 	}
 	// WEAPON
 	else if (strcmp(itemName, "coopersword") == 0 || strcmp(itemName, "cooper") == 0) {
-		*weaponType = WEAPON_COOPER_SWORD;
+		inventoryItem->data.weaponType = WEAPON_COOPER_SWORD;
+		inventoryItem->tag = ITEMTAG_WEAPON;
 	}
 	else if (strcmp(itemName, "ironsword") == 0 || strcmp(itemName, "iron") == 0) {
-		*weaponType = WEAPON_IRON_SWORD;
+		inventoryItem->data.weaponType = WEAPON_IRON_SWORD;
+		inventoryItem->tag = ITEMTAG_WEAPON;
 	}
 	// ARMOR
 	else if (strcmp(itemName, "woodchestplate") == 0 || strcmp(itemName, "wood") == 0) {
-		*armorType = ARMOR_WOOD_CHESTPLATE;
+		inventoryItem->data.armorType = ARMOR_WOOD_CHESTPLATE;
+		inventoryItem->tag = ITEMTAG_ARMOR;
 	}
 	// UNKNOWN
 	else {
@@ -99,42 +105,38 @@ void showShop() {
 }
 
 void buyShop(Inventory *inventory, Command *cmd) {
-	ItemType itemType = ITEM_UNKNOWN;
-	WeaponType weaponType = WEAPON_UNKNOWN;
-	ArmorType armorType = ARMOR_UNKNOWN;
+	InventoryItem inventoryItem = (InventoryItem){0};
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &itemType, &weaponType, &armorType, &amount);
+	getItemTypeFromName(cmd, &inventoryItem, &amount);
 
 	// 아이템 구매
-	if (itemType != ITEM_UNKNOWN) {
-		buyItem(inventory, itemType, cmd->arg1, amount);
+	if (inventoryItem.tag == ITEMTAG_ITEM) {
+		buyItem(inventory, inventoryItem.data.itemType, cmd->arg1, amount);
 	}
-	else if (weaponType != WEAPON_UNKNOWN) {
-		buyWeapon(inventory, weaponType, cmd->arg1);
+	else if (inventoryItem.tag == ITEMTAG_WEAPON) {
+		buyWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
 	}
-	else if (armorType != ARMOR_UNKNOWN) {
-		buyArmor(inventory, armorType, cmd->arg1);
+	else if (inventoryItem.tag == ITEMTAG_ARMOR) {
+		buyArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
 	}
 }
 
 void sellShop(Inventory* inventory, Command *cmd) {
-	ItemType itemType = ITEM_UNKNOWN;
-	WeaponType weaponType = WEAPON_UNKNOWN;
-	ArmorType armorType = ARMOR_UNKNOWN;
+	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &itemType, &weaponType, &armorType, &amount);
+	getItemTypeFromName(cmd, &inventoryItem, &amount);
 
 	// 아이템 판매
-	if (itemType != ITEM_UNKNOWN) {
-		sellItem(inventory, itemType, cmd->arg1, amount);
+	if (inventoryItem.tag == ITEMTAG_ITEM) {
+		sellItem(inventory, inventoryItem.data.itemType, cmd->arg1, amount);
 	}
-	else if (weaponType != WEAPON_UNKNOWN) {
-		sellWeapon(inventory, weaponType, cmd->arg1);
+	else if (inventoryItem.tag == ITEMTAG_WEAPON) {
+		sellWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
 	}
-	else if (armorType != ARMOR_UNKNOWN) {
-		sellArmor(inventory, armorType, cmd->arg1);
+	else if (inventoryItem.tag == ITEMTAG_ARMOR) {
+		sellArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
 	}
 }
 
