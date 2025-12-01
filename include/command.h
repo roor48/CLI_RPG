@@ -2,7 +2,10 @@
 
 #include "constants.h"
 
-typedef enum {
+/*
+ * @brief 명령어 타입
+ */
+typedef enum COMMAND_TYPE {
 	CMD_HELP,
 
 	CMD_BATTLE,
@@ -29,11 +32,21 @@ typedef enum {
 
 } COMMAND_TYPE;
 
-typedef struct {
+/*
+ * @brief 명령어 구조체
+ */
+typedef struct Command {
 	COMMAND_TYPE type;
 	char arg1[MAX_ARG_LENGTH];
 	char arg2[MAX_ARG_LENGTH];
 	char message[200];
 } Command;
 
+/*
+ * @brief 명령어 파싱
+ *
+ * @param *query 입력된 명령어 문자열
+ *
+ * @return 명령어 구조체
+ */
 Command parseCommand(const char* query);
