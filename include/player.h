@@ -7,6 +7,12 @@ typedef struct Player {
 	int level;
 } Player;
 
+typedef enum Skill {
+	SKILL_UNKNOWN = 0,
+	SKILL_SLASH = 1,
+	SKILL_PUNCH = 2
+} Skill;
+
 /**
  * @brief 대미지 받음
  *

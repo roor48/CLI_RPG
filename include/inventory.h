@@ -5,7 +5,7 @@
 /**
  * @brief 아이템 타입
  */
-typedef enum {
+typedef enum ItemType {
 	ITEM_UNKNOWN = 0,
 	ITEM_LOW_HEAL_POTION = 1,
 	ITEM_HEAL_POTION = 2,
@@ -15,7 +15,7 @@ typedef enum {
 /**
  * @brief 무기 타입
  */
-typedef enum {
+typedef enum WeaponType {
 	WEAPON_UNKNOWN = 0,
 	WEAPON_COOPER_SWORD = 1,
 	WEAPON_IRON_SWORD = 2
@@ -24,7 +24,7 @@ typedef enum {
 /**
  * @brief 방어구 타입
  */
-typedef enum {
+typedef enum ArmorType {
 	ARMOR_UNKNOWN = 0,
 	ARMOR_WOOD_CHESTPLATE = 1,
 } ArmorType;
@@ -34,7 +34,7 @@ typedef enum {
  * 
  * Union에서 어떤 타입이 유효한지 구분
  */
-typedef enum {
+typedef enum ItemTag {
 	ITEMTAG_UNKNOWN = 0,
 	ITEMTAG_ITEM = 1,
 	ITEMTAG_WEAPON = 2,
@@ -46,7 +46,7 @@ typedef enum {
  * 
  * 아이템, 무기, 방어구 중 하나의 타입을 저장
  */
-typedef union {
+typedef union InventoryItemUnion {
 	ItemType itemType;
 	WeaponType weaponType;
 	ArmorType armorType;
@@ -57,7 +57,7 @@ typedef union {
  * 
  * 태그와 실제 데이터를 함께 저장하는 Tagged Union
  */
-typedef struct {
+typedef struct InventoryItem {
 	ItemTag tag;
 	InventoryItemUnion data;
 } InventoryItem;
@@ -67,7 +67,7 @@ typedef struct {
  * 
  * 플레이어의 소지품을 관리하는 구조체
  */
-typedef struct {
+typedef struct Inventory {
 	int gold;                        // 골드
 	int items[MAX_ITEM_TYPES];       // 아이템 (수량)
 	int weapons[MAX_WEAPON_TYPES];   // 무기 (소유 여부)
