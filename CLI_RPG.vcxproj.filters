@@ -36,6 +36,12 @@
     <ClCompile Include="lib\cJSON.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\enemy.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enemyManager.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h">
@@ -60,6 +66,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="lib\cJSON.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\enemyManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

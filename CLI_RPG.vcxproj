@@ -130,6 +130,8 @@
     <ClCompile Include="CLI_RPG.c" />
     <ClCompile Include="lib\cJSON.c" />
     <ClCompile Include="src\command.c" />
+    <ClCompile Include="src\enemy.c" />
+    <ClCompile Include="src\enemyManager.c" />
     <ClCompile Include="src\game.c" />
     <ClCompile Include="src\input.c" />
     <ClCompile Include="src\inventory.c" />
@@ -138,6 +140,8 @@
   <ItemGroup>
     <ClInclude Include="include\command.h" />
     <ClInclude Include="include\constants.h" />
+    <ClInclude Include="include\enemy.h" />
+    <ClInclude Include="include\enemyManager.h" />
     <ClInclude Include="include\game.h" />
     <ClInclude Include="include\input.h" />
     <ClInclude Include="include\inventory.h" />

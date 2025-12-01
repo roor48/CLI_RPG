@@ -36,6 +36,7 @@ unsigned long long startGame() {
 	char query[MAX_INPUT_LENGTH];
 
 	game.state = STATE_RUNNING;
+	game.scene = SCENE_MAIN;
 	printf("Game started! Type 'help' for commands.\n");
 
 	unsigned long long loopCnt = 0;
@@ -59,86 +60,86 @@ void initGame() {
 	Player player = (Player){ .health = 100, .level = 1 };
 	Inventory inventory = (Inventory){ .gold = 10000 };
 
-	game = (Game){ .state = STATE_INIT, .player = player, .inventory = inventory };
+	game = (Game){ .state = STATE_INIT, .scene = SCENE_UNKNOWN, .player = player, .inventory = inventory };
 	initShop();
 }
 
 void executeCommand(const Command* cmd) {
 	switch (cmd->type) {
-	case CMD_HELP:
-		help();
-		break;
+		case CMD_HELP:
+			help();
+			break;
 
-		// battle
-	case CMD_BATTLE:
-		battle();
-		break;
+			// battle
+		case CMD_BATTLE:
+			battle();
+			break;
 
-	case CMD_ATTACK:
-		attack(cmd);
-		break;
+		case CMD_ATTACK:
+			attack(cmd);
+			break;
 
-	case CMD_ATTACKLIST:
-		attackList();
-		break;
+		case CMD_ATTACKLIST:
+			attackList();
+			break;
 
-	case CMD_USEITEM:
-		useItem(cmd);
-		break;
+		case CMD_USEITEM:
+			useItem(cmd);
+			break;
 
-	case CMD_RUN:
-		run();
-		break;
+		case CMD_RUN:
+			run();
+			break;
 
-		// shop
-	case CMD_SHOP:
-		shop(cmd);
-		break;
+			// shop
+		case CMD_SHOP:
+			shop(cmd);
+			break;
 
-	case CMD_BUY:
-		buy(cmd);
-		break;
+		case CMD_BUY:
+			buy(cmd);
+			break;
 
-	case CMD_SELL:
-		sell(cmd);
-		break;
+		case CMD_SELL:
+			sell(cmd);
+			break;
 
-		// inventory
-	case CMD_INVENTORY:
-		inventory();
-		break;
-	case CMD_EQUIP:
-		equip(cmd);
-		break;
+			// inventory
+		case CMD_INVENTORY:
+			inventory();
+			break;
+		case CMD_EQUIP:
+			equip(cmd);
+			break;
 
-		// save/load
-	case CMD_SAVE:
-		save(cmd);
-		break;
+			// save/load
+		case CMD_SAVE:
+			save(cmd);
+			break;
 
-	case CMD_SAVELIST:
-		saveList();
-		break;
+		case CMD_SAVELIST:
+			saveList();
+			break;
 
-	case CMD_LOAD:
-		load(cmd);
-		break;
+		case CMD_LOAD:
+			load(cmd);
+			break;
 
 
-		// quit
-	case CMD_QUIT:
-		quit();
-		break;
+			// quit
+		case CMD_QUIT:
+			quit();
+			break;
 
-		// error
-	case CMD_ERROR:
-		printf("%s\n", cmd->message);
-		break;
+			// error
+		case CMD_ERROR:
+			printf("%s\n", cmd->message);
+			break;
 
-	case CMD_UNKNOWN:
-	default:
-		printf("Unknown command. Type 'help' for available commands.\n");
-		break;
+		case CMD_UNKNOWN:
+		default:
+			printf("Unknown command. Type 'help' for available commands.\n");
+			break;
 	}
 }
 
@@ -172,6 +173,7 @@ void help() {
 }
 
 void battle() {
+	game.scene = SCENE_BATTLE;
 }
 void attack(const Command* cmd) {
 	printf("Attacking with skill: %s, target: %s\n", cmd->arg1, cmd->arg2);
@@ -224,7 +226,7 @@ void quit() {
 	printf("Quitting game...\n");
 	Command tempCmd = {
 		.type = CMD_SAVE,
-		.arg1 = "temp",
+		.arg1 = "auto",
 		.arg2 = "",
 		.message = ""
 	};
