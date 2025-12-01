@@ -5,21 +5,29 @@
 #include <string.h>
 
 void parseHelp(Command *cmd);
+
+void parseBattle(Command* cmd);
 void parseAttack(Command *cmd);
 void parseAttackList(Command *cmd);
-void parseInventory(Command *cmd);
+void parseUse(Command *cmd);
+void parseRun(Command *cmd);
+
 void parseShop(Command *cmd);
 void parseBuy(Command *cmd);
 void parseSell(Command *cmd);
+
+void parseInventory(Command *cmd);
 void parseEquip(Command *cmd);
-void parseUse(Command *cmd);
-void parseRun(Command *cmd);
+
 void parseSave(Command *cmd);
-void parseLoad(Command *cmd);
 void parseSaveList(Command *cmd);
+void parseLoad(Command *cmd);
+
 void parseQuit(Command *cmd);
+
 void parseErrorCommand(Command* cmd);
-void parseUnknownCommand(Command* cmd);
+void parseUnknown(Command* cmd);
+
 
 char *context, *token;
 Command parseCommand(const char* query) {
@@ -38,15 +46,23 @@ Command parseCommand(const char* query) {
 	if (strcmp(token, "help") == 0) {
 		parseHelp(&cmd);
 	}
+	// battle
+	else if (strcmp(token, "battle") == 0) {
+		parseBattle(&cmd);
+	}
 	else if (strcmp(token, "a") == 0 || strcmp(token, "attack") == 0) {
 		parseAttack(&cmd);
 	}
 	else if (strcmp(token, "al") == 0 || strcmp(token, "attacklist") == 0) {
 		parseAttackList(&cmd);
 	}
-	else if (strcmp(token, "inventory") == 0 || strcmp(token, "inv") == 0) {
-		parseInventory(&cmd);
+	else if (strcmp(token, "use") == 0) {
+		parseUse(&cmd);
 	}
+	else if (strcmp(token, "run") == 0) {
+		parseRun(&cmd);
+	}
+	// shop
 	else if (strcmp(token, "shop") == 0) {
 		parseShop(&cmd);
 	}
@@ -56,50 +72,41 @@ Command parseCommand(const char* query) {
 	else if (strcmp(token, "sell") == 0) {
 		parseSell(&cmd);
 	}
+	// inventory
+	else if (strcmp(token, "inventory") == 0 || strcmp(token, "inv") == 0) {
+		parseInventory(&cmd);
+	}
 	else if (strcmp(token, "equip") == 0) {
 		parseEquip(&cmd);
 	}
-	else if (strcmp(token, "use") == 0) {
-		parseUse(&cmd);
-	}
-	else if (strcmp(token, "run") == 0) {
-		parseRun(&cmd);
-	}
+	// save/load
 	else if (strcmp(token, "save") == 0) {
 		parseSave(&cmd);
-	}
-	else if (strcmp(token, "load") == 0) {
-		parseLoad(&cmd);
 	}
 	else if (strcmp(token, "sl") == 0 || strcmp(token, "savelist") == 0) {
 		parseSaveList(&cmd);
 	}
+	else if (strcmp(token, "load") == 0) {
+		parseLoad(&cmd);
+	}
+	// exit
 	else if (strcmp(token, "exit") == 0 || strcmp(token, "quit") == 0) {
 		parseQuit(&cmd);
+	}
+	// Error
+	else {
+		parseUnknown(&cmd);
 	}
 
 	return cmd;
 }
 
-
-/*
-	CMD_HELP,
-	CMD_ATTACK,
-	CMD_ATTACKLIST,
-	CMD_SHOP,
-	CMD_BUY,
-	CMD_EQUIP,
-	CMD_USEITEM,
-	CMD_RUN,
-	CMD_SAVE,
-	CMD_LOAD,
-	CMD_SAVELIST,
-	CMD_QUIT,
-	CMD_ERROR,
-	CMD_UNKNOWN
-*/
 void parseHelp(Command *cmd) {
 	cmd->type = CMD_HELP;
+}
+
+void parseBattle(Command* cmd) {
+	cmd->type = CMD_BATTLE;
 }
 void parseAttack(Command *cmd) {
 	cmd->type = CMD_ATTACK;
@@ -133,9 +140,26 @@ void parseAttack(Command *cmd) {
 void parseAttackList(Command *cmd) {
 	cmd->type = CMD_ATTACKLIST;
 }
-void parseInventory(Command *cmd) {
-	cmd->type = CMD_INVENTORY;
+void parseUse(Command *cmd) {
+	cmd->type = CMD_USEITEM;
+	// use [item]
+	token = strtok_s(NULL, " ", &context);
+	if (token == NULL) {
+		cmd->type = CMD_ERROR;
+		strcpy_s(cmd->message, sizeof(cmd->message), "Error: Missing item name");
+		return;
+	}
+	if (strlen(token) >= MAX_ARG_LENGTH) {
+		cmd->type = CMD_ERROR;
+		sprintf_s(cmd->message, sizeof(cmd->message), "Error: Item name too long (max %d characters).", MAX_ARG_LENGTH - 1);
+		return;
+	}
+	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
 }
+void parseRun(Command *cmd) {
+	cmd->type = CMD_RUN;
+}
+
 void parseShop(Command *cmd) {
 	cmd->type = CMD_SHOP;
 }
@@ -194,6 +218,9 @@ void parseSell(Command* cmd) {
 	strcpy_s(cmd->arg2, sizeof(cmd->arg2), token);
 }
 
+void parseInventory(Command *cmd) {
+	cmd->type = CMD_INVENTORY;
+}
 void parseEquip(Command *cmd) {
 	cmd->type = CMD_EQUIP;
 	// equip [name]
@@ -210,25 +237,7 @@ void parseEquip(Command *cmd) {
 	}
 	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
 }
-void parseUse(Command *cmd) {
-	cmd->type = CMD_USEITEM;
-	// use [item]
-	token = strtok_s(NULL, " ", &context);
-	if (token == NULL) {
-		cmd->type = CMD_ERROR;
-		strcpy_s(cmd->message, sizeof(cmd->message), "Error: Missing item name");
-		return;
-	}
-	if (strlen(token) >= MAX_ARG_LENGTH) {
-		cmd->type = CMD_ERROR;
-		sprintf_s(cmd->message, sizeof(cmd->message), "Error: Item name too long (max %d characters).", MAX_ARG_LENGTH - 1);
-		return;
-	}
-	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
-}
-void parseRun(Command *cmd) {
-	cmd->type = CMD_RUN;
-}
+
 void parseSave(Command *cmd) {
 	cmd->type = CMD_SAVE;
 	// save [name]
@@ -244,6 +253,9 @@ void parseSave(Command *cmd) {
 		return;
 	}
 	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
+}
+void parseSaveList(Command *cmd) {
+	cmd->type = CMD_SAVELIST;
 }
 void parseLoad(Command *cmd) {
 	cmd->type = CMD_LOAD;
@@ -261,13 +273,14 @@ void parseLoad(Command *cmd) {
 	}
 	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
 }
-void parseSaveList(Command *cmd) {
-	cmd->type = CMD_SAVELIST;
-}
+
 void parseQuit(Command *cmd) {
 	cmd->type = CMD_QUIT;
 }
+
 void parseErrorCommand(Command *cmd) {
+	cmd->type = CMD_ERROR;
 }
-void parseUnknownCommand(Command *cmd) {
+void parseUnknown(Command *cmd){
+	cmd->type = CMD_UNKNOWN;
 }
