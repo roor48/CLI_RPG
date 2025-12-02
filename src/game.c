@@ -59,7 +59,7 @@ unsigned long long startGame() {
 }
 
 void initGame() {
-	Player player = (Player){ .health = 100, .level = 1 };
+	Player player = (Player){ .maxHealth = 100, .health = 100, .level = 1 };
 	Inventory inventory = (Inventory){ .gold = 10000 };
 	Battle battle;
 	initBattle(&battle);
@@ -217,6 +217,7 @@ void help() {
 
 void battle() {
 	game.scene = SCENE_BATTLE;
+	game.player.health = game.player.maxHealth;
 	startBattle(&game.battle);
 }
 void enemyList() {

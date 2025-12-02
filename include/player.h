@@ -3,6 +3,7 @@
 struct Enemy;
 
 typedef struct Player {
+	int maxHealth;
 	int health;
 	int level;
 } Player;
