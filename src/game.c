@@ -1,4 +1,4 @@
-#include "../include/game.h"
+﻿#include "../include/game.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +9,7 @@
 #include "../include/inventory.h"
 #include "../include/shop.h"
 #include "../include/battle.h"
+#include "../include/save.h"
 
 void initGame();
 void executeCommand(const Command* cmd);
@@ -271,15 +272,22 @@ void equip(const Command* cmd) {
 
 void save(const Command* cmd) {
 	printf("Saving game as: %s\n", cmd->arg1);
-	// TODO: ���� ���� ���� ����
+	int success = saveGame(&game.player, &game.inventory, cmd->arg1);
+
+	if (success) {
+		printf("Successed to save: %s\n", cmd->arg1);
+	}
+	else {
+		printf("Failed to save: %s\n", cmd->arg1);
+	}
 }
 void saveList() {
 	printf("Listing saved games...\n");
-	// TODO: ���� ���� ��� ���� ����
+	listSavedGames();
 }
 void load(const Command* cmd) {
 	printf("Loading game: %s\n", cmd->arg1);
-	// TODO: ���� �ε� ���� ����
+	loadGame(&game.player, &game.inventory, cmd->arg1);
 }
 
 void quit() {

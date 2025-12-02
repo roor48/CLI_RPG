@@ -1,10 +1,9 @@
 ﻿#pragma once
 
 #include "constants.h"
+#include "inventory.h"
 
 struct Enemy;
-enum WeaponType;
-enum ArmorType;
 
 typedef struct Player {
 	int maxHealth;							// 최대 체력
@@ -12,8 +11,8 @@ typedef struct Player {
 	int level;								// 레벨
 	int unlockedSkills[MAX_SKILL_TYPES];	// 스킬 목록 (해금됐으면 1, 아니면 0)
 
-	enum WeaponType currentWeapon;			// 사용 중인 무기
-	enum ArmorType currentArmor;			// 사용 중인 방어구
+	WeaponType currentWeapon;				// 사용 중인 무기
+	ArmorType currentArmor;					// 사용 중인 방어구
 } Player;
 
 typedef enum Skill {
@@ -22,7 +21,7 @@ typedef enum Skill {
 	SKILL_SLASH = 2
 } Skill;
 
-/**
+/*
  * @brief 대미지 받음
  *
  * @param *player 대미지를 받을 Player의 포인터
@@ -32,12 +31,12 @@ typedef enum Skill {
  */
 int onHitPlayer(Player* player, const int dmg);
 
-/**
+/*
  * @brief 적을 공격함
  *
- * @param *player 공격하는 Player의 포인터
- * @param *skill 사용할 스킬 이름
- * @param *enemy 공격할 적 이름
+ * @param player 공격하는 Player의 포인터
+ * @param skill 사용할 스킬
+ * @param enemy 공격할 적
  *
  * @return 적의 남은 체력 (0 이상)
  * @return 오류 시 -1 반환

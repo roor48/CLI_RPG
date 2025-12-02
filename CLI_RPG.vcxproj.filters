@@ -51,6 +51,9 @@
     <ClCompile Include="src\player.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\save.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h">
@@ -87,6 +90,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\string_utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\save.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
