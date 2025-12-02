@@ -42,6 +42,15 @@
     <ClCompile Include="src\enemyManager.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\battle.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string_utils.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h">
@@ -72,6 +81,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\enemyManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\battle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string_utils.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

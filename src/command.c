@@ -7,6 +7,7 @@
 void parseHelp(Command *cmd);
 
 void parseBattle(Command* cmd);
+void parseEnemyList(Command *cmd);
 void parseAttack(Command *cmd);
 void parseAttackList(Command *cmd);
 void parseUse(Command *cmd);
@@ -49,6 +50,9 @@ Command parseCommand(const char* query) {
 	// battle
 	else if (strcmp(token, "battle") == 0) {
 		parseBattle(&cmd);
+	}
+	else if (strcmp(token, "enemylist") == 0 || strcmp(token, "el") == 0 || strcmp(token, "enemies") == 0) {
+		parseEnemyList(&cmd);
 	}
 	else if (strcmp(token, "a") == 0 || strcmp(token, "attack") == 0) {
 		parseAttack(&cmd);
@@ -107,6 +111,9 @@ void parseHelp(Command *cmd) {
 
 void parseBattle(Command* cmd) {
 	cmd->type = CMD_BATTLE;
+}
+void parseEnemyList(Command* cmd) {
+	cmd->type = CMD_ENEMYLIST;
 }
 void parseAttack(Command *cmd) {
 	cmd->type = CMD_ATTACK;

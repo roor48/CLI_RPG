@@ -3,11 +3,11 @@
 #include "../include/constants.h"
 #include "../include/inventory.h"
 #include "../include/command.h"
+#include "../include/string_utils.h"
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 #define SELL_RATE 0.5
 
@@ -21,12 +21,6 @@ int buyArmor(Inventory* inventory, const ArmorType itemType, const char* itemNam
 int sellArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 
 int itemPrices[MAX_ITEM_TYPES], weaponPrices[MAX_WEAPON_TYPES], armorPrices[MAX_ARMOR_TYPES];
-
-void toLowerCase(char *str) {
-	for (int i = 0; str[i]; i++) {
-		str[i] = tolower(str[i]);
-	}
-}
 
 void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *amount) {
 	*amount = 1;  // default 1

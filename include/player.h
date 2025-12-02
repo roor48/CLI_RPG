@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-struct Enemy;  // 전방 선언
+struct Enemy;
 
 typedef struct Player {
 	int health;
@@ -31,5 +31,6 @@ int onHitPlayer(Player* player, const int dmg);
  * @param *enemy 공격할 적 이름
  *
  * @return 적의 남은 체력 (0 이상)
+ * @return 오류 시 -1 반환
  */
-int attackEnemy(Player* player, const char* skill, const struct Enemy* enemy);
+int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy);

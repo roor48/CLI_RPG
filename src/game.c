@@ -8,12 +8,14 @@
 #include "../include/player.h"
 #include "../include/inventory.h"
 #include "../include/shop.h"
+#include "../include/battle.h"
 
 void initGame();
 void executeCommand(const Command* cmd);
 
 void help();
 void battle();
+void enemyList();
 void attack(const Command* cmd);
 void attackList();
 void inventory();
@@ -59,36 +61,62 @@ unsigned long long startGame() {
 void initGame() {
 	Player player = (Player){ .health = 100, .level = 1 };
 	Inventory inventory = (Inventory){ .gold = 10000 };
+	Battle battle;
+	initBattle(&battle);
 
-	game = (Game){ .state = STATE_INIT, .scene = SCENE_UNKNOWN, .player = player, .inventory = inventory };
+	game = (Game) { 
+		.state = STATE_INIT,
+		.scene = SCENE_UNKNOWN,
+		.player = player,
+		.inventory = inventory,
+		.battle = battle
+	};
+
 	initShop();
 }
 
 void executeCommand(const Command* cmd) {
-	switch (cmd->type) {
-		case CMD_HELP:
-			help();
-			break;
+	if (cmd->type == CMD_HELP) {
+		help();
+		return;
+	}
 
+	if (game.scene == SCENE_BATTLE) {
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½É¾î¸¸ ï¿½ï¿½ï¿½
+		switch (cmd->type) {
+			case CMD_ENEMYLIST:
+				enemyList();
+				break;
+			case CMD_ATTACK:
+				attack(cmd);
+				break;
+			case CMD_ATTACKLIST:
+				attackList();
+				break;
+			case CMD_USEITEM:
+				useItem(cmd);
+				break;
+			case CMD_RUN:
+				run();
+				break;
+			case CMD_UNKNOWN:
+				printf("Unknown command. Type 'help' for available commands.\n");
+				break;
+			default:
+				printf("You can use only battle commands\n");
+				break;
+		}
+
+		return;
+	}
+	switch (cmd->type) {
 			// battle
 		case CMD_BATTLE:
 			battle();
 			break;
 
-		case CMD_ATTACK:
-			attack(cmd);
-			break;
-
 		case CMD_ATTACKLIST:
 			attackList();
-			break;
-
-		case CMD_USEITEM:
-			useItem(cmd);
-			break;
-
-		case CMD_RUN:
-			run();
 			break;
 
 			// shop
@@ -137,59 +165,91 @@ void executeCommand(const Command* cmd) {
 			break;
 
 		case CMD_UNKNOWN:
-		default:
 			printf("Unknown command. Type 'help' for available commands.\n");
+			break;
+		
+		default:
+			printf("You can use only main commands\n");
 			break;
 	}
 }
 
 void help() {
 	puts("Available commands:");
-	puts("  * help - Show this help message");
+	puts("Main commands:");
+		puts("  * help - Show this help message");
+		puts("  * battle - Start battle");
+
+		puts("");
+		puts("  shop commands:");
+			puts("    * shop - List buyable items");
+			puts("    * buy [name] [amount] - Buy itmes");
+			puts("    * sell [name] [amount] - Sell itmes");
+
+		puts("");
+		puts("  inventory commands:");
+			puts("    * inventory - Show inventory");
+			puts("      inv - ");
+			puts("    * euqip [name] - Equip weapon or armor");
+
+		puts("");
+		puts("  save comands:");
+			puts("    * save [name] - Save game");
+			puts("    * savelist - List saved games");
+			puts("      sl - ");
+			puts("    * load [name] - Load game");
+
+		puts("");
+		puts("  quit commands:");
+		puts("    * quit - save and leave game");
+		puts("      exit - ");
+
 	puts("");
-	puts("  * battle - Start battle");
-	puts("  * attack [skill] [target] - Attack enemy");
-	puts("    a [skill] [target] - ");
-	puts("  * attacklist - List skills");
-	puts("    al - ");
-	puts("  * use [item] - Use Item");
-	puts("  * run - Run away from battle");
-	puts("");
-	puts("  * shop - List buyable items");
-	puts("  * buy [name] [amount] - Buy itmes");
-	puts("  * sell [name] [amount] - Sell itmes");
-	puts("");
-	puts("  * inventory - Show inventory");
-	puts("    inv - ");
-	puts("  * euqip [name] - Equip weapon or armor");
-	puts("");
-	puts("  * save [name] - Save game");
-	puts("  * savelist - List saved games");
-	puts("    sl - ");
-	puts("  * load [name] - Load game");
-	puts("");
-	puts("  * quit - save and leave game");
-	puts("    exit - ");
+	puts("Battle commmands:");
+		puts("  * attack [skill] [target] - Attack enemy");
+		puts("    a [skill] [target] - ");
+		puts("  * attacklist - List skills");
+		puts("    al - ");
+		puts("  * use [item] - Use Item");
+		puts("  * run - Run away from battle");
+
 }
 
 void battle() {
 	game.scene = SCENE_BATTLE;
+	startBattle(&game.battle);
+}
+void enemyList() {
+	printEnemy(&game.battle.enemyManager);
 }
 void attack(const Command* cmd) {
 	printf("Attacking with skill: %s, target: %s\n", cmd->arg1, cmd->arg2);
-	// TODO: ½ÇÁ¦ °ø°Ý ·ÎÁ÷ ±¸Çö
+	int status = attackBattle(&game.player, &game.battle, cmd);
+
+	if (status == 1) {
+		// ï¿½Â¸ï¿½
+		printf("You won the battle!\n");
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		game.scene = SCENE_MAIN;
+	}
+	else if (status == -1) {
+		// ï¿½Ð¹ï¿½
+		printf("You lost the battle!\n");
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		game.scene = SCENE_MAIN;
+	}
 }
 void attackList() {
 	printf("Listing skills...\n");
-	// TODO: ½ºÅ³ ¸®½ºÆ® Ãâ·Â ·ÎÁ÷ ±¸Çö
+	// TODO: ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 void useItem(const Command* cmd) {
 	printf("Using item: %s\n", cmd->arg1);
-	// TODO: ¾ÆÀÌÅÛ »ç¿ë ·ÎÁ÷ ±¸Çö
+	// TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 void run() {
-	printf("Running away...\n");
-	// TODO: ÀüÅõ Á¾·á ·ÎÁ÷ ±¸Çö
+	printf("You ran away from the battle!\n");
+	game.scene = SCENE_MAIN;
 }
 
 void shop() {
@@ -211,15 +271,15 @@ void equip(const Command* cmd) {
 
 void save(const Command* cmd) {
 	printf("Saving game as: %s\n", cmd->arg1);
-	// TODO: ½ÇÁ¦ ÀúÀå ·ÎÁ÷ ±¸Çö
+	// TODO: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 void saveList() {
 	printf("Listing saved games...\n");
-	// TODO: ½ÇÁ¦ ÀúÀå ¸ñ·Ï ·ÎÁ÷ ±¸Çö
+	// TODO: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 void load(const Command* cmd) {
 	printf("Loading game: %s\n", cmd->arg1);
-	// TODO: ½ÇÁ¦ ·Îµå ·ÎÁ÷ ±¸Çö
+	// TODO: ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 }
 
 void quit() {

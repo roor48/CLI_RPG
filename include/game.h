@@ -1,7 +1,9 @@
 #pragma once
+
 #include "player.h"
 #include "inventory.h"
 #include "constants.h"
+#include "battle.h"
 
 /*
  * @brief 게임 상태
@@ -31,6 +33,7 @@ typedef struct Game {
 	Scene scene;
 	Player player;
 	Inventory inventory;
+	Battle battle;
 } Game;
 
 /*
