@@ -43,3 +43,11 @@ int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy) {
 
 	return enemyHealth;
 }
+
+int getSkill(Player* player, Skill skill) {
+	if (skill == SKILL_UNKNOWN) {
+		return -1;
+	}
+
+	return player->unlockedSkills[skill] = 1;
+}

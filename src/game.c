@@ -31,7 +31,7 @@ void saveList();
 void quit();
 
 
-Game game;
+Game game = {0};
 unsigned long long startGame() {
 	initGame();
 
@@ -59,18 +59,17 @@ unsigned long long startGame() {
 }
 
 void initGame() {
-	Player player = (Player){ .maxHealth = 100, .health = 100, .level = 1 };
-	Inventory inventory = (Inventory){ .gold = 10000 };
-	Battle battle;
-	initBattle(&battle);
+	game.state = STATE_INIT;
+	game.scene = SCENE_UNKNOWN;
 
-	game = (Game) { 
-		.state = STATE_INIT,
-		.scene = SCENE_UNKNOWN,
-		.player = player,
-		.inventory = inventory,
-		.battle = battle
-	};
+	game.player.maxHealth = 100;
+	game.player.health = 100;
+	game.player.level = 1;
+	game.player.unlockedSkills[SKILL_PUNCH] = 1;
+	
+	game.inventory.gold = 10000;
+	
+	initBattle(&game.battle);
 
 	initShop();
 }

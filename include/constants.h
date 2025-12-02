@@ -8,3 +8,5 @@
 #define MAX_ARMOR_TYPES 100
 
 #define MAX_ENEMY_COUNT 10
+
+#define MAX_SKILL_TYPES 50

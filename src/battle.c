@@ -24,7 +24,7 @@ int attackBattle(Player *player, Battle *battle, const Command *cmd) {
     Skill skill = parseSkill(cmd->arg1);
     Enemy* enemy = getEnemyByName(&battle->enemyManager, cmd->arg2);
 
-    if (skill == SKILL_UNKNOWN) {
+    if (skill == SKILL_UNKNOWN || !(player->unlockedSkills[skill])) {
         printf("Unknown skill: %s\n", cmd->arg1);
         return 0;
 	}
