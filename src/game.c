@@ -16,6 +16,7 @@ void initGame();
 void executeCommand(const Command* cmd);
 
 void help();
+void status();
 void battle();
 void enemyList();
 void attack(const Command* cmd);
@@ -86,7 +87,7 @@ void executeCommand(const Command* cmd) {
 		return;
 	}
 	if (cmd->type == CMD_STATUS) {
-		printPlayerStatus(&game.player);
+		status();
 		return;
 	}
 
@@ -224,6 +225,9 @@ void help() {
 		puts("  * use [item] - Use Item");
 		puts("  * run - Run away from battle");
 
+}
+void status() {
+	printPlayerStatus(&game.player);
 }
 
 void battle() {
