@@ -68,3 +68,15 @@ void givePlayerExp(Player* player, const int exp) {
 
 	printf("Level up! New level: %d -> %d\n", beforeLevel, player->level);
 }
+
+void printPlayerStatus(const Player* player) {
+	printf("Printing player status...\n");
+	
+	printf("Health: %d/%d\n", player->health, player->maxHealth);
+	printf("Level: %d\n", player->level);
+	printf("Experience: %d/%d\n", player->experience, player->maxExperience);
+
+	// 임시로 번호만 출력
+	printf("Weapon: %d\n", player->currentWeapon);
+	printf("Armor: %d\n", player->currentArmor);
+}

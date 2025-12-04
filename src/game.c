@@ -79,11 +79,17 @@ void initGame() {
 }
 
 void executeCommand(const Command* cmd) {
+	// 전역적으로 사용 가능한 명령어
 	if (cmd->type == CMD_HELP) {
 		help();
 		return;
 	}
+	if (cmd->type == CMD_STATUS) {
+		printPlayerStatus(&game.player);
+		return;
+	}
 
+	// 배틀에서 사용 가능한 명령어
 	if (game.scene == SCENE_BATTLE) {
 		// 배틀 전용 명령어
 		switch (cmd->type) {
@@ -112,73 +118,76 @@ void executeCommand(const Command* cmd) {
 
 		return;
 	}
-	switch (cmd->type) {
-		case CMD_BATTLE:
-			battle();
-			break;
 
-		case CMD_ATTACKLIST:
-			attackList();
-			break;
+	// 메인에서 사용 가능한 명령어
+	if (game.scene == SCENE_MAIN) {
+		switch (cmd->type) {
+			case CMD_BATTLE:
+				battle();
+				break;
+			case CMD_ATTACKLIST:
+				attackList();
+				break;
 
-		// shop
-		case CMD_SHOP:
-			shop(cmd);
-			break;
-		case CMD_BUY:
-			buy(cmd);
-			break;
-		case CMD_SELL:
-			sell(cmd);
-			break;
-
-		// inventory
-		case CMD_INVENTORY:
-			inventory();
-			break;
-		case CMD_EQUIP:
-			equip(cmd);
-			break;
-
-		// save/load
-		case CMD_SAVE:
-			save(cmd);
-			break;
-
-		case CMD_SAVELIST:
-			saveList();
-			break;
-
-		case CMD_LOAD:
-			load(cmd);
-			break;
+			// shop
+			case CMD_SHOP:
+				shop(cmd);
+				break;
+			case CMD_BUY:
+				buy(cmd);
+				break;
+			case CMD_SELL:
+				sell(cmd);
+				break;
 
 
-		// quit
-		case CMD_QUIT:
-			quit();
-			break;
+			// inventory
+			case CMD_INVENTORY:
+				inventory();
+				break;
+			case CMD_EQUIP:
+				equip(cmd);
+				break;
 
+			// save/load
+			case CMD_SAVE:
+				save(cmd);
+				break;
+			case CMD_SAVELIST:
+				saveList();
+				break;
+			case CMD_LOAD:
+				load(cmd);
+				break;
 
-		// error
-		case CMD_ERROR:
-			printf("%s\n", cmd->message);
-			break;
+			// quit
+			case CMD_QUIT:
+				quit();
+				break;
 
-		case CMD_UNKNOWN:
-			printf("Unknown command. Type 'help' for available commands.\n");
-			break;
-		
-		default:
-			printf("You can use only main commands\n");
-			break;
+			// error
+			case CMD_ERROR:
+				printf("%s\n", cmd->message);
+				break;
+			case CMD_UNKNOWN:
+				printf("Unknown command. Type 'help' for available commands.\n");
+				break;
+
+			default:
+				printf("You can use only main commands\n");
+				break;
+		}
 	}
 }
 
 void help() {
 	puts("Available commands:");
-	puts("Main commands:");
+	puts("Static commands:");
 		puts("  * help - Show this help message");
+		puts("  * status - Print player status");
+
+	puts("");
+	puts("Main commands:");
 		puts("  * battle - Start battle");
 
 		puts("");
@@ -202,8 +211,8 @@ void help() {
 
 		puts("");
 		puts("  quit commands:");
-		puts("    * quit - save and leave game");
-		puts("      exit - ");
+			puts("    * quit - save and leave game");
+			puts("      exit - ");
 
 	puts("");
 	puts("Battle commmands:");

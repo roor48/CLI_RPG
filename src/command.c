@@ -5,6 +5,7 @@
 #include <string.h>
 
 void parseHelp(Command *cmd);
+void parseStatus(Command* cmd);
 
 void parseBattle(Command* cmd);
 void parseEnemyList(Command *cmd);
@@ -46,6 +47,9 @@ Command parseCommand(const char* query) {
 	// ¸í·É¾î ÆÄ½Ì
 	if (strcmp(token, "help") == 0) {
 		parseHelp(&cmd);
+	}
+	else if (strcmp(token, "status") == 0) {
+		parseStatus(&cmd);
 	}
 	// battle
 	else if (strcmp(token, "battle") == 0) {
@@ -107,6 +111,9 @@ Command parseCommand(const char* query) {
 
 void parseHelp(Command *cmd) {
 	cmd->type = CMD_HELP;
+}
+void parseStatus(Command* cmd) {
+	cmd->type = CMD_STATUS;
 }
 
 void parseBattle(Command* cmd) {

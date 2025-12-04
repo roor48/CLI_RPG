@@ -64,3 +64,11 @@ int getSkill(Player *player, Skill skill);
  * @param exp 경험치 양
  */
 void givePlayerExp(Player* player, const int exp);
+
+
+/*
+ * @brief 플레이어의 정보 출력
+ * 
+ * @param *player Player의 포인터
+ */
+void printPlayerStatus(const Player *player);

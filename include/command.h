@@ -7,6 +7,7 @@
  */
 typedef enum COMMAND_TYPE {
 	CMD_HELP,
+	CMD_STATUS,
 
 	CMD_BATTLE,
 	CMD_ENEMYLIST,
