@@ -242,17 +242,18 @@ void attack(const Command* cmd) {
 		game.scene = SCENE_MAIN;
 
 		giveWinReward(&game.inventory, &game.player);
+		game.player.health = game.player.maxHealth;
 	}
 	else if (status == -1) {
 		printf("You lost the battle!\n");
 		game.scene = SCENE_MAIN;
 
 		giveLoseReward(&game.inventory, &game.player);
+		game.player.health = game.player.maxHealth;
 	}
 }
 void attackList() {
-	printf("Listing skills...\n");
-	// TODO: 
+	printPlayerSkills(&game.player);
 }
 void useItem(const Command* cmd) {
 	printf("Using item: %s\n", cmd->arg1);

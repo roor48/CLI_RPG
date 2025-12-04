@@ -20,18 +20,18 @@ int sellWeapon(Inventory* inventory, const WeaponType itemType, const char* item
 int buyArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 int sellArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 
-const int itemPrices[MAX_ITEM_TYPES] = {
+const int itemPrices[MAX_ITEM_TYPES + 1] = {
 	[ITEM_UNKNOWN] = 0,
 	[ITEM_LOW_HEAL_POTION] = 10,
 	[ITEM_HEAL_POTION] = 25,
 	[ITEM_HIGH_HEAL_POTION] = 50
 };
-const int weaponPrices[MAX_WEAPON_TYPES] = {
+const int weaponPrices[MAX_WEAPON_TYPES + 1] = {
 	[WEAPON_UNKNOWN] = 0,
 	[WEAPON_COOPER_SWORD] = 100,
 	[WEAPON_IRON_SWORD] = 200
 };
-const int armorPrices[MAX_ARMOR_TYPES] = {
+const int armorPrices[MAX_ARMOR_TYPES + 1] = {
 	[ARMOR_UNKNOWN] = 0,
 	[ARMOR_WOOD_CHESTPLATE] = 150
 };

@@ -4,6 +4,12 @@
 
 #include <stdio.h>
 
+const char* SkillNameArray[MAX_SKILL_TYPES + 1] = {
+	[SKILL_UNKNOWN] = "unknown",
+	[SKILL_PUNCH] = "punch",
+	[SKILL_SLASH] = "slash"
+};
+
 int onHitPlayer(Player* player, const int dmg) {
 	if (dmg < 0) {
 		return player->health;
@@ -79,4 +85,14 @@ void printPlayerStatus(const Player* player) {
 	// 임시로 번호만 출력
 	printf("Weapon: %d\n", player->currentWeapon);
 	printf("Armor: %d\n", player->currentArmor);
+}
+
+void printPlayerSkills(const Player* player) {
+	printf("Printing player skills...\n");
+	printf("Unlocked skills:\n");
+	for (int i = 1; i <= MAX_SKILL_TYPES; i++) {
+		if (player->unlockedSkills[i]) {
+			printf(" - %s\n", SkillNameArray[i]);
+		}
+	}
 }
