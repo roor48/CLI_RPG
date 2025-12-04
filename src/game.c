@@ -1,4 +1,4 @@
-ï»¿#include "../include/game.h"
+#include "../include/game.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +9,7 @@
 #include "../include/inventory.h"
 #include "../include/shop.h"
 #include "../include/battle.h"
+#include "../include/reward.h"
 #include "../include/save.h"
 
 void initGame();
@@ -66,6 +67,8 @@ void initGame() {
 	game.player.maxHealth = 100;
 	game.player.health = 100;
 	game.player.level = 1;
+	game.player.maxExperience = 100;
+	game.player.experience = 0;
 	game.player.unlockedSkills[SKILL_PUNCH] = 1;
 	
 	game.inventory.gold = 10000;
@@ -82,7 +85,7 @@ void executeCommand(const Command* cmd) {
 	}
 
 	if (game.scene == SCENE_BATTLE) {
-		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½É¾î¸¸ ï¿½ï¿½ï¿½
+		// ¹èÆ² Àü¿ë ¸í·É¾î
 		switch (cmd->type) {
 			case CMD_ENEMYLIST:
 				enemyList();
@@ -110,7 +113,6 @@ void executeCommand(const Command* cmd) {
 		return;
 	}
 	switch (cmd->type) {
-			// battle
 		case CMD_BATTLE:
 			battle();
 			break;
@@ -119,20 +121,18 @@ void executeCommand(const Command* cmd) {
 			attackList();
 			break;
 
-			// shop
+		// shop
 		case CMD_SHOP:
 			shop(cmd);
 			break;
-
 		case CMD_BUY:
 			buy(cmd);
 			break;
-
 		case CMD_SELL:
 			sell(cmd);
 			break;
 
-			// inventory
+		// inventory
 		case CMD_INVENTORY:
 			inventory();
 			break;
@@ -140,7 +140,7 @@ void executeCommand(const Command* cmd) {
 			equip(cmd);
 			break;
 
-			// save/load
+		// save/load
 		case CMD_SAVE:
 			save(cmd);
 			break;
@@ -154,12 +154,13 @@ void executeCommand(const Command* cmd) {
 			break;
 
 
-			// quit
+		// quit
 		case CMD_QUIT:
 			quit();
 			break;
 
-			// error
+
+		// error
 		case CMD_ERROR:
 			printf("%s\n", cmd->message);
 			break;
@@ -228,25 +229,25 @@ void attack(const Command* cmd) {
 	int status = attackBattle(&game.player, &game.battle, cmd);
 
 	if (status == 1) {
-		// ï¿½Â¸ï¿½
 		printf("You won the battle!\n");
-		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		game.scene = SCENE_MAIN;
+
+		giveWinReward(&game.inventory, &game.player);
 	}
 	else if (status == -1) {
-		// ï¿½Ð¹ï¿½
 		printf("You lost the battle!\n");
-		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		game.scene = SCENE_MAIN;
+
+		giveLoseReward(&game.inventory, &game.player);
 	}
 }
 void attackList() {
 	printf("Listing skills...\n");
-	// TODO: ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// TODO: 
 }
 void useItem(const Command* cmd) {
 	printf("Using item: %s\n", cmd->arg1);
-	// TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// TODO: 
 }
 void run() {
 	printf("You ran away from the battle!\n");

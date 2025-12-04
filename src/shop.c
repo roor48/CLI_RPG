@@ -20,7 +20,21 @@ int sellWeapon(Inventory* inventory, const WeaponType itemType, const char* item
 int buyArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 int sellArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 
-int itemPrices[MAX_ITEM_TYPES], weaponPrices[MAX_WEAPON_TYPES], armorPrices[MAX_ARMOR_TYPES];
+const int itemPrices[MAX_ITEM_TYPES] = {
+	[ITEM_UNKNOWN] = 0,
+	[ITEM_LOW_HEAL_POTION] = 10,
+	[ITEM_HEAL_POTION] = 25,
+	[ITEM_HIGH_HEAL_POTION] = 50
+};
+const int weaponPrices[MAX_WEAPON_TYPES] = {
+	[WEAPON_UNKNOWN] = 0,
+	[WEAPON_COOPER_SWORD] = 100,
+	[WEAPON_IRON_SWORD] = 200
+};
+const int armorPrices[MAX_ARMOR_TYPES] = {
+	[ARMOR_UNKNOWN] = 0,
+	[ARMOR_WOOD_CHESTPLATE] = 150
+};
 
 void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *amount) {
 	*amount = 1;  // default 1
@@ -76,15 +90,6 @@ void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *
 }
 
 void initShop() {
-	// 아이템 가격 설정
-	itemPrices[ITEM_LOW_HEAL_POTION] = 10;
-	itemPrices[ITEM_HEAL_POTION] = 25;
-	itemPrices[ITEM_HIGH_HEAL_POTION] = 50;
-	// 무기 가격 설정
-	weaponPrices[WEAPON_COOPER_SWORD] = 100;
-	weaponPrices[WEAPON_IRON_SWORD] = 200;
-	// 방어구 가격 설정
-	armorPrices[ARMOR_WOOD_CHESTPLATE] = 150;
 }
 
 void showShop() {

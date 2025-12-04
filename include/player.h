@@ -8,8 +8,11 @@ struct Enemy;
 typedef struct Player {
 	int maxHealth;							// 최대 체력
 	int health;								// 체력
-	int level;								// 레벨
 	int unlockedSkills[MAX_SKILL_TYPES];	// 스킬 목록 (해금됐으면 1, 아니면 0)
+
+	int level;								// 레벨
+	int maxExperience;						// 최대 경험치
+	int experience;							// 경험치
 
 	WeaponType currentWeapon;				// 사용 중인 무기
 	ArmorType currentArmor;					// 사용 중인 방어구
@@ -52,3 +55,12 @@ int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy);
  * @return 성공 시 1 반환, 오류 시 -1 반환
  */
 int getSkill(Player *player, Skill skill);
+
+
+/*
+ * @brief 플레이어 경험치 지급
+ * 
+ * @param *player Player의 포인터
+ * @param exp 경험치 양
+ */
+void givePlayerExp(Player* player, const int exp);

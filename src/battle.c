@@ -3,9 +3,11 @@
 #include "../include/command.h"
 #include "../include/enemyManager.h"
 #include "../include/player.h"
+#include "../include/string_utils.h"
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 Skill parseSkill(const char* skillName);
 void printEnemy(const EnemyManager* enemyManager);
@@ -16,13 +18,22 @@ void initBattle(Battle* battle) {
 
 void startBattle(Battle* battle) {
     initBattle(battle);
-    instantiateEnemy(&battle->enemyManager, "Zombie", 30, 3);
+	spawnEnemy(&battle->enemyManager);
     printEnemy(&battle->enemyManager);
 }
 
 int attackBattle(Player *player, Battle *battle, const Command *cmd) {
     Skill skill = parseSkill(cmd->arg1);
-    Enemy* enemy = getEnemyByName(&battle->enemyManager, cmd->arg2);
+
+	Enemy *enemy = NULL;
+    if (isDigitString(cmd->arg2)) {
+        // 숫자
+		enemy = getEnemyById(&battle->enemyManager, atoi(cmd->arg2));
+    }
+    else {
+        // 문자열
+        enemy = getEnemyByName(&battle->enemyManager, cmd->arg2);
+    }
 
     if (skill == SKILL_UNKNOWN || !(player->unlockedSkills[skill])) {
         printf("Unknown skill: %s\n", cmd->arg1);
@@ -60,8 +71,13 @@ int attackBattle(Player *player, Battle *battle, const Command *cmd) {
 }
 
 void printEnemy(const EnemyManager *enemyManager) {
-    for (int i = 0; i < enemyManager->enemyCount; i++) {
-        printf("%s\t%d/%d\n", 
+    for (int i = 0; i < enemyManager->enemyIdCounter; i++) {
+        if (enemyManager->enemies[i].health <= 0) {
+            continue;
+        }
+
+        printf("%2d: %s\t%d/%d\n",
+            enemyManager->enemies[i].id,
             enemyManager->enemies[i].name, 
             enemyManager->enemies[i].health, 
             enemyManager->enemies[i].maxHealth);

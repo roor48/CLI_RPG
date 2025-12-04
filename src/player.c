@@ -51,3 +51,20 @@ int getSkill(Player* player, Skill skill) {
 
 	return player->unlockedSkills[skill] = 1;
 }
+
+void givePlayerExp(Player* player, const int exp) {
+	player->experience += exp;
+
+	if (player->experience < player->maxExperience) {
+		return;
+	}
+
+	int beforeLevel = player->level;
+	player->level += player->experience / player->maxExperience;
+	player->experience = player->experience % player->maxExperience;
+	// 최대 경험치 양 로직은 추후에 추가
+	// 임시로 player->level * 10으로 설정
+	player->maxExperience = player->level * 10;
+
+	printf("Level up! New level: %d -> %d\n", beforeLevel, player->level);
+}

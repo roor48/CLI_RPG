@@ -6,7 +6,7 @@ struct Player;
 
 typedef struct Enemy {
 	int id;
-	char name[MAX_ARG_LENGTH];
+	char name[MAX_ARG_LENGTH+1];
 	int maxHealth;
 	int health;
 	int damage;
