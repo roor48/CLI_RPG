@@ -40,6 +40,8 @@ cJSON* playerToJSON(const Player* player) {
 	cJSON_AddNumberToObject(json, "maxHealth", player->maxHealth);
 	cJSON_AddNumberToObject(json, "health", player->health);
 	cJSON_AddNumberToObject(json, "level", player->level);
+	cJSON_AddNumberToObject(json, "maxExperience", player->maxExperience);
+	cJSON_AddNumberToObject(json, "experience", player->experience);
 	
 	// 스킬 배열
 	cJSON* skills = cJSON_CreateArray();
@@ -58,6 +60,8 @@ void jsonToPlayer(const cJSON* json, Player* player) {
 	player->maxHealth = cJSON_GetObjectItem(json, "maxHealth")->valueint;
 	player->health = cJSON_GetObjectItem(json, "health")->valueint;
 	player->level = cJSON_GetObjectItem(json, "level")->valueint;
+	player->maxExperience = cJSON_GetObjectItem(json, "maxExperience")->valueint;
+	player->experience = cJSON_GetObjectItem(json, "experience")->valueint;
 	
 	// 스킬 배열
 	cJSON* skills = cJSON_GetObjectItem(json, "unlockedSkills");
