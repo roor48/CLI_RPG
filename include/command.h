@@ -39,8 +39,8 @@ typedef enum COMMAND_TYPE {
  */
 typedef struct Command {
 	COMMAND_TYPE type;
-	char arg1[MAX_ARG_LENGTH];
-	char arg2[MAX_ARG_LENGTH];
+	char arg1[MAX_ARG_LENGTH + 1];
+	char arg2[MAX_ARG_LENGTH + 1];
 	char message[200];
 } Command;
 

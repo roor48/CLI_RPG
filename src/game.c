@@ -37,7 +37,8 @@ Game game = {0};
 unsigned long long startGame() {
 	initGame();
 
-	char query[MAX_INPUT_LENGTH];
+	// 입력 + '\n' + '\0' 때문에 + 2
+	char query[MAX_INPUT_LENGTH + 2];
 
 	game.state = STATE_RUNNING;
 	game.scene = SCENE_MAIN;

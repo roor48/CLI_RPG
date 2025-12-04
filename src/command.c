@@ -34,7 +34,7 @@ void parseUnknown(Command* cmd);
 char *context, *token;
 Command parseCommand(const char* query) {
 	Command cmd = { .type = CMD_UNKNOWN, .arg1 = "", .arg2 = "", .message = ""};
-	char input[MAX_INPUT_LENGTH];
+	char input[MAX_INPUT_LENGTH + 1];
 	strcpy_s(input, sizeof(input), query);
 
 	context = NULL;
