@@ -68,10 +68,10 @@ typedef struct InventoryItem {
  * 플레이어의 소지품을 관리하는 구조체
  */
 typedef struct Inventory {
-	int gold;						// 골드
-	int items[MAX_ITEM_TYPES];      // 아이템 (수량)
-	int weapons[MAX_WEAPON_TYPES];	// 무기 (소유 여부)
-	int armors[MAX_ARMOR_TYPES];	// 방어구 (소유 여부)
+	int gold;							// 골드
+	int items[MAX_ITEM_TYPES + 1];		// 아이템 (수량)
+	int weapons[MAX_WEAPON_TYPES + 1];	// 무기 (소유 여부)
+	int armors[MAX_ARMOR_TYPES + 1];	// 방어구 (소유 여부)
 } Inventory;
 
 /**
