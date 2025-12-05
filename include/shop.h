@@ -31,11 +31,3 @@ int buyShop(struct Inventory* inventory, const struct Command *cmd);
  * @return 판매 후 현재 골드량, 실패 시 -1
  */
 int sellShop(struct Inventory* inventory, const struct Command *cmd);
-
-/*
- * @brief char* 형식을 InventoryItem 타입으로 변환
- * 
- * @param *cmd 명령어
- * @param *inventoryItem 변환 값을 저장할 포인터
- */
-void getItemTypeFromName(const struct Command* cmd, struct InventoryItem* inventoryItem);

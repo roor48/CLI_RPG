@@ -2,7 +2,7 @@
 
 #include "../include/enemy.h"
 #include "../include/command.h"
-#include "../include/shop.h"
+#include "../include/item_stats.h"
 #include "../include/inventory.h"
 
 #include <stdio.h>

@@ -2,6 +2,9 @@
 
 #include "../include/constants.h"
 #include "../include/inventory.h"
+#include "../include/command.h"
+
+#include <string.h>
 
 // 소모템
 const char* consumableNameArray[MAX_CONSUMABLE_TYPES + 1] = {
@@ -47,3 +50,40 @@ const int armorDefenseArray[MAX_ARMOR_TYPES + 1] = {
 	[ARMOR_UNKNOWN] = 0,
 	[ARMOR_WOOD_CHESTPLATE] = 5
 };
+
+void getItemTypeFromName(const Command* cmd, InventoryItem* inventoryItem) {
+	// arg1을 소문자로 변환
+	char itemName[MAX_ARG_LENGTH + 1];
+	strcpy_s(itemName, sizeof(itemName), cmd->arg1);
+	itemName[MAX_ARG_LENGTH] = '\0';
+
+	// char* 형태를 enum으로 변환
+	// ITEM
+	for (int i = 1; i <= MAX_CONSUMABLE_TYPES; i++) {
+		if (strcmp(itemName, consumableNameArray[i]) == 0) {
+			inventoryItem->data.consumableType = (ConsumableType)i;
+			inventoryItem->tag = ITEMTAG_CONSUMABLE;
+			return;
+		}
+	}
+
+	// WEAPON
+	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+		if (strcmp(itemName, weaponNameArray[i]) == 0) {
+			inventoryItem->data.weaponType = (WeaponType)i;
+			inventoryItem->tag = ITEMTAG_WEAPON;
+			return;
+		}
+	}
+
+	// ARMOR
+	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+		if (strcmp(itemName, armorNameArray[i]) == 0) {
+			inventoryItem->data.armorType = (ArmorType)i;
+			inventoryItem->tag = ITEMTAG_ARMOR;
+			return;
+		}
+	}
+
+	inventoryItem->tag = ITEMTAG_UNKNOWN;
+}

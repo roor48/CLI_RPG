@@ -22,44 +22,6 @@ int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorN
 int sellArmor(Inventory* inventory, const ArmorType armorType, const char* armorName);
 
 
-void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem) {
-	// arg1을 소문자로 변환
-	char itemName[MAX_ARG_LENGTH + 1];
-	strcpy_s(itemName, sizeof(itemName), cmd->arg1);
-	itemName[MAX_ARG_LENGTH] = '\0';
-
-	// char* 형태를 enum으로 변환
-	// ITEM
-	for (int i = 1; i <= MAX_CONSUMABLE_TYPES; i++) {
-		if (strcmp(itemName, consumableNameArray[i]) == 0) {
-			inventoryItem->data.consumableType = (ConsumableType)i;
-			inventoryItem->tag = ITEMTAG_CONSUMABLE;
-			return;
-		}
-	}
-
-	// WEAPON
-	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
-		if (strcmp(itemName, weaponNameArray[i]) == 0) {
-			inventoryItem->data.weaponType = (WeaponType)i;
-			inventoryItem->tag = ITEMTAG_WEAPON;
-			return;
-		}
-	}
-
-	// ARMOR
-	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
-		if (strcmp(itemName, armorNameArray[i]) == 0) {
-			inventoryItem->data.armorType = (ArmorType)i;
-			inventoryItem->tag = ITEMTAG_ARMOR;
-			return;
-		}
-	}
-
-	inventoryItem->tag = ITEMTAG_UNKNOWN;
-	printf("Unknown item: %s\n", cmd->arg1);
-}
-
 void getItemAmount(const Command *cmd, int* amount) {
 	*amount = 1;  // default 1
 
@@ -104,21 +66,22 @@ int buyShop(Inventory* inventory, const Command* cmd) {
 
 	// 아이템 구매
 	switch (inventoryItem.tag) {
-	case ITEMTAG_CONSUMABLE:
-		currentGold = buyConsumable(inventory, inventoryItem.data.consumableType, cmd->arg1, amount);
-		break;
+		case ITEMTAG_CONSUMABLE:
+			currentGold = buyConsumable(inventory, inventoryItem.data.consumableType, cmd->arg1, amount);
+			break;
 
-	case ITEMTAG_WEAPON:
-		currentGold = buyWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
-		break;
+		case ITEMTAG_WEAPON:
+			currentGold = buyWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
+			break;
 
-	case ITEMTAG_ARMOR:
-		currentGold = buyArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
-		break;
+		case ITEMTAG_ARMOR:
+			currentGold = buyArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
+			break;
 
-	default:
-		printf("ERROR: Unknown item %s\n", cmd->arg1);
-		break;
+		case ITEMTAG_UNKNOWN:
+		default:
+			printf("ERROR: Unknown item %s\n", cmd->arg1);
+			break;
 	}
 
 	return currentGold;
@@ -135,21 +98,22 @@ int sellShop(Inventory* inventory, const Command* cmd) {
 
 	// 아이템 판매
 	switch (inventoryItem.tag) {
-	case ITEMTAG_CONSUMABLE:
-		currentGold = sellConsumable(inventory, inventoryItem.data.consumableType, cmd->arg1, amount);
-		break;
+		case ITEMTAG_CONSUMABLE:
+			currentGold = sellConsumable(inventory, inventoryItem.data.consumableType, cmd->arg1, amount);
+			break;
 
-	case ITEMTAG_WEAPON:
-		currentGold = sellWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
-		break;
+		case ITEMTAG_WEAPON:
+			currentGold = sellWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
+			break;
 
-	case ITEMTAG_ARMOR:
-		currentGold = sellArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
-		break;
+		case ITEMTAG_ARMOR:
+			currentGold = sellArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
+			break;
 
-	default:
-		printf("ERROR: Unknown item %s\n", cmd->arg1);
-		break;
+		case ITEMTAG_UNKNOWN:
+		default:
+			printf("ERROR: Unknown item %s\n", cmd->arg1);
+			break;
 	}
 
 	return currentGold;
