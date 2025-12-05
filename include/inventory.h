@@ -3,14 +3,14 @@
 #include "constants.h"
 
 /**
- * @brief 아이템 타입
+ * @brief 소모템 타입
  */
-typedef enum ItemType {
-	ITEM_UNKNOWN = 0,
-	ITEM_LOW_HEAL_POTION = 1,
-	ITEM_HEAL_POTION = 2,
-	ITEM_HIGH_HEAL_POTION = 3
-} ItemType;
+typedef enum ConsumableType {
+	CONSUMABLE_UNKNOWN = 0,
+	CONSUMABLE_LOW_HEAL_POTION = 1,
+	CONSUMABLE_HEAL_POTION = 2,
+	CONSUMABLE_HIGH_HEAL_POTION = 3
+} ConsumableType;
 
 /**
  * @brief 무기 타입
@@ -36,7 +36,7 @@ typedef enum ArmorType {
  */
 typedef enum ItemTag {
 	ITEMTAG_UNKNOWN = 0,
-	ITEMTAG_ITEM = 1,
+	ITEMTAG_CONSUMABLE = 1,
 	ITEMTAG_WEAPON = 2,
 	ITEMTAG_ARMOR = 3
 } ItemTag;
@@ -44,10 +44,10 @@ typedef enum ItemTag {
 /**
  * @brief 인벤토리 아이템 Union
  * 
- * 아이템, 무기, 방어구 중 하나의 타입을 저장
+ * 소모템, 무기, 방어구 중 하나의 타입을 저장
  */
 typedef union InventoryItemUnion {
-	ItemType itemType;
+	ConsumableType consumableType;
 	WeaponType weaponType;
 	ArmorType armorType;
 } InventoryItemUnion;
@@ -68,10 +68,10 @@ typedef struct InventoryItem {
  * 플레이어의 소지품을 관리하는 구조체
  */
 typedef struct Inventory {
-	int gold;							// 골드
-	int items[MAX_ITEM_TYPES + 1];		// 아이템 (수량)
-	int weapons[MAX_WEAPON_TYPES + 1];	// 무기 (소유 여부)
-	int armors[MAX_ARMOR_TYPES + 1];	// 방어구 (소유 여부)
+	int gold;									// 골드
+	int consumables[MAX_CONSUMABLE_TYPES + 1];	// 소모템 (수량)
+	int weapons[MAX_WEAPON_TYPES + 1];			// 무기 (소유 여부)
+	int armors[MAX_ARMOR_TYPES + 1];			// 방어구 (소유 여부)
 } Inventory;
 
 /**
@@ -110,46 +110,46 @@ int addGold(Inventory* inventory, const int amount);
 int removeGold(Inventory* inventory, const int amount);
 
 /**
- * @brief 아이템 소유 여부 확인
+ * @brief 소모템 소유 여부 확인
  * 
  * @param *inventory 인벤토리 포인터
- * @param itemType 아이템 타입
+ * @param consumableType 소모템 타입
  * 
  * @return 소유 시 1, 미소유 시 0, 오류 시 -1
  */
-int hasItem(const Inventory *inventory, const ItemType itemType);
+int hasConsumable(const Inventory* inventory, const ConsumableType consumableType);
 
 /**
- * @brief 아이템 수량 조회
- * 
+ * @brief 소모템 수량 조회
+ *
  * @param *inventory 인벤토리 포인터
- * @param itemType 아이템 타입
+ * @param consumableType 소모템 타입
  * 
  * @return 아이템 수량, 오류 시 -1
  */
-int getItem(const Inventory* inventory, const ItemType itemType);
+int getConsumable(const Inventory* inventory, const ConsumableType consumableType);
 
 /**
- * @brief 아이템 추가
+ * @brief 소모템 추가
  * 
  * @param *inventory 인벤토리 포인터
- * @param itemType 아이템 타입
+ * @param consumableType 소모템 타입
  * @param cnt 추가할 수량
  * 
  * @return 추가 후 수량, 오류 시 -1
  */
-int addItem(Inventory* inventory, const ItemType itemType, const int cnt);
+int addConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt);
 
 /**
- * @brief 아이템 제거
- * 
+ * @brief 소모템 제거
+ *
  * @param *inventory 인벤토리 포인터
- * @param itemType 아이템 타입
+ * @param consumableType 소모템 타입
  * @param cnt 제거할 수량
- * 
+ *
  * @return 제거 후 수량, 오류 시 -1 또는 -2
  */
-int removeItem(Inventory* inventory, const ItemType itemType, const int cnt);
+int removeConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt);
 
 /**
  * @brief 무기 소유 여부 확인

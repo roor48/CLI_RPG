@@ -26,7 +26,7 @@ void shop();
 void buy(const Command* cmd);
 void sell(const Command* cmd);
 void equip(const Command* cmd);
-void useItem(const Command* cmd);
+void useConsumable(const Command* cmd);
 void run();
 void save(const Command* cmd);
 void load(const Command* cmd);
@@ -76,8 +76,6 @@ void initGame() {
 	game.inventory.gold = 10000;
 	
 	initBattle(&game.battle);
-
-	initShop();
 }
 
 void executeCommand(const Command* cmd) {
@@ -104,8 +102,8 @@ void executeCommand(const Command* cmd) {
 			case CMD_ATTACKLIST:
 				attackList();
 				break;
-			case CMD_USEITEM:
-				useItem(cmd);
+			case CMD_USECONSUMABLE:
+				useConsumable(cmd);
 				break;
 			case CMD_RUN:
 				run();
@@ -260,7 +258,7 @@ void attack(const Command* cmd) {
 void attackList() {
 	printPlayerSkills(&game.player);
 }
-void useItem(const Command* cmd) {
+void useConsumable(const Command* cmd) {
 	printf("Using item: %s\n", cmd->arg1);
 	// TODO: 
 }

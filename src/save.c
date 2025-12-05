@@ -82,12 +82,12 @@ cJSON* inventoryToJSON(const Inventory* inventory) {
 	
 	cJSON_AddNumberToObject(json, "gold", inventory->gold);
 	
-	// 아이템 배열
-	cJSON* items = cJSON_CreateArray();
-	for (int i = 0; i <= MAX_ITEM_TYPES; i++) {
-		cJSON_AddItemToArray(items, cJSON_CreateNumber(inventory->items[i]));
+	// 소모템 배열
+	cJSON* consumables = cJSON_CreateArray();
+	for (int i = 0; i <= MAX_CONSUMABLE_TYPES; i++) {
+		cJSON_AddItemToArray(consumables, cJSON_CreateNumber(inventory->consumables[i]));
 	}
-	cJSON_AddItemToObject(json, "items", items);
+	cJSON_AddItemToObject(json, "consumables", consumables);
 	
 	// 무기 배열
 	cJSON* weapons = cJSON_CreateArray();
@@ -109,13 +109,13 @@ cJSON* inventoryToJSON(const Inventory* inventory) {
 void jsonToInventory(const cJSON* json, Inventory* inventory) {
 	inventory->gold = cJSON_GetObjectItem(json, "gold")->valueint;
 	
-	// 아이템 배열
-	cJSON* items = cJSON_GetObjectItem(json, "items");
+	// 소모템 배열
+	cJSON* consumables = cJSON_GetObjectItem(json, "consumables");
 	int i = 0;
-	cJSON* item = NULL;
-	cJSON_ArrayForEach(item, items) {
-		if (i <= MAX_ITEM_TYPES) {
-			inventory->items[i++] = item->valueint;
+	cJSON* consumable = NULL;
+	cJSON_ArrayForEach(consumable, consumables) {
+		if (i <= MAX_CONSUMABLE_TYPES) {
+			inventory->consumables[i++] = consumable->valueint;
 		}
 	}
 	

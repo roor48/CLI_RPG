@@ -155,7 +155,7 @@ void parseAttackList(Command *cmd) {
 	cmd->type = CMD_ATTACKLIST;
 }
 void parseUse(Command *cmd) {
-	cmd->type = CMD_USEITEM;
+	cmd->type = CMD_USECONSUMABLE;
 	// use [item]
 	token = strtok_s(NULL, " ", &context);
 	if (token == NULL) {

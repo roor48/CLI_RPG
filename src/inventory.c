@@ -9,10 +9,10 @@ void showInventory(const Inventory* inventory) {
 	printf("Showing inventory...\n");
 
 	printf("Gold: %d\n", inventory->gold);
-	printf("Items:\n");
-	for (int i = 1; i <= MAX_ITEM_TYPES; i++) {
-		if (hasItem(inventory, (ItemType)i)) {
-			printf("  %s: %d\n", itemNameArray[i], getItem(inventory, (ItemType)i));
+	printf("Consumables:\n");
+	for (int i = 1; i <= MAX_CONSUMABLE_TYPES; i++) {
+		if (hasConsumable(inventory, (ConsumableType)i)) {
+			printf("  %s: %d\n", consumableNameArray[i], getConsumable(inventory, (ConsumableType)i));
 		}
 	}
 
@@ -46,44 +46,44 @@ int removeGold(Inventory* inventory, const int amount) {
 	return inventory->gold -= amount;
 }
 
-#pragma region Item
-int hasItem(const Inventory* inventory, const ItemType itemType) {
-	if (itemType == ITEM_UNKNOWN) {
+#pragma region Consumable
+int hasConsumable(const Inventory* inventory, const ConsumableType consumableType) {
+	if (consumableType == CONSUMABLE_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
 	}
 
-	return !!getItem(inventory, itemType);
+	return !!getConsumable(inventory, consumableType);
 }
-int getItem(const Inventory* inventory, const ItemType itemType) {
-	if (itemType == ITEM_UNKNOWN) {
+int getConsumable(const Inventory* inventory, const ConsumableType consumableType) {
+	if (consumableType == CONSUMABLE_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
 	}
 
-	int result = inventory->items[itemType];
+	int result = inventory->consumables[consumableType];
 	return result;
 }
-int addItem(Inventory* inventory, const ItemType itemType, const int cnt) {
-	if (itemType == ITEM_UNKNOWN) {
+int addConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt) {
+	if (consumableType == CONSUMABLE_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
 	}
 
-	inventory->items[itemType] += cnt;
-	return inventory->items[itemType];
+	inventory->consumables[consumableType] += cnt;
+	return inventory->consumables[consumableType];
 }
-int removeItem(Inventory* inventory, const ItemType itemType, const int cnt) {
-	if (itemType == ITEM_UNKNOWN) {
+int removeConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt) {
+	if (consumableType == CONSUMABLE_UNKNOWN) {
 		printf("Unknown item name\n");
 		return -1;
 	}
-	if (inventory->items[itemType] < cnt) {
-		printf("Amount is too big (have: %d, input: %d)", inventory->items[itemType], cnt);
+	if (inventory->consumables[consumableType] < cnt) {
+		printf("Amount is too big (have: %d, input: %d)", inventory->consumables[consumableType], cnt);
 		return -2;
 	}
 
-	return inventory->items[itemType] -= cnt;
+	return inventory->consumables[consumableType] -= cnt;
 }
 #pragma endregion
 
