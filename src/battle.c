@@ -76,11 +76,11 @@ void printEnemy(const EnemyManager *enemyManager) {
             continue;
         }
 
-        printf("%2d: %s\t%d/%d\n",
+        printf("%2d: %s\t%s/%s\n",
             enemyManager->enemies[i].id,
             enemyManager->enemies[i].name, 
-            enemyManager->enemies[i].health, 
-            enemyManager->enemies[i].maxHealth);
+            formatNum(enemyManager->enemies[i].health), 
+            formatNum(enemyManager->enemies[i].maxHealth));
     }
 }
 

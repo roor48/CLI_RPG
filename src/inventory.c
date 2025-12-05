@@ -2,17 +2,18 @@
 
 #include "../include/constants.h"
 #include "../include/item_stats.h"
+#include "../include/string_utils.h"
 
 #include <stdio.h>
 
 void showInventory(const Inventory* inventory) {
 	printf("Showing inventory...\n");
 
-	printf("Gold: %d\n", inventory->gold);
+	printf("Gold: %s\n", formatNum(inventory->gold));
 	printf("Consumables:\n");
 	for (int i = 0; i < MAX_CONSUMABLE_TYPES; i++) {
 		if (hasConsumable(inventory, (ConsumableType)i)) {
-			printf("  %s: %d\n", consumableNameArray[i], getConsumable(inventory, (ConsumableType)i));
+			printf("  %s: %s\n", consumableNameArray[i], formatNum(getConsumable(inventory, (ConsumableType)i)));
 		}
 	}
 
@@ -34,15 +35,18 @@ void showInventory(const Inventory* inventory) {
 int getGold(const Inventory* inventory) {
 	return inventory->gold;
 }
-int addGold(Inventory* inventory, const int amount) {
 
+int addGold(Inventory* inventory, const int amount) {
 	int beforeGold = inventory->gold;
 	inventory->gold += amount;
-	printf("You got %d gold. (%dG -> %dG)\n", amount, beforeGold, inventory->gold);
+	printf("You got %s gold. (%sG -> %sG)\n", 
+		formatNum(amount), 
+		formatNum(beforeGold), 
+		formatNum(inventory->gold));
 
 	return inventory->gold;
 }
-// (10000G -> 10032G)
+
 int removeGold(Inventory* inventory, const int amount) {
 	if (inventory->gold < amount) {
 		printf("ERROR in inventory.removeGold: inventory->gold < amount");

@@ -4,6 +4,7 @@
 #include "../include/command.h"
 #include "../include/item_stats.h"
 #include "../include/inventory.h"
+#include "../include/string_utils.h"
 
 #include <stdio.h>
 
@@ -29,11 +30,11 @@ int onHitPlayer(Player* player, const Enemy* enemy) {
 		player->health = 0;
 	}
 
-	printf("You got attacked by %s with %d dmg. Your health: %d/%d\n",
+	printf("You got attacked by %s with %s dmg. Your health: %s/%s\n",
 		enemy->name,
-		calculatedDmg,
-		player->health,
-		player->maxHealth);
+		formatNum(calculatedDmg),
+		formatNum(player->health),
+		formatNum(player->maxHealth));
 
 	return player->health;
 }
@@ -56,7 +57,10 @@ void givePlayerExp(Player* player, const int exp) {
 	if (player->experience < player->maxExperience) {
 		return;
 	}
-	printf("You got %d experience points. (%d/%d)\n", exp, player->experience, player->maxExperience);
+	printf("You got %s experience points. (%s/%s)\n",
+		formatNum(exp),
+		formatNum(player->experience),
+		formatNum(player->maxExperience));
 
 	int beforeLevel = player->level;
 	player->level += player->experience / player->maxExperience;
@@ -65,20 +69,19 @@ void givePlayerExp(Player* player, const int exp) {
 	// 임시로 player->level * 10으로 설정
 	player->maxExperience = player->level * 10;
 	
-	printf("Level up! New level: %d -> %d\n", beforeLevel, player->level);
+	printf("Level up! New level: %s -> %s\n", formatNum(beforeLevel), formatNum(player->level));
 }
 
 void printPlayerStatus(const Player* player) {
 	printf("Printing player status...\n");
 	
-	printf("Health: %d/%d\n", player->health, player->maxHealth);
-	printf("Defence: %d\n", calculateDefence(player));
-	printf("Level: %d\n", player->level);
-	printf("Experience: %d/%d\n", player->experience, player->maxExperience);
+	printf("Health: %s/%s\n", formatNum(player->health), formatNum(player->maxHealth));
+	printf("Defence: %s\n", formatNum(calculateDefence(player)));
+	printf("Level: %s\n", formatNum(player->level));
+	printf("Experience: %s/%s\n", formatNum(player->experience), formatNum(player->maxExperience));
 
-	// 임시로 번호만 출력
-	printf("Weapon: %d\n", player->currentWeapon);
-	printf("Armor: %d\n", player->currentArmor);
+	printf("Weapon: %s\n", weaponNameArray[player->currentWeapon]);
+	printf("Armor: %s\n", armorNameArray[player->currentArmor]);
 }
 
 void printPlayerSkills(const Player* player) {

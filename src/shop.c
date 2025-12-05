@@ -40,15 +40,15 @@ void showShop() {
 
 	int cnt = 1;
 	for (int i = 0; i < MAX_CONSUMABLE_TYPES; i++) {
-		printf("%d. %s - %d Gold\n", cnt++, consumableNameArray[i], consumablePriceArray[i]);
+		printf("%d. %s - %s Gold\n", cnt++, consumableNameArray[i], formatNum(consumablePriceArray[i]));
 	}
 
 	for (int i = 0; i < MAX_WEAPON_TYPES; i++) {
-		printf("%d. %s - %d Gold\n", cnt++, weaponNameArray[i], weaponPriceArray[i]);
+		printf("%d. %s - %s Gold\n", cnt++, weaponNameArray[i], formatNum(weaponPriceArray[i]));
 	}
 
 	for (int i = 0; i < MAX_ARMOR_TYPES; i++) {
-		printf("%d. %s - %d Gold\n", cnt++, armorNameArray[i], armorPriceArray[i]);
+		printf("%d. %s - %s Gold\n", cnt++, armorNameArray[i], formatNum(armorPriceArray[i]));
 	}
 
 	printf("Type 'buy [name] [amount]' to purchase an item.\n");
@@ -121,41 +121,43 @@ int sellShop(Inventory* inventory, const Command* cmd) {
 
 // Consumable
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount) {
-	printf("Purchasing %d x %s\n", amount, consumableName);
+	printf("Purchasing %s x %s\n", formatNum(amount), consumableName);
+
 
 	int beforeGold = inventory->gold;
+	// **오버플로우 가능성 있음!!!**
 	int value = consumablePriceArray[consumableType] * amount;
 
-	if (beforeGold < value) {
-		printf("Not enough gold to purchase %d of %s\n", amount, consumableName);
+	if (inventory->gold < value) {
+		printf("Not enough gold to purchase %s of %s\n", formatNum(amount), consumableName);
 		return -1;
 	}
 
 	removeGold(inventory, value);
 	addConsumable(inventory, consumableType, amount);
 
-	printf("You have purchased %d of %s.\n", amount, consumableName);
-	printf("%dG -> %dG (-%d)\n", beforeGold, inventory->gold, value);
+	printf("You have purchased %s of %s.\n", formatNum(amount), consumableName);
+	printf("%sG -> %sG (-%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }
 
 int sellConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount) {
-	printf("Selling %d x %s\n", amount, consumableName);
+	printf("Selling %s x %s\n", formatNum(amount), consumableName);
 
 	int beforeGold = inventory->gold;
 	int value = (int)(consumablePriceArray[consumableType] * amount * SELL_RATE);
 
 	if (getConsumable(inventory, consumableType) < amount) {
-		printf("Not enough consumables to sell %d of %s\n", amount, consumableName);
+		printf("Not enough consumables to sell %s of %s\n", formatNum(amount), consumableName);
 		return -1;
 	}
 
 	addGold(inventory, value);
 	removeConsumable(inventory, consumableType, amount);
 
-	printf("You have sold %d of %s.\n", amount, consumableName);
-	printf("%dG -> %dG (+%d)\n", beforeGold, inventory->gold, value);
+	printf("You have sold %s of %s.\n", formatNum(amount), consumableName);
+	printf("%sG -> %sG (+%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }
@@ -181,7 +183,7 @@ int buyWeapon(Inventory* inventory, const WeaponType weaponType, const char *wea
 	addWeapon(inventory, weaponType);
 	
 	printf("You have purchased the weapon: %s.\n", weaponName);
-	printf("%dG -> %dG (-%d)\n", beforeGold, inventory->gold, value);
+	printf("%sG -> %sG (-%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }
@@ -201,7 +203,7 @@ int sellWeapon(Inventory* inventory, const WeaponType weaponType, const char *we
 	removeWeapon(inventory, weaponType);
 
 	printf("You have sold the weapon: %s.\n", weaponName);
-	printf("%dG -> %dG (+%d)\n", beforeGold, inventory->gold, value);
+	printf("%sG -> %sG (+%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }
@@ -227,7 +229,7 @@ int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorN
 	addArmor(inventory, armorType);
 
 	printf("You have purchased the armor: %s.\n", armorName);
-	printf("%dG -> %dG (-%d)\n", beforeGold, inventory->gold, value);
+	printf("%sG -> %sG (-%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }
@@ -247,7 +249,7 @@ int sellArmor(Inventory* inventory, const ArmorType armorType, const char* armor
 	removeArmor(inventory, armorType);
 
 	printf("You have sold the armor: %s.\n", armorName);
-	printf("%dG -> %dG (+%d)\n", beforeGold, inventory->gold, value);
+	printf("%sG -> %sG (+%s)\n", formatNum(beforeGold), formatNum(inventory->gold), formatNum(value));
 
 	return inventory->gold;
 }

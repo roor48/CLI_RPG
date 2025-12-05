@@ -1,6 +1,7 @@
 #include "../include/enemy.h"
 
 #include "../include/player.h"
+#include "../include/string_utils.h"
 
 #include <stdio.h>
 
@@ -10,11 +11,11 @@ int onHitEnemy(Enemy* enemy, const int dmg) {
 		enemy->health = 0;
 	}
 
-	printf("Attacked %s with %d damage. Enemy health: %d/%d\n",
+	printf("Attacked %s with %s damage. Enemy health: %s/%s\n",
 		enemy->name,
-		dmg,
-		enemy->health,
-		enemy->maxHealth);
+		formatNum(dmg),
+		formatNum(enemy->health),
+		formatNum(enemy->maxHealth));
 
 	return enemy->health;
 }
