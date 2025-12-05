@@ -149,11 +149,11 @@ int calculateDamage(const Player *player, const Skill skill) {
 	int dmg = weaponDamageArray[player->currentWeapon] + player->level;
 	switch (skill) {
 		case SKILL_PUNCH:
-			dmg *= 1.25;
+			dmg = (int)(dmg * 1.25);
 			break;
 
 		case SKILL_SLASH:
-			dmg *= 1.5;
+			dmg = (int)(dmg * 1.5);
 			break;
 
 		case SKILL_UNKNOWN:
