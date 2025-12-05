@@ -45,6 +45,9 @@ unsigned long long startGame() {
 	game.scene = SCENE_MAIN;
 	printf("Game started! Type 'help' for commands.\n");
 
+	if (loadGame(&game.player, &game.inventory, "auto")) {
+		printf("Loaded data in auto.\n");
+	}
 	unsigned long long loopCnt = 0;
 	while (game.state != STATE_FINISHED) {
 		loopCnt++;
