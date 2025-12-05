@@ -69,7 +69,7 @@ void initGame() {
 	game.player.maxHealth = 100;
 	game.player.health = 100;
 	game.player.level = 1;
-	game.player.maxExperience = 100;
+	game.player.maxExperience = game.player.level * 10;
 	game.player.experience = 0;
 	game.player.unlockedSkills[SKILL_PUNCH] = 1;
 

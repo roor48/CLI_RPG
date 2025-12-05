@@ -35,8 +35,14 @@ int getGold(const Inventory* inventory) {
 	return inventory->gold;
 }
 int addGold(Inventory* inventory, const int amount) {
-	return inventory->gold += amount;
+
+	int beforeGold = inventory->gold;
+	inventory->gold += amount;
+	printf("You got %d gold. (%dG -> %dG)\n", amount, beforeGold, inventory->gold);
+
+	return inventory->gold;
 }
+// (10000G -> 10032G)
 int removeGold(Inventory* inventory, const int amount) {
 	if (inventory->gold < amount) {
 		printf("ERROR in inventory.removeGold: inventory->gold < amount");

@@ -56,6 +56,7 @@ void givePlayerExp(Player* player, const int exp) {
 	if (player->experience < player->maxExperience) {
 		return;
 	}
+	printf("You got %d experience points. (%d/%d)\n", exp, player->experience, player->maxExperience);
 
 	int beforeLevel = player->level;
 	player->level += player->experience / player->maxExperience;
@@ -63,7 +64,7 @@ void givePlayerExp(Player* player, const int exp) {
 	// 최대 경험치 양 로직은 추후에 추가
 	// 임시로 player->level * 10으로 설정
 	player->maxExperience = player->level * 10;
-
+	
 	printf("Level up! New level: %d -> %d\n", beforeLevel, player->level);
 }
 
