@@ -10,19 +10,15 @@ int onHitEnemy(Enemy* enemy, const int dmg) {
 		enemy->health = 0;
 	}
 
+	printf("Attacked %s with %d damage. Enemy health: %d/%d\n",
+		enemy->name,
+		dmg,
+		enemy->health,
+		enemy->maxHealth);
+
 	return enemy->health;
 }
 
 int attackPlayer(const Enemy* enemy, Player* player) {
-	player->health -= enemy->damage;
-	if (player->health < 0) {
-		player->health = 0;
-	}
-
-	printf("%s attacked you with %d damage. Your health: %d\n",
-		enemy->name,
-		enemy->damage,
-		player->health);
-
-	return player->health;
+	return onHitPlayer(player, enemy);
 }

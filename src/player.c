@@ -9,50 +9,37 @@
 
 int equipWeapon(Player* player, const WeaponType weaponType);
 int equipArmor(Player * player, const ArmorType armorType);
+int calculateDamage(const Player* player, const Skill skill);
+int calculateDefence(const Player* player);
 
 const char* SkillNameArray[MAX_SKILL_TYPES] = {
 	[SKILL_PUNCH] = "punch",
 	[SKILL_SLASH] = "slash"
 };
 
-int onHitPlayer(Player* player, const int dmg) {
-	if (dmg < 0) {
-		return player->health;
+int onHitPlayer(Player* player, const Enemy* enemy) {
+	int calculatedDmg = enemy->damage - (calculateDefence(player) / 2);
+
+	if (calculatedDmg <= 0) {
+		calculatedDmg = 0;
 	}
-	player->health -= dmg;
+
+	player->health -= calculatedDmg;
 	if (player->health < 0) {
 		player->health = 0;
 	}
+
+	printf("You got attacked by %s with %d dmg. Your health: %d/%d\n",
+		enemy->name,
+		calculatedDmg,
+		player->health,
+		player->maxHealth);
+
 	return player->health;
 }
 
 int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy) {
-	int dmg = -1;
-	
-	switch (skill)
-	{
-		case SKILL_SLASH:
-			dmg = 10 + (player->level);
-			break;
-		case SKILL_PUNCH:
-			dmg = 5 + (player->level * 2);
-			break;
-
-		case SKILL_UNKNOWN:
-		default:
-			puts("Unknown skill");
-			return -1;
-	}
-
-	int enemyHealth = onHitEnemy(enemy, dmg);
-
-	printf("Attacked %s with %d damage. Enemy health: %d/%d\n",
-		enemy->name, 
-		dmg, 
-		enemyHealth, 
-		enemy->maxHealth);
-
-	return enemyHealth;
+	return onHitEnemy(enemy, calculateDamage(player, skill));
 }
 
 int getSkill(Player* player, Skill skill) {
@@ -84,6 +71,7 @@ void printPlayerStatus(const Player* player) {
 	printf("Printing player status...\n");
 	
 	printf("Health: %d/%d\n", player->health, player->maxHealth);
+	printf("Defence: %d\n", calculateDefence(player));
 	printf("Level: %d\n", player->level);
 	printf("Experience: %d/%d\n", player->experience, player->maxExperience);
 
@@ -150,3 +138,29 @@ int equipArmor(Player* player, const ArmorType armorType) {
 	player->currentArmor = armorType;
 	return 1;
 }
+
+// (기본 공격력) * 스킬 계수
+int calculateDamage(const Player *player, const Skill skill) {
+	int dmg = weaponDamageArray[player->currentWeapon] + player->level;
+	switch (skill) {
+		case SKILL_PUNCH:
+			dmg *= 1.25;
+			break;
+
+		case SKILL_SLASH:
+			dmg *= 1.5;
+			break;
+
+		case SKILL_UNKNOWN:
+		default:
+			return -1;
+	}
+
+	return dmg;
+}
+
+int calculateDefence(const Player* player) {
+	int defence = armorDefenseArray[player->currentArmor] + player->level;
+	return defence;
+}
+

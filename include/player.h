@@ -34,7 +34,7 @@ typedef enum Skill {
  *
  * @return Player의 남은 체력 (0 이상)
  */
-int onHitPlayer(Player* player, const int dmg);
+int onHitPlayer(Player* player, const struct Enemy *enemy);
 
 /*
  * @brief 적을 공격함
