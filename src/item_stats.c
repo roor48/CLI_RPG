@@ -20,32 +20,32 @@ const int consumablePriceArray[MAX_CONSUMABLE_TYPES] = {
 
 // 무기
 const char* weaponNameArray[MAX_WEAPON_TYPES] = {
-	[WEAPON_NONE] = "None",
+	[WEAPON_STICK] = "Stick",
 	[WEAPON_COOPER_SWORD] = "CooperSword",
 	[WEAPON_IRON_SWORD] = "IronSword"
 };
 const int weaponPriceArray[MAX_WEAPON_TYPES] = {
-	[WEAPON_NONE] = 0,
+	[WEAPON_STICK] = 0,
 	[WEAPON_COOPER_SWORD] = 100,
 	[WEAPON_IRON_SWORD] = 200
 };
 const int weaponDamageArray[MAX_WEAPON_TYPES] = {
-	[WEAPON_NONE] = 5,
+	[WEAPON_STICK] = 5,
 	[WEAPON_COOPER_SWORD] = 7,
 	[WEAPON_IRON_SWORD] = 9
 };
 
 // 방어구
 const char* armorNameArray[MAX_ARMOR_TYPES] = {
-	[ARMOR_NONE] = "None",
+	[ARMOR_CLOTH] = "Cloth",
 	[ARMOR_WOOD_CHESTPLATE] = "WoodChestplate"
 };
 const int armorPriceArray[MAX_ARMOR_TYPES] = {
-	[ARMOR_NONE] = 0,
+	[ARMOR_CLOTH] = 0,
 	[ARMOR_WOOD_CHESTPLATE] = 150
 };
 const int armorDefenseArray[MAX_ARMOR_TYPES] = {
-	[ARMOR_NONE] = 0,
+	[ARMOR_CLOTH] = 0,
 	[ARMOR_WOOD_CHESTPLATE] = 5
 };
 

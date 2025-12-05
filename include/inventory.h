@@ -17,7 +17,7 @@ typedef enum ConsumableType {
  * @brief 무기 타입
  */
 typedef enum WeaponType {
-	WEAPON_NONE = 0,
+	WEAPON_STICK = 0,
 	WEAPON_COOPER_SWORD = 1,
 	WEAPON_IRON_SWORD = 2,
 
@@ -28,7 +28,7 @@ typedef enum WeaponType {
  * @brief 방어구 타입
  */
 typedef enum ArmorType {
-	ARMOR_NONE = 0,
+	ARMOR_CLOTH = 0,
 	ARMOR_WOOD_CHESTPLATE = 1,
 
 	ARMOR_UNKNOWN
