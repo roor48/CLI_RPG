@@ -1,5 +1,8 @@
 #include "../include/inventory.h"
 
+#include "../include/constants.h"
+#include "../include/shop.h"
+
 #include <stdio.h>
 
 void showInventory(const Inventory* inventory) {
@@ -7,27 +10,24 @@ void showInventory(const Inventory* inventory) {
 
 	printf("Gold: %d\n", inventory->gold);
 	printf("Items:\n");
-	if (hasItem(inventory, ITEM_LOW_HEAL_POTION)) {
-		printf("  LowHealPotion: %d\n", getItem(inventory, ITEM_LOW_HEAL_POTION));
-	}
-	if (hasItem(inventory, ITEM_HEAL_POTION)) {
-		printf("  HealPotion: %d\n", getItem(inventory, ITEM_HEAL_POTION));
-	}
-	if (hasItem(inventory, ITEM_HIGH_HEAL_POTION)) {
-		printf("  HighHealPotion: %d\n", getItem(inventory, ITEM_HIGH_HEAL_POTION));
+	for (int i = 1; i <= MAX_ITEM_TYPES; i++) {
+		if (hasItem(inventory, (ItemType)i)) {
+			printf("  %s: %d\n", itemNameArray[i], getItem(inventory, (ItemType)i));
+		}
 	}
 
 	printf("Weapons:\n");
-	if (hasWeapon(inventory, WEAPON_COOPER_SWORD)) {
-		printf("  CooperSword\n");
-	}
-	if (hasWeapon(inventory, WEAPON_IRON_SWORD)) {
-		printf("  IronSword\n");
+	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+		if (hasWeapon(inventory, (WeaponType)i)) {
+			printf("  %s\n", weaponNameArray[i]);
+		}
 	}
 
 	printf("Armors:\n");
-	if (hasArmor(inventory, ARMOR_WOOD_CHESTPLATE)) {
-		printf(" WoodChestplate\n");
+	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+		if (hasArmor(inventory, (ArmorType)i)) {
+			printf("  %s\n", armorNameArray[i]);
+		}
 	}
 }
 

@@ -1,14 +1,14 @@
 ﻿#pragma once
 
-#include "inventory.h"
-#include "command.h"
+#include "constants.h"
 
-/**
- * @brief 상점 가격 초기화
- * 
- * 상점에서 판매 가능한 모든 아이템 가격 설정
- */
-void initShop();
+struct Inventory;
+struct Command;
+
+// 아이템 이름 배열
+extern const char* itemNameArray[MAX_ITEM_TYPES + 1];
+extern const char* weaponNameArray[MAX_WEAPON_TYPES + 1];
+extern const char* armorNameArray[MAX_ARMOR_TYPES + 1];
 
 /**
  * @brief 구매 가능한 상점 아이템 및 가격 표시
@@ -25,7 +25,7 @@ void showShop();
  * 
  * @return 구매 후 현재 골드량, 실패 시 -1
  */
-int buyShop(Inventory* inventory, const Command *cmd);
+int buyShop(struct Inventory* inventory, const struct Command *cmd);
 
 /**
  * @brief 상점에 아이템 판매
@@ -35,4 +35,4 @@ int buyShop(Inventory* inventory, const Command *cmd);
  * 
  * @return 판매 후 현재 골드량, 실패 시 -1
  */
-int sellShop(Inventory* inventory, const Command *cmd);
+int sellShop(struct Inventory* inventory, const struct Command *cmd);

@@ -20,18 +20,35 @@ int sellWeapon(Inventory* inventory, const WeaponType itemType, const char* item
 int buyArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 int sellArmor(Inventory* inventory, const ArmorType itemType, const char* itemName);
 
-const int itemPrices[MAX_ITEM_TYPES + 1] = {
+const char* itemNameArray[MAX_ITEM_TYPES + 1] = {
+	[ITEM_UNKNOWN] = "unknown",
+	[ITEM_LOW_HEAL_POTION] = "LowHealPotion",
+	[ITEM_HEAL_POTION] = "HealPotion",
+	[ITEM_HIGH_HEAL_POTION] = "HighHealPotion"
+};
+const int itemPriceArray[MAX_ITEM_TYPES + 1] = {
 	[ITEM_UNKNOWN] = 0,
 	[ITEM_LOW_HEAL_POTION] = 10,
 	[ITEM_HEAL_POTION] = 25,
 	[ITEM_HIGH_HEAL_POTION] = 50
 };
-const int weaponPrices[MAX_WEAPON_TYPES + 1] = {
+
+const char* weaponNameArray[MAX_WEAPON_TYPES + 1] = {
+	[WEAPON_UNKNOWN] = "unknown",
+	[WEAPON_COOPER_SWORD] = "CooperSword",
+	[WEAPON_IRON_SWORD] = "IronSword"
+};
+const int weaponPriceArray[MAX_WEAPON_TYPES + 1] = {
 	[WEAPON_UNKNOWN] = 0,
 	[WEAPON_COOPER_SWORD] = 100,
 	[WEAPON_IRON_SWORD] = 200
 };
-const int armorPrices[MAX_ARMOR_TYPES + 1] = {
+
+const char* armorNameArray[MAX_ARMOR_TYPES + 1] = {
+	[ARMOR_UNKNOWN] = "unknown",
+	[ARMOR_WOOD_CHESTPLATE] = "WoodChestplate"
+};
+const int armorPriceArray[MAX_ARMOR_TYPES + 1] = {
 	[ARMOR_UNKNOWN] = 0,
 	[ARMOR_WOOD_CHESTPLATE] = 150
 };
@@ -49,58 +66,58 @@ void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *
 	}
 
 	// arg1을 소문자로 변환
-	char itemName[MAX_ARG_LENGTH];
+	char itemName[MAX_ARG_LENGTH + 1];
 	strcpy_s(itemName, sizeof(itemName), cmd->arg1);
-	itemName[MAX_ARG_LENGTH - 1] = '\0';
-	toLowerCase(itemName);
+	itemName[MAX_ARG_LENGTH] = '\0';
 
 	// char* 형태를 enum으로 변환
 	// ITEM
-	if (strcmp(itemName, "lowhealpotion") == 0 || strcmp(itemName, "low") == 0) {
-		inventoryItem->data.itemType = ITEM_LOW_HEAL_POTION;
-		inventoryItem->tag = ITEMTAG_ITEM;
+	for (int i = 1; i <= MAX_ITEM_TYPES; i++) {
+		if (strcmp(itemName, itemNameArray[i]) == 0) {
+			inventoryItem->data.itemType = (ItemType)i;
+			inventoryItem->tag = ITEMTAG_ITEM;
+			return;
+		}
 	}
-	else if (strcmp(itemName, "healpotion") == 0 || strcmp(itemName, "heal") == 0) {
-		inventoryItem->data.itemType = ITEM_HEAL_POTION;
-		inventoryItem->tag = ITEMTAG_ITEM;
-	}
-	else if (strcmp(itemName, "highhealpotion") == 0 || strcmp(itemName, "high") == 0) {
-		inventoryItem->data.itemType = ITEM_HIGH_HEAL_POTION;
-		inventoryItem->tag = ITEMTAG_ITEM;
-	}
+	
 	// WEAPON
-	else if (strcmp(itemName, "coopersword") == 0 || strcmp(itemName, "cooper") == 0) {
-		inventoryItem->data.weaponType = WEAPON_COOPER_SWORD;
-		inventoryItem->tag = ITEMTAG_WEAPON;
+	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+		if (strcmp(itemName, weaponNameArray[i]) == 0) {
+			inventoryItem->data.weaponType = (WeaponType)i;
+			inventoryItem->tag = ITEMTAG_WEAPON;
+			return;
+		}
 	}
-	else if (strcmp(itemName, "ironsword") == 0 || strcmp(itemName, "iron") == 0) {
-		inventoryItem->data.weaponType = WEAPON_IRON_SWORD;
-		inventoryItem->tag = ITEMTAG_WEAPON;
-	}
-	// ARMOR
-	else if (strcmp(itemName, "woodchestplate") == 0 || strcmp(itemName, "wood") == 0) {
-		inventoryItem->data.armorType = ARMOR_WOOD_CHESTPLATE;
-		inventoryItem->tag = ITEMTAG_ARMOR;
-	}
-	// UNKNOWN
-	else {
-		printf("Unknown item: %s\n", cmd->arg1);
-		return;
-	}
-}
 
-void initShop() {
+	// ARMOR
+	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+		if (strcmp(itemName, armorNameArray[i]) == 0) {
+			inventoryItem->data.armorType = (ArmorType)i;
+			inventoryItem->tag = ITEMTAG_ARMOR;
+			return;
+		}
+	}
+
+	printf("Unknown item: %s\n", cmd->arg1);
 }
 
 void showShop() {
 	printf("Welcome to the shop! Here are the items available for purchase:\n");
-	printf("1. LowHealPotion - %d Gold\n", itemPrices[ITEM_LOW_HEAL_POTION]);
-	printf("2. HealPotion - %d Gold\n", itemPrices[ITEM_HEAL_POTION]);
-	printf("3. HighHealPotion - %d Gold\n", itemPrices[ITEM_HIGH_HEAL_POTION]);
-	printf("4. CooperSword -  %d Gold\n", weaponPrices[WEAPON_COOPER_SWORD]);
-	printf("5. IronSword -  %d Gold\n", weaponPrices[WEAPON_IRON_SWORD]);
-	printf("6. WoodChestplate -  %d Gold\n", armorPrices[ARMOR_WOOD_CHESTPLATE]);
-	printf("Type 'buy [item name] [amount]' to purchase an item.\n");
+
+	int cnt = 1;
+	for (int i = 1; i <= MAX_ITEM_TYPES; i++) {
+		printf("%d. %s - %d Gold\n", cnt++, itemNameArray[i], itemPriceArray[i]);
+	}
+
+	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+		printf("%d. %s - %d Gold\n", cnt++, weaponNameArray[i], weaponPriceArray[i]);
+	}
+
+	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+		printf("%d. %s - %d Gold\n", cnt++, armorNameArray[i], armorPriceArray[i]);
+	}
+	
+	printf("Type 'buy [name] [amount]' to purchase an item.\n");
 }
 
 int buyShop(Inventory *inventory, const Command *cmd) {
@@ -168,7 +185,7 @@ int buyItem(Inventory* inventory, const ItemType itemType, const char *itemName,
 	printf("Purchasing %d x %s\n", amount, itemName);
 
 	int beforeGold = inventory->gold;
-	int value = itemPrices[itemType] * amount;
+	int value = itemPriceArray[itemType] * amount;
 
 	if (beforeGold < value) {
 		printf("Not enough gold to purchase %d of %s\n", amount, itemName);
@@ -188,7 +205,7 @@ int sellItem(Inventory* inventory, const ItemType itemType, const char *itemName
 	printf("Selling %d x %s\n", amount, itemName);
 
 	int beforeGold = inventory->gold;
-	int value = itemPrices[itemType] * amount * SELL_RATE;
+	int value = itemPriceArray[itemType] * amount * SELL_RATE;
 
 	if (getItem(inventory, itemType) < amount) {
 		printf("Not enough items to sell %d of %s\n", amount, itemName);
@@ -214,7 +231,7 @@ int buyWeapon(Inventory* inventory, const WeaponType weaponType, const char *ite
 	}
 
 	int beforeGold = inventory->gold;
-	int value = weaponPrices[weaponType];
+	int value = weaponPriceArray[weaponType];
 
 	if (beforeGold < value) {
 		printf("Not enough gold to purchase %s\n", itemName);
@@ -239,7 +256,7 @@ int sellWeapon(Inventory* inventory, const WeaponType weaponType, const char *it
 	}
 
 	int beforeGold = inventory->gold;
-	int value = weaponPrices[weaponType] * SELL_RATE;
+	int value = weaponPriceArray[weaponType] * SELL_RATE;
 
 	addGold(inventory, value);
 	removeWeapon(inventory, weaponType);
@@ -260,7 +277,7 @@ int buyArmor(Inventory* inventory, const ArmorType armorType, const char* itemNa
 	}
 
 	int beforeGold = inventory->gold;
-	int value = armorPrices[armorType];
+	int value = armorPriceArray[armorType];
 
 	if (beforeGold < value) {
 		printf("Not enough gold to purchase %s\n", itemName);
@@ -285,7 +302,7 @@ int sellArmor(Inventory* inventory, const ArmorType armorType, const char* itemN
 	}
 
 	int beforeGold = inventory->gold;
-	int value = armorPrices[armorType] * SELL_RATE;
+	int value = armorPriceArray[armorType] * SELL_RATE;
 
 	addGold(inventory, value);
 	removeArmor(inventory, armorType);
