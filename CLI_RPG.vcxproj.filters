@@ -57,6 +57,9 @@
     <ClCompile Include="src\reward.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\item_stats.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\command.h">
@@ -99,6 +102,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\reward.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item_stats.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

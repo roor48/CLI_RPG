@@ -1,7 +1,7 @@
 #include "../include/inventory.h"
 
 #include "../include/constants.h"
-#include "../include/shop.h"
+#include "../include/item_stats.h"
 
 #include <stdio.h>
 

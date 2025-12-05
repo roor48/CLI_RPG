@@ -5,11 +5,6 @@
 struct Inventory;
 struct Command;
 
-// 아이템 이름 배열
-extern const char* consumableNameArray[MAX_CONSUMABLE_TYPES + 1];
-extern const char* weaponNameArray[MAX_WEAPON_TYPES + 1];
-extern const char* armorNameArray[MAX_ARMOR_TYPES + 1];
-
 /*
  * @brief 구매 가능한 상점 아이템 및 가격 표시
  * 
