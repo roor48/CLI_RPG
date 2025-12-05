@@ -99,6 +99,7 @@ int equipItem(Player* player, const Inventory *inventory, const Command* cmd) {
 
 	getItemTypeFromName(cmd, &inventoryItem);
 	if (inventoryItem.tag == ITEMTAG_UNKNOWN) {
+		printf("Unknown item name: %s\n", cmd->arg1);
 		return 0;
 	}
 	if (!hasItem(inventory, &inventoryItem)) {

@@ -4,6 +4,7 @@
 
 struct Inventory;
 struct Command;
+struct Player;
 
 /*
  * @brief 구매 가능한 상점 아이템 및 가격 표시
@@ -26,8 +27,9 @@ int buyShop(struct Inventory* inventory, const struct Command *cmd);
  * @brief 상점에 아이템 판매
  * 
  * @param *inventory 인벤토리의 포인터
+ * @param *player 플레이어의 포인터
  * @param *cmd 명령어
  * 
  * @return 판매 후 현재 골드량, 실패 시 -1
  */
-int sellShop(struct Inventory* inventory, const struct Command *cmd);
+int sellShop(struct Inventory* inventory, const struct Player* player, const struct Command *cmd);

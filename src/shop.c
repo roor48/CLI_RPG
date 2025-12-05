@@ -5,6 +5,7 @@
 #include "../include/command.h"
 #include "../include/string_utils.h"
 #include "../include/item_stats.h"
+#include "../include/player.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -17,9 +18,9 @@ void getItemAmount(const Command* cmd, int* amount);
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
 int sellConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
 int buyWeapon(Inventory* inventory, const WeaponType weaponType, const char* weaponName);
-int sellWeapon(Inventory* inventory, const WeaponType weaponType, const char* weaponName);
+int sellWeapon(Inventory* inventory, const struct Player* player, const WeaponType weaponType, const char* weaponName);
 int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorName);
-int sellArmor(Inventory* inventory, const ArmorType armorType, const char* armorName);
+int sellArmor(Inventory* inventory, const struct Player* player, const ArmorType armorType, const char* armorName);
 
 
 void getItemAmount(const Command *cmd, int* amount) {
@@ -87,7 +88,7 @@ int buyShop(Inventory* inventory, const Command* cmd) {
 	return currentGold;
 }
 
-int sellShop(Inventory* inventory, const Command* cmd) {
+int sellShop(Inventory* inventory, const Player* player, const Command* cmd) {
 	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
@@ -103,11 +104,11 @@ int sellShop(Inventory* inventory, const Command* cmd) {
 			break;
 
 		case ITEMTAG_WEAPON:
-			currentGold = sellWeapon(inventory, inventoryItem.data.weaponType, cmd->arg1);
+			currentGold = sellWeapon(inventory, player, inventoryItem.data.weaponType, cmd->arg1);
 			break;
 
 		case ITEMTAG_ARMOR:
-			currentGold = sellArmor(inventory, inventoryItem.data.armorType, cmd->arg1);
+			currentGold = sellArmor(inventory, player, inventoryItem.data.armorType, cmd->arg1);
 			break;
 
 		case ITEMTAG_UNKNOWN:
@@ -121,17 +122,15 @@ int sellShop(Inventory* inventory, const Command* cmd) {
 
 // Consumable
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount) {
-	printf("Purchasing %s x %s\n", formatNum(amount), consumableName);
-
-
-	int beforeGold = inventory->gold;
 	// **오버플로우 가능성 있음!!!**
 	int value = consumablePriceArray[consumableType] * amount;
-
 	if (inventory->gold < value) {
 		printf("Not enough gold to purchase %s of %s\n", formatNum(amount), consumableName);
 		return -1;
 	}
+	printf("Purchasing %s x %s\n", formatNum(amount), consumableName);
+
+	int beforeGold = inventory->gold;
 
 	removeGold(inventory, value);
 	addConsumable(inventory, consumableType, amount);
@@ -143,15 +142,14 @@ int buyConsumable(Inventory* inventory, const ConsumableType consumableType, con
 }
 
 int sellConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount) {
-	printf("Selling %s x %s\n", formatNum(amount), consumableName);
-
-	int beforeGold = inventory->gold;
-	int value = (int)(consumablePriceArray[consumableType] * amount * SELL_RATE);
-
 	if (getConsumable(inventory, consumableType) < amount) {
 		printf("Not enough consumables to sell %s of %s\n", formatNum(amount), consumableName);
 		return -1;
 	}
+	printf("Selling %s x %s\n", formatNum(amount), consumableName);
+
+	int beforeGold = inventory->gold;
+	int value = (int)(consumablePriceArray[consumableType] * amount * SELL_RATE);
 
 	addGold(inventory, value);
 	removeConsumable(inventory, consumableType, amount);
@@ -164,12 +162,11 @@ int sellConsumable(Inventory* inventory, const ConsumableType consumableType, co
 
 // Weapon
 int buyWeapon(Inventory* inventory, const WeaponType weaponType, const char *weaponName) {
-	printf("Purchasing weapon: %s\n", weaponName);
-
 	if (hasWeapon(inventory, weaponType)) {
 		printf("You already have the weapon: %s\n", weaponName);
 		return -1;
 	}
+	printf("Purchasing weapon: %s\n", weaponName);
 
 	int beforeGold = inventory->gold;
 	int value = weaponPriceArray[weaponType];
@@ -188,13 +185,16 @@ int buyWeapon(Inventory* inventory, const WeaponType weaponType, const char *wea
 	return inventory->gold;
 }
 
-int sellWeapon(Inventory* inventory, const WeaponType weaponType, const char *weaponName) {
-	printf("Selling weapon: %s\n", weaponName);
-
+int sellWeapon(Inventory* inventory, const Player* player, const WeaponType weaponType, const char *weaponName) {
 	if (!hasWeapon(inventory, weaponType)) {
 		printf("You have no weapon: %s to sell.\n", weaponName);
 		return -1;
 	}
+	if (player->currentWeapon == weaponType) {
+		printf("You cannot sell equipped weapon: %s.\n", weaponName);
+		return -1;
+	}
+	printf("Selling weapon: %s\n", weaponName);
 
 	int beforeGold = inventory->gold;
 	int value = (int)(weaponPriceArray[weaponType] * SELL_RATE);
@@ -210,12 +210,11 @@ int sellWeapon(Inventory* inventory, const WeaponType weaponType, const char *we
 
 // Armor
 int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorName) {
-	printf("Purchasing armor: %s\n", armorName);
-
 	if (hasArmor(inventory, armorType)) {
 		printf("You already have the armor: %s\n", armorName);
 		return -1;
 	}
+	printf("Purchasing armor: %s\n", armorName);
 
 	int beforeGold = inventory->gold;
 	int value = armorPriceArray[armorType];
@@ -234,13 +233,16 @@ int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorN
 	return inventory->gold;
 }
 
-int sellArmor(Inventory* inventory, const ArmorType armorType, const char* armorName) {
-	printf("Selling armor: %s\n", armorName);
-
+int sellArmor(Inventory* inventory, const Player* player, const ArmorType armorType, const char* armorName) {
 	if (!hasArmor(inventory, armorType)) {
 		printf("You have no armor: %s to sell.\n", armorName);
 		return -1;
 	}
+	if (player->currentArmor == armorType) {
+		printf("You cannot sell equipped armor: %s.\n", armorName);
+		return -1;
+	}
+	printf("Selling armor: %s\n", armorName);
 
 	int beforeGold = inventory->gold;
 	int value = (int)(armorPriceArray[armorType] * SELL_RATE);

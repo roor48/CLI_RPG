@@ -279,14 +279,13 @@ void buy(const Command* cmd) {
 	buyShop(&game.inventory, cmd);
 }
 void sell(const Command* cmd) {
-	sellShop(&game.inventory, cmd);
+	sellShop(&game.inventory, &game.player, cmd);
 }
 
 void inventory() {
 	showInventory(&game.inventory);
 }
 void equip(const Command* cmd) {
-	printf("Equiping %s...\n", cmd->arg1);
 	equipItem(&game.player, &game.inventory, cmd);
 }
 
