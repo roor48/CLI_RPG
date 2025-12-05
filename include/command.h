@@ -26,6 +26,8 @@ typedef enum COMMAND_TYPE {
 	CMD_SAVE,
 	CMD_SAVELIST,
 	CMD_LOAD,
+	
+	CMD_RESET,
 
 	CMD_QUIT,
 

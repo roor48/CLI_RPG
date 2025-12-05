@@ -25,6 +25,8 @@ void parseSave(Command *cmd);
 void parseSaveList(Command *cmd);
 void parseLoad(Command *cmd);
 
+void parseReset(Command* cmd);
+
 void parseQuit(Command *cmd);
 
 void parseErrorCommand(Command* cmd);
@@ -100,6 +102,10 @@ Command parseCommand(const char* query) {
 	// exit
 	else if (strcmp(token, "exit") == 0 || strcmp(token, "quit") == 0) {
 		parseQuit(&cmd);
+	}
+	// reset data
+	else if (strcmp(token, "reset") == 0) {
+		parseReset(&cmd);
 	}
 	// Error
 	else {
@@ -286,6 +292,10 @@ void parseLoad(Command *cmd) {
 		return;
 	}
 	strcpy_s(cmd->arg1, sizeof(cmd->arg1), token);
+}
+
+void parseReset(Command* cmd) {
+	cmd->type = CMD_RESET;
 }
 
 void parseQuit(Command *cmd) {

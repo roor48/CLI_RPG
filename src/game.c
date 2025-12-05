@@ -15,23 +15,32 @@
 void initGame();
 void executeCommand(const Command* cmd);
 
+#pragma region Command Handlers
 void help();
 void status();
+
 void battle();
 void enemyList();
 void attack(const Command* cmd);
 void attackList();
-void inventory();
+void useConsumable(const Command* cmd);
+void run();
+
 void shop();
 void buy(const Command* cmd);
 void sell(const Command* cmd);
+
+void inventory();
 void equip(const Command* cmd);
-void useConsumable(const Command* cmd);
-void run();
+
 void save(const Command* cmd);
-void load(const Command* cmd);
 void saveList();
+void load(const Command* cmd);
+
+void reset();
+
 void quit();
+#pragma endregion
 
 void unlockSkillLogic();
 
@@ -72,13 +81,17 @@ void initGame() {
 	game.state = STATE_INIT;
 	game.scene = SCENE_UNKNOWN;
 
+	game.player = (Player){0};
 	game.player.maxHealth = 100;
 	game.player.health = 100;
 	game.player.level = 1;
 	game.player.maxExperience = game.player.level * 10;
 	game.player.experience = 0;
 	game.player.unlockedSkills[SKILL_PUNCH] = 1;
+	game.player.currentWeapon = WEAPON_STICK;
+	game.player.currentArmor = ARMOR_CLOTH;
 
+	game.inventory = (Inventory){0};
 	game.inventory.gold = 10000;
 	game.inventory.weapons[WEAPON_STICK] = 1;
 	game.inventory.armors[ARMOR_CLOTH] = 1;
@@ -171,6 +184,11 @@ void executeCommand(const Command* cmd) {
 			// quit
 			case CMD_QUIT:
 				quit();
+				break;
+
+			// reset
+			case CMD_RESET:
+				reset();
 				break;
 
 			// error
@@ -311,6 +329,13 @@ void saveList() {
 void load(const Command* cmd) {
 	printf("Loading game: %s\n", cmd->arg1);
 	loadGame(&game.player, &game.inventory, cmd->arg1);
+}
+
+void reset() {
+	initGame();
+	game.state = STATE_RUNNING;
+	game.scene = SCENE_MAIN;
+	printf("Game reseted.\n");
 }
 
 void quit() {
