@@ -11,7 +11,7 @@
 
 #define SELL_RATE 0.5
 
-void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *amount);
+void getItemAmount(const Command* cmd, int* amount);
 
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
 int sellConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
@@ -53,18 +53,7 @@ const int armorPriceArray[MAX_ARMOR_TYPES + 1] = {
 	[ARMOR_WOOD_CHESTPLATE] = 150
 };
 
-void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *amount) {
-	*amount = 1;  // default 1
-
-	// char* to int
-	if (cmd->arg2[0] != '\0') {
-		*amount = atoi(cmd->arg2);
-		if (*amount <= 0) {
-			printf("Invalid amount. Please enter a positive number.\n");
-			return;
-		}
-	}
-
+void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem) {
 	// arg1을 소문자로 변환
 	char itemName[MAX_ARG_LENGTH + 1];
 	strcpy_s(itemName, sizeof(itemName), cmd->arg1);
@@ -98,7 +87,21 @@ void getItemTypeFromName(const Command *cmd, InventoryItem *inventoryItem, int *
 		}
 	}
 
+	inventoryItem->tag = ITEMTAG_UNKNOWN;
 	printf("Unknown item: %s\n", cmd->arg1);
+}
+
+void getItemAmount(const Command *cmd, int* amount) {
+	*amount = 1;  // default 1
+
+	// char* to int
+	if (cmd->arg2[0] != '\0') {
+		*amount = atoi(cmd->arg2);
+		if (*amount <= 0) {
+			printf("Invalid amount. Please enter a positive number.\n");
+			return;
+		}
+	}
 }
 
 void showShop() {
@@ -124,7 +127,9 @@ int buyShop(Inventory* inventory, const Command* cmd) {
 	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &inventoryItem, &amount);
+	getItemTypeFromName(cmd, &inventoryItem);
+	getItemAmount(cmd, &amount);
+
 
 	int currentGold = -1;
 
@@ -154,7 +159,8 @@ int sellShop(Inventory* inventory, const Command* cmd) {
 	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &inventoryItem, &amount);
+	getItemTypeFromName(cmd, &inventoryItem);
+	getItemAmount(cmd, &amount);
 
 	int currentGold = -1;
 

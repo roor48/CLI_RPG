@@ -4,6 +4,7 @@
 #include "inventory.h"
 
 struct Enemy;
+struct Command;
 
 typedef struct Player {
 	int maxHealth;							// 최대 체력
@@ -79,3 +80,14 @@ void printPlayerStatus(const Player *player);
  * @param *player Player의 포인터
  */
 void printPlayerSkills(const Player* player);
+
+/*
+ * @brief 아이템 장착
+ * 
+ * @param *player Player의 포인터
+ * @param *inventory Inventory 포인터
+ * @param *cmd 명령어
+ * 
+ * @return 성공 시 1 반환, 실패 시 0 반환
+ */
+int equipItem(Player* player, const struct Inventory* inventory, const struct Command* cmd);

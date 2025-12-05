@@ -282,6 +282,7 @@ void inventory() {
 }
 void equip(const Command* cmd) {
 	printf("Equiping %s...\n", cmd->arg1);
+	equipItem(&game.player, &game.inventory, cmd);
 }
 
 void save(const Command* cmd) {

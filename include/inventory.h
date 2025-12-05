@@ -109,6 +109,16 @@ int addGold(Inventory* inventory, const int amount);
  */
 int removeGold(Inventory* inventory, const int amount);
 
+/*
+ * @brief 아이템 소유 여부 확인
+ * 
+ * @param *inventory Inventory 포인터
+ * @param *inventoryItem InventoryItem 포인터
+ * 
+ * @return 소유 시 1, 미소유 시 0, 오류 시 -1
+ */
+int hasItem(const Inventory* inventory, const InventoryItem* inventoryItem);
+
 /**
  * @brief 소모템 소유 여부 확인
  * 

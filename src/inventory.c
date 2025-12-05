@@ -46,6 +46,24 @@ int removeGold(Inventory* inventory, const int amount) {
 	return inventory->gold -= amount;
 }
 
+int hasItem(const Inventory* inventory, const InventoryItem* inventoryItem) {
+	switch (inventoryItem->tag) {
+		case ITEMTAG_CONSUMABLE:
+			return hasConsumable(inventory, inventoryItem->data.consumableType);
+
+		case ITEMTAG_WEAPON:
+			return hasWeapon(inventory, inventoryItem->data.weaponType);
+
+		case ITEMTAG_ARMOR:
+			return hasArmor(inventory, inventoryItem->data.armorType);
+
+		case ITEMTAG_UNKNOWN:
+		default:
+			printf("Unknown item type\n");
+			return -1;
+	}
+}
+
 #pragma region Consumable
 int hasConsumable(const Inventory* inventory, const ConsumableType consumableType) {
 	if (consumableType == CONSUMABLE_UNKNOWN) {

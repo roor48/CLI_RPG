@@ -1,8 +1,14 @@
 #include "../include/player.h"
 
 #include "../include/enemy.h"
+#include "../include/command.h"
+#include "../include/shop.h"
+#include "../include/inventory.h"
 
 #include <stdio.h>
+
+int equipWeapon(Player* player, const WeaponType weaponType);
+int equipArmor(Player * player, const ArmorType armorType);
 
 const char* SkillNameArray[MAX_SKILL_TYPES + 1] = {
 	[SKILL_UNKNOWN] = "unknown",
@@ -95,4 +101,53 @@ void printPlayerSkills(const Player* player) {
 			printf(" - %s\n", SkillNameArray[i]);
 		}
 	}
+}
+
+int equipItem(Player* player, const Inventory *inventory, const Command* cmd) {
+	InventoryItem inventoryItem = { 0 };
+
+	getItemTypeFromName(cmd, &inventoryItem);
+	if (inventoryItem.tag == ITEMTAG_UNKNOWN) {
+		return 0;
+	}
+	if (!hasItem(inventory, &inventoryItem)) {
+		printf("Selected item not exists\n");
+		return 0;
+	}
+
+	switch (inventoryItem.tag) {
+		case ITEMTAG_WEAPON:
+			return equipWeapon(player, inventoryItem.data.weaponType);
+
+		case ITEMTAG_ARMOR:
+			return equipArmor(player, inventoryItem.data.armorType);
+
+		case ITEMTAG_CONSUMABLE:
+			printf("Cannot equip consumable items\n");
+			break;
+
+		case ITEMTAG_UNKNOWN:
+		default:
+			printf("Unknown item type\n");
+			break;
+	}
+	return 0;
+}
+
+int equipWeapon(Player* player, const WeaponType weaponType) {
+	if (weaponType == WEAPON_UNKNOWN) {
+		printf("Unknown weapon type\n");
+		return 0;
+	}
+	player->currentWeapon = weaponType;
+	return 1;
+}
+
+int equipArmor(Player* player, const ArmorType armorType) {
+	if (armorType == ARMOR_UNKNOWN) {
+		printf("Unknown armor type\n");
+		return 0;
+	}
+	player->currentArmor = armorType;
+	return 1;
 }
