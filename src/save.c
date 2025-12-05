@@ -45,7 +45,7 @@ cJSON* playerToJSON(const Player* player) {
 	
 	// 스킬 배열
 	cJSON* skills = cJSON_CreateArray();
-	for (int i = 0; i <= MAX_SKILL_TYPES; i++) {
+	for (int i = 0; i < MAX_SKILL_TYPES; i++) {
 		cJSON_AddItemToArray(skills, cJSON_CreateNumber(player->unlockedSkills[i]));
 	}
 	cJSON_AddItemToObject(json, "unlockedSkills", skills);
@@ -68,7 +68,7 @@ void jsonToPlayer(const cJSON* json, Player* player) {
 	int i = 0;
 	cJSON* skill = NULL;
 	cJSON_ArrayForEach(skill, skills) {
-		if (i <= MAX_SKILL_TYPES) {
+		if (i < MAX_SKILL_TYPES) {
 			player->unlockedSkills[i++] = skill->valueint;
 		}
 	}
@@ -84,21 +84,21 @@ cJSON* inventoryToJSON(const Inventory* inventory) {
 	
 	// 소모템 배열
 	cJSON* consumables = cJSON_CreateArray();
-	for (int i = 0; i <= MAX_CONSUMABLE_TYPES; i++) {
+	for (int i = 0; i < MAX_CONSUMABLE_TYPES; i++) {
 		cJSON_AddItemToArray(consumables, cJSON_CreateNumber(inventory->consumables[i]));
 	}
 	cJSON_AddItemToObject(json, "consumables", consumables);
 	
 	// 무기 배열
 	cJSON* weapons = cJSON_CreateArray();
-	for (int i = 0; i <= MAX_WEAPON_TYPES; i++) {
+	for (int i = 0; i < MAX_WEAPON_TYPES; i++) {
 		cJSON_AddItemToArray(weapons, cJSON_CreateNumber(inventory->weapons[i]));
 	}
 	cJSON_AddItemToObject(json, "weapons", weapons);
 	
 	// 방어구 배열
 	cJSON* armors = cJSON_CreateArray();
-	for (int i = 0; i <= MAX_ARMOR_TYPES; i++) {
+	for (int i = 0; i < MAX_ARMOR_TYPES; i++) {
 		cJSON_AddItemToArray(armors, cJSON_CreateNumber(inventory->armors[i]));
 	}
 	cJSON_AddItemToObject(json, "armors", armors);
@@ -114,7 +114,7 @@ void jsonToInventory(const cJSON* json, Inventory* inventory) {
 	int i = 0;
 	cJSON* consumable = NULL;
 	cJSON_ArrayForEach(consumable, consumables) {
-		if (i <= MAX_CONSUMABLE_TYPES) {
+		if (i < MAX_CONSUMABLE_TYPES) {
 			inventory->consumables[i++] = consumable->valueint;
 		}
 	}
@@ -124,7 +124,7 @@ void jsonToInventory(const cJSON* json, Inventory* inventory) {
 	i = 0;
 	cJSON* weapon = NULL;
 	cJSON_ArrayForEach(weapon, weapons) {
-		if (i <= MAX_WEAPON_TYPES) {
+		if (i < MAX_WEAPON_TYPES) {
 			inventory->weapons[i++] = weapon->valueint;
 		}
 	}
@@ -134,7 +134,7 @@ void jsonToInventory(const cJSON* json, Inventory* inventory) {
 	i = 0;
 	cJSON* armor = NULL;
 	cJSON_ArrayForEach(armor, armors) {
-		if (i <= MAX_ARMOR_TYPES) {
+		if (i < MAX_ARMOR_TYPES) {
 			inventory->armors[i++] = armor->valueint;
 		}
 	}

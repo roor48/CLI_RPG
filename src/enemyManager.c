@@ -34,20 +34,17 @@ int getEnemyId(EnemyManager* manager);
  */
 Enemy* instantiateEnemy(EnemyManager* manager, EnemyType enemyType);
 
-const char* enemyNameArray[MAX_ENEMY_TYPES + 1] = {
-	[ENEMY_UNKNOWN] = "Unknown",
+const char* enemyNameArray[MAX_ENEMY_TYPES] = {
 	[ENEMY_ZOMBIE] = "Zombie",
 	[ENEMY_SKELETON] = "Skeleton",
 	[ENEMY_SLIME] = "Slime"
 };
-const int enemyHpArray[MAX_ENEMY_TYPES + 1] = {
-	[ENEMY_UNKNOWN] = 0,
+const int enemyHpArray[MAX_ENEMY_TYPES] = {
 	[ENEMY_ZOMBIE] = 30,
 	[ENEMY_SKELETON] = 20,
 	[ENEMY_SLIME] = 40
 };
-const int enemyDmgArray[MAX_ENEMY_TYPES + 1] = {
-	[ENEMY_UNKNOWN] = 0,
+const int enemyDmgArray[MAX_ENEMY_TYPES] = {
 	[ENEMY_ZOMBIE] = 5,
 	[ENEMY_SKELETON] = 7,
 	[ENEMY_SLIME] = 2
@@ -61,7 +58,7 @@ void initEnemyManager(EnemyManager* manager) {
 void spawnEnemy(EnemyManager* manager) {
 	int enemyCnt = (rand() % 3) + 1; // 1..=3
 	for (;enemyCnt--;) {
-		EnemyType enemyType = (EnemyType)((rand() % MAX_ENEMY_TYPES) + 1); // 1..=MAX_ENEMY_TYPES
+		EnemyType enemyType = (EnemyType)(rand() % MAX_ENEMY_TYPES); // 0..MAX_ENEMY_TYPES
 
 		Enemy* enemy = instantiateEnemy(manager, enemyType);
 		if (enemy == NULL) {
@@ -84,8 +81,8 @@ Enemy* instantiateEnemy(EnemyManager *manager, EnemyType enemyType) {
 
 	manager->enemies[newId].id = newId;
 
-	strcpy_s(manager->enemies[newId].name, MAX_ARG_LENGTH, enemyNameArray[enemyType]);
-	manager->enemies[newId].name[MAX_ARG_LENGTH - 1] = '\0';
+	strcpy_s(manager->enemies[newId].name, sizeof(char) * (MAX_ARG_LENGTH + 1), enemyNameArray[enemyType]);
+	manager->enemies[newId].name[MAX_ARG_LENGTH] = '\0';
 
 	// HP: 기본값의 ±10% 변동 (0.9 ~ 1.1 배율)
 	double hpMultiplier = 1.0 + (((double)rand() / RAND_MAX) * (2 * ENEMY_HP_OFFSET) - ENEMY_HP_OFFSET);

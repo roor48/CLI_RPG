@@ -72,8 +72,10 @@ void initGame() {
 	game.player.maxExperience = 100;
 	game.player.experience = 0;
 	game.player.unlockedSkills[SKILL_PUNCH] = 1;
-	
+
 	game.inventory.gold = 10000;
+	game.inventory.weapons[WEAPON_NONE] = 1;
+	game.inventory.armors[ARMOR_NONE] = 1;
 	
 	initBattle(&game.battle);
 }

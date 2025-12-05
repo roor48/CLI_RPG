@@ -6,10 +6,11 @@
 struct Player;
 
 typedef enum EnemyType {
-	ENEMY_UNKNOWN = 0,
-	ENEMY_ZOMBIE = 1,
-	ENEMY_SKELETON = 2,
-	ENEMY_SLIME = 3,
+	ENEMY_ZOMBIE = 0,
+	ENEMY_SKELETON = 1,
+	ENEMY_SLIME = 2,
+
+	ENEMY_UNKNOWN
 } EnemyType;
 
 typedef struct EnemyManager {

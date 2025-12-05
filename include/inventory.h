@@ -6,27 +6,32 @@
  * @brief 소모템 타입
  */
 typedef enum ConsumableType {
-	CONSUMABLE_UNKNOWN = 0,
-	CONSUMABLE_LOW_HEAL_POTION = 1,
-	CONSUMABLE_HEAL_POTION = 2,
-	CONSUMABLE_HIGH_HEAL_POTION = 3
+	CONSUMABLE_LOW_HEAL_POTION = 0,
+	CONSUMABLE_HEAL_POTION = 1,
+	CONSUMABLE_HIGH_HEAL_POTION = 2,
+
+	CONSUMABLE_UNKNOWN
 } ConsumableType;
 
 /**
  * @brief 무기 타입
  */
 typedef enum WeaponType {
-	WEAPON_UNKNOWN = 0,
+	WEAPON_NONE = 0,
 	WEAPON_COOPER_SWORD = 1,
-	WEAPON_IRON_SWORD = 2
+	WEAPON_IRON_SWORD = 2,
+
+	WEAPON_UNKNOWN
 } WeaponType;
 
 /**
  * @brief 방어구 타입
  */
 typedef enum ArmorType {
-	ARMOR_UNKNOWN = 0,
+	ARMOR_NONE = 0,
 	ARMOR_WOOD_CHESTPLATE = 1,
+
+	ARMOR_UNKNOWN
 } ArmorType;
 
 /**
@@ -35,10 +40,11 @@ typedef enum ArmorType {
  * Union에서 어떤 타입이 유효한지 구분
  */
 typedef enum ItemTag {
-	ITEMTAG_UNKNOWN = 0,
-	ITEMTAG_CONSUMABLE = 1,
-	ITEMTAG_WEAPON = 2,
-	ITEMTAG_ARMOR = 3
+	ITEMTAG_CONSUMABLE = 0,
+	ITEMTAG_WEAPON = 1,
+	ITEMTAG_ARMOR = 2,
+
+	ITEMTAG_UNKNOWN
 } ItemTag;
 
 /**
@@ -69,9 +75,9 @@ typedef struct InventoryItem {
  */
 typedef struct Inventory {
 	int gold;									// 골드
-	int consumables[MAX_CONSUMABLE_TYPES + 1];	// 소모템 (수량)
-	int weapons[MAX_WEAPON_TYPES + 1];			// 무기 (소유 여부)
-	int armors[MAX_ARMOR_TYPES + 1];			// 방어구 (소유 여부)
+	int consumables[MAX_CONSUMABLE_TYPES];	// 소모템 (수량)
+	int weapons[MAX_WEAPON_TYPES];			// 무기 (소유 여부)
+	int armors[MAX_ARMOR_TYPES];			// 방어구 (소유 여부)
 } Inventory;
 
 /**

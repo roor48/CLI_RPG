@@ -39,15 +39,15 @@ void showShop() {
 	printf("Welcome to the shop! Here are the items available for purchase:\n");
 
 	int cnt = 1;
-	for (int i = 1; i <= MAX_CONSUMABLE_TYPES; i++) {
+	for (int i = 0; i < MAX_CONSUMABLE_TYPES; i++) {
 		printf("%d. %s - %d Gold\n", cnt++, consumableNameArray[i], consumablePriceArray[i]);
 	}
 
-	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+	for (int i = 0; i < MAX_WEAPON_TYPES; i++) {
 		printf("%d. %s - %d Gold\n", cnt++, weaponNameArray[i], weaponPriceArray[i]);
 	}
 
-	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+	for (int i = 0; i < MAX_ARMOR_TYPES; i++) {
 		printf("%d. %s - %d Gold\n", cnt++, armorNameArray[i], armorPriceArray[i]);
 	}
 

@@ -10,8 +10,7 @@
 int equipWeapon(Player* player, const WeaponType weaponType);
 int equipArmor(Player * player, const ArmorType armorType);
 
-const char* SkillNameArray[MAX_SKILL_TYPES + 1] = {
-	[SKILL_UNKNOWN] = "unknown",
+const char* SkillNameArray[MAX_SKILL_TYPES] = {
 	[SKILL_PUNCH] = "punch",
 	[SKILL_SLASH] = "slash"
 };
@@ -96,7 +95,7 @@ void printPlayerStatus(const Player* player) {
 void printPlayerSkills(const Player* player) {
 	printf("Printing player skills...\n");
 	printf("Unlocked skills:\n");
-	for (int i = 1; i <= MAX_SKILL_TYPES; i++) {
+	for (int i = 0; i < MAX_SKILL_TYPES; i++) {
 		if (player->unlockedSkills[i]) {
 			printf(" - %s\n", SkillNameArray[i]);
 		}

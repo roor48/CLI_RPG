@@ -10,21 +10,21 @@ void showInventory(const Inventory* inventory) {
 
 	printf("Gold: %d\n", inventory->gold);
 	printf("Consumables:\n");
-	for (int i = 1; i <= MAX_CONSUMABLE_TYPES; i++) {
+	for (int i = 0; i < MAX_CONSUMABLE_TYPES; i++) {
 		if (hasConsumable(inventory, (ConsumableType)i)) {
 			printf("  %s: %d\n", consumableNameArray[i], getConsumable(inventory, (ConsumableType)i));
 		}
 	}
 
 	printf("Weapons:\n");
-	for (int i = 1; i <= MAX_WEAPON_TYPES; i++) {
+	for (int i = 0; i < MAX_WEAPON_TYPES; i++) {
 		if (hasWeapon(inventory, (WeaponType)i)) {
 			printf("  %s\n", weaponNameArray[i]);
 		}
 	}
 
 	printf("Armors:\n");
-	for (int i = 1; i <= MAX_ARMOR_TYPES; i++) {
+	for (int i = 0; i < MAX_ARMOR_TYPES; i++) {
 		if (hasArmor(inventory, (ArmorType)i)) {
 			printf("  %s\n", armorNameArray[i]);
 		}
