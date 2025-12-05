@@ -33,6 +33,7 @@ void load(const Command* cmd);
 void saveList();
 void quit();
 
+void unlockSkillLogic();
 
 Game game = {0};
 unsigned long long startGame() {
@@ -60,6 +61,8 @@ unsigned long long startGame() {
 
 		Command cmd = parseCommand(query);
 		executeCommand(&cmd);
+
+		unlockSkillLogic();
 	}
 
 	return loopCnt;
@@ -185,6 +188,7 @@ void executeCommand(const Command* cmd) {
 	}
 }
 
+#pragma region Command Handlers
 void help() {
 	puts("Available commands:");
 	puts("Static commands:");
@@ -319,4 +323,11 @@ void quit() {
 	};
 	save(&tempCmd);
 	game.state = STATE_FINISHED;
+}
+#pragma endregion
+
+void unlockSkillLogic() {
+	if (game.player.level >= 5) {
+		getSkill(&game.player, SKILL_SLASH);
+	}
 }

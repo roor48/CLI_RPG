@@ -58,7 +58,6 @@ int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy);
  */
 int getSkill(Player *player, Skill skill);
 
-
 /*
  * @brief 플레이어 경험치 지급
  * 

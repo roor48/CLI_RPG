@@ -48,6 +48,7 @@ int getSkill(Player* player, Skill skill) {
 		return -1;
 	}
 
+	printf("Unlocked skill: %s\n", SkillNameArray[skill]);
 	return player->unlockedSkills[skill] = 1;
 }
 
@@ -168,4 +169,3 @@ int calculateDefence(const Player* player) {
 	int defence = armorDefenseArray[player->currentArmor] + player->level;
 	return defence;
 }
-
