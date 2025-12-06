@@ -49,10 +49,10 @@ const int armorDefenseArray[MAX_ARMOR_TYPES] = {
 	[ARMOR_WOOD_CHESTPLATE] = 5
 };
 
-void getItemTypeFromName(const Command* cmd, InventoryItem* inventoryItem) {
+void getItemTypeFromName(const char* inputtedName, InventoryItem* inventoryItem) {
 	// arg1을 소문자로 변환
 	char itemName[MAX_ARG_LENGTH + 1];
-	strcpy_s(itemName, sizeof(itemName), cmd->arg1);
+	strcpy_s(itemName, sizeof(itemName), inputtedName);
 	itemName[MAX_ARG_LENGTH] = '\0';
 
 	// char* 형태를 enum으로 변환

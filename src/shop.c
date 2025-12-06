@@ -13,7 +13,7 @@
 
 #define SELL_RATE 0.5
 
-void getItemAmount(const Command* cmd, int* amount);
+void getItemAmount(const char* amountString, int* amount);
 
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
 int sellConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
@@ -23,12 +23,12 @@ int buyArmor(Inventory* inventory, const ArmorType armorType, const char* armorN
 int sellArmor(Inventory* inventory, const struct Player* player, const ArmorType armorType, const char* armorName);
 
 
-void getItemAmount(const Command *cmd, int* amount) {
+void getItemAmount(const char* amountString, int* amount) {
 	*amount = 1;  // default 1
 
 	// char* to int
-	if (cmd->arg2[0] != '\0') {
-		*amount = atoi(cmd->arg2);
+	if (amountString[0] != '\0') {
+		*amount = atoi(amountString);
 		if (*amount <= 0) {
 			printf("Invalid amount. Please enter a positive number.\n");
 			return;
@@ -59,8 +59,8 @@ int buyShop(Inventory* inventory, const Command* cmd) {
 	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &inventoryItem);
-	getItemAmount(cmd, &amount);
+	getItemTypeFromName(cmd->arg1, &inventoryItem);
+	getItemAmount(cmd->arg2, &amount);
 
 
 	int currentGold = -1;
@@ -92,8 +92,8 @@ int sellShop(Inventory* inventory, const Player* player, const Command* cmd) {
 	InventoryItem inventoryItem = (InventoryItem){ 0 };
 	int amount = 1;
 
-	getItemTypeFromName(cmd, &inventoryItem);
-	getItemAmount(cmd, &amount);
+	getItemTypeFromName(cmd->arg1, &inventoryItem);
+	getItemAmount(cmd->arg2, &amount);
 
 	int currentGold = -1;
 

@@ -98,7 +98,7 @@ void printPlayerSkills(const Player* player) {
 int equipItem(Player* player, const Inventory *inventory, const Command* cmd) {
 	InventoryItem inventoryItem = { 0 };
 
-	getItemTypeFromName(cmd, &inventoryItem);
+	getItemTypeFromName(cmd->arg1, &inventoryItem);
 	if (inventoryItem.tag == ITEMTAG_UNKNOWN) {
 		printf("Unknown item name: %s\n", cmd->arg1);
 		return 0;

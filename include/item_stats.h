@@ -24,7 +24,7 @@ extern const int armorDefenseArray[MAX_ARMOR_TYPES];
 /*
  * @brief char* 형식을 InventoryItem 타입으로 변환
  *
- * @param *cmd 명령어
+ * @param *inputtedName 아이템 이름
  * @param *inventoryItem 변환 값을 저장할 포인터
  */
-void getItemTypeFromName(const struct Command* cmd, struct InventoryItem* inventoryItem);
+void getItemTypeFromName(const char* inputtedName, struct InventoryItem* inventoryItem);
