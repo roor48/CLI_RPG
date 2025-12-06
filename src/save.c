@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <direct.h>
+#include <io.h>
 
 #define SAVE_DIR "saves/"
 
@@ -260,5 +261,30 @@ int loadGame(Player* player, Inventory* inventory, const char* filename) {
 }
 
 void listSavedGames() {
-	// TODO: 디렉토리 읽기 구현 (Windows: FindFirstFile, Linux: opendir)
+	
+	// "saves/*.json"
+	char searchPattern[256];
+	sprintf_s(searchPattern, sizeof(searchPattern), "%s*.json", SAVE_DIR);
+	
+	// "saves/*.json"와 일치하는 파일 찾기
+	struct _finddata_t fileData;
+	intptr_t handle = _findfirst(searchPattern, &fileData);
+	
+	if (handle == -1) {
+		printf("No saved games found.\n");
+		return;
+	}
+	printf("Saved games:\n");
+	
+	do {
+		char filename[256];
+		strcpy_s(filename, sizeof(filename), fileData.name);
+
+		size_t len = strlen(filename);
+		filename[len - 5] = '\0';  // .json 제거
+		
+		printf("  %s\n", filename);
+	} while (_findnext(handle, &fileData) == 0);
+	
+	_findclose(handle);
 }
