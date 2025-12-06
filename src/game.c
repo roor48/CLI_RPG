@@ -129,6 +129,14 @@ void executeCommand(const Command* cmd) {
 			case CMD_RUN:
 				run();
 				break;
+
+			case CMD_INVENTORY:
+				inventory();
+				break;
+
+			case CMD_QUIT:
+				printf("You cannot quit during battle! Use 'run' first\n");
+				break;
 			case CMD_UNKNOWN:
 				printf("Unknown command. Type 'help' for available commands.\n");
 				break;
