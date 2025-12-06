@@ -330,7 +330,6 @@ void save(const Command* cmd) {
 	}
 }
 void saveList() {
-	printf("Listing saved games...\n");
 	listSavedGames();
 }
 void load(const Command* cmd) {
