@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 
+int healPlayer(Player* player, const int healAmount);
 int equipWeapon(Player* player, const WeaponType weaponType);
 int equipArmor(Player * player, const ArmorType armorType);
 int calculateDamage(const Player* player, const Skill skill);
@@ -41,6 +42,18 @@ int onHitPlayer(Player* player, const Enemy* enemy) {
 
 int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy) {
 	return onHitEnemy(enemy, calculateDamage(player, skill));
+}
+
+int healPlayer(Player* player, const int healAmount) {
+	player->health += healAmount;
+	if (player->health > player->maxHealth) {
+		player->health = player->maxHealth;
+	}
+	printf("You got healed. %s/%s (+%s)\n",
+		formatNum(player->health),
+		formatNum(player->maxHealth),
+		formatNum(healAmount));
+	return player->health;
 }
 
 int getSkill(Player* player, Skill skill) {
@@ -168,4 +181,55 @@ int calculateDamage(const Player *player, const Skill skill) {
 int calculateDefence(const Player* player) {
 	int defence = armorDefenseArray[player->currentArmor] + player->level;
 	return defence;
+}
+
+int useConsumable(Player* player, Inventory* inventory, const struct Command* cmd) {
+	InventoryItem inventoryItem = { 0 };
+
+	getItemTypeFromName(cmd->arg1, &inventoryItem);
+	if (inventoryItem.tag == ITEMTAG_UNKNOWN) {
+		printf("Unknown item name: %s\n", cmd->arg1);
+		return 0;
+	}
+	if (inventoryItem.tag != ITEMTAG_CONSUMABLE) {
+		printf("You can only use consumable items: %s\n", cmd->arg1);
+		return 0;
+	}
+
+	int hasItemResult = hasItem(inventory, &inventoryItem);
+	if (hasItemResult == 0) {
+		printf("You don't have any %s\n", cmd->arg1);
+		return 0;
+	}
+	if (hasItemResult == -1) {
+		return 0;
+	}
+
+	switch (inventoryItem.data.consumableType) {
+		case CONSUMABLE_LOW_HEAL_POTION:
+				printf("Using Low Heal Potion...\n");
+				healPlayer(player, 20);
+				removeConsumable(inventory, CONSUMABLE_LOW_HEAL_POTION, 1);
+			break;
+
+		case CONSUMABLE_HEAL_POTION:
+			printf("Using Heal Potion...\n");
+			healPlayer(player, 50);
+			removeConsumable(inventory, CONSUMABLE_HEAL_POTION, 1);
+			break;
+
+		case CONSUMABLE_HIGH_HEAL_POTION:
+			printf("Using High Heal Potion...\n");
+			healPlayer(player, 70);
+			removeConsumable(inventory, CONSUMABLE_HIGH_HEAL_POTION, 1);
+			break;
+
+
+		case CONSUMABLE_UNKNOWN:
+		default:
+			printf("Unknown consumable type\n");
+			return 0;
+	}
+
+	return 1;
 }
