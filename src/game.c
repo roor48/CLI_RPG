@@ -23,7 +23,7 @@ void battle();
 void enemyList();
 void attack(const Command* cmd);
 void attackList();
-void useConsumable(const Command* cmd);
+void use(const Command* cmd);
 void run();
 
 void shop();
@@ -124,7 +124,7 @@ void executeCommand(const Command* cmd) {
 				attackList();
 				break;
 			case CMD_USECONSUMABLE:
-				useConsumable(cmd);
+				use(cmd);
 				break;
 			case CMD_RUN:
 				run();
@@ -285,9 +285,8 @@ void attack(const Command* cmd) {
 void attackList() {
 	printPlayerSkills(&game.player);
 }
-void useConsumable(const Command* cmd) {
-	printf("Using item: %s\n", cmd->arg1);
-	// TODO: 
+void use(const Command* cmd) {
+	useConsumable(&game.player, &game.inventory, cmd);
 }
 void run() {
 	printf("You ran away from the battle!\n");

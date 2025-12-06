@@ -11,15 +11,11 @@ extern const int consumablePriceArray[MAX_CONSUMABLE_TYPES];
 
 extern const char* weaponNameArray[MAX_WEAPON_TYPES];
 extern const int weaponPriceArray[MAX_WEAPON_TYPES];
+extern const int weaponDamageArray[MAX_WEAPON_TYPES]; // 무기 대미지
 
 extern const char* armorNameArray[MAX_ARMOR_TYPES];
 extern const int armorPriceArray[MAX_ARMOR_TYPES];
-
-// 무기 대미지 배열
-extern const int weaponDamageArray[MAX_WEAPON_TYPES];
-
-// 방어구 방어도 배열
-extern const int armorDefenseArray[MAX_ARMOR_TYPES];
+extern const int armorDefenseArray[MAX_ARMOR_TYPES]; // 방어구 방어도
 
 /*
  * @brief char* 형식을 InventoryItem 타입으로 변환

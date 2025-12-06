@@ -91,3 +91,14 @@ void printPlayerSkills(const Player* player);
  * @return 성공 시 1 반환, 실패 시 0 반환
  */
 int equipItem(Player* player, const struct Inventory* inventory, const struct Command* cmd);
+
+/*
+ * @brief 소모템 사용
+ * 
+ * @param *player Player의 포인터
+ * @param *inventory Inventory 포인터
+ * @param *cmd 명령어
+ * 
+ * @return 성공 시 1 반환, 실패 시 0 반환
+ */
+int useConsumable(Player* player, Inventory* inventory, const struct Command* cmd);
