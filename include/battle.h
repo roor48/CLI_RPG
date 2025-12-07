@@ -9,8 +9,18 @@ typedef struct Battle {
 	struct EnemyManager enemyManager;
 } Battle;
 
+/*
+ * @brief 배틀 초기화
+ * 
+ * @param *battle Battle의 포인터
+ */
 void initBattle(Battle* battle);
 
+/*
+ * @brief 배틀 시작
+ * 
+ * @param *battle Battle의 포인터
+ */
 void startBattle(Battle* battle);
 
 /*
@@ -24,4 +34,9 @@ void startBattle(Battle* battle);
  */
 int attackBattle(struct Player* player, Battle* battle, const struct Command* cmd);
 
+/*
+ * @brief 적 상태 출력
+ * 
+ * @param *enemyManager EnemyManager의 포인터
+ */
 void printEnemy(EnemyManager* enemyManager);

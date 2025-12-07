@@ -1,6 +1,6 @@
 #pragma once
 
-/**
+/*
  * @brief 사용자 입력 받기
  *
  * @param *query 입력된 문자열을 저장할 포인터

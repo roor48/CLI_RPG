@@ -56,7 +56,7 @@ Enemy* getEnemyById(const EnemyManager *manager, const int id);
  */
 Enemy* getEnemyByName(const EnemyManager *manager, const char *name);
 
-/**
+/*
  * @brief 모든 Enemy가 Player를 공격
  *
  * @param *manager EnemyManager의 포인터

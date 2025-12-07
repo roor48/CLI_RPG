@@ -3,7 +3,7 @@
 struct Player;
 struct Inventory;
 
-/**
+/*
  * @brief 게임 데이터 저장
  * 
  * @param *player 저장할 데이터를 가져올 Player 포인터
@@ -14,7 +14,7 @@ struct Inventory;
  */
 int saveGame(const struct Player *player, const struct Inventory *inventory, const char* filename);
 
-/**
+/*
  * @brief 게임 데이터 로드
  * 
  * @param *player 불러온 데이터를 저장할 Player 포인터
@@ -25,7 +25,7 @@ int saveGame(const struct Player *player, const struct Inventory *inventory, con
  */
 int loadGame(struct Player* player, struct Inventory* inventory, const char* filename);
 
-/**
+/*
  * @brief 저장된 게임 목록 출력
  */
 void listSavedGames();

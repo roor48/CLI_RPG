@@ -100,13 +100,18 @@ void initGame() {
 }
 
 void executeCommand(const Command* cmd) {
+	if (cmd->type == CMD_UNKNOWN) {
+		printf("Unknown command. Type 'help' for available commands.\n");
+		return;
+	}
+	if (cmd->type == CMD_ERROR) {
+		printf("%s\n", cmd->message);
+		return;
+	}
+
 	// 전역적으로 사용 가능한 명령어
 	if (cmd->type == CMD_HELP) {
 		help();
-		return;
-	}
-	if (cmd->type == CMD_STATUS) {
-		status();
 		return;
 	}
 
@@ -114,6 +119,9 @@ void executeCommand(const Command* cmd) {
 	if (game.scene == SCENE_BATTLE) {
 		// 배틀 전용 명령어
 		switch (cmd->type) {
+			case CMD_STATUS:
+				status();
+				break;
 			case CMD_ENEMYLIST:
 				enemyList();
 				break;
@@ -137,9 +145,7 @@ void executeCommand(const Command* cmd) {
 			case CMD_QUIT:
 				printf("You cannot quit during battle! Use 'run' first\n");
 				break;
-			case CMD_UNKNOWN:
-				printf("Unknown command. Type 'help' for available commands.\n");
-				break;
+
 			default:
 				printf("You can use only battle commands\n");
 				break;
@@ -151,6 +157,10 @@ void executeCommand(const Command* cmd) {
 	// 메인에서 사용 가능한 명령어
 	if (game.scene == SCENE_MAIN) {
 		switch (cmd->type) {
+			case CMD_STATUS:
+				status();
+				break;
+
 			case CMD_BATTLE:
 				battle();
 				break;
@@ -199,14 +209,6 @@ void executeCommand(const Command* cmd) {
 				reset();
 				break;
 
-			// error
-			case CMD_ERROR:
-				printf("%s\n", cmd->message);
-				break;
-			case CMD_UNKNOWN:
-				printf("Unknown command. Type 'help' for available commands.\n");
-				break;
-
 			default:
 				printf("You can use only main commands\n");
 				break;
@@ -224,6 +226,7 @@ void help() {
 	puts("");
 	puts("Main commands:");
 		puts("  * battle - Start battle");
+		puts("  * reset - Reset game datas");
 
 		puts("");
 		puts("  shop commands:");
@@ -246,7 +249,7 @@ void help() {
 
 		puts("");
 		puts("  quit commands:");
-			puts("    * quit - save and leave game");
+			puts("    * quit - Save and leave game");
 			puts("      exit - ");
 
 	puts("");
@@ -256,6 +259,8 @@ void help() {
 		puts("  * attacklist - List skills");
 		puts("    al - ");
 		puts("  * use [item] - Use Item");
+		puts("  * enemylist - List enemy status");
+		puts("    el");
 		puts("  * run - Run away from battle");
 
 }

@@ -2,7 +2,7 @@
 
 #include "constants.h"
 
-/**
+/*
  * @brief 소모템 타입
  */
 typedef enum ConsumableType {
@@ -13,7 +13,7 @@ typedef enum ConsumableType {
 	CONSUMABLE_UNKNOWN
 } ConsumableType;
 
-/**
+/*
  * @brief 무기 타입
  */
 typedef enum WeaponType {
@@ -24,7 +24,7 @@ typedef enum WeaponType {
 	WEAPON_UNKNOWN
 } WeaponType;
 
-/**
+/*
  * @brief 방어구 타입
  */
 typedef enum ArmorType {
@@ -34,7 +34,7 @@ typedef enum ArmorType {
 	ARMOR_UNKNOWN
 } ArmorType;
 
-/**
+/*
  * @brief 인벤토리 아이템 태그
  * 
  * Union에서 어떤 타입이 유효한지 구분
@@ -47,7 +47,7 @@ typedef enum ItemTag {
 	ITEMTAG_UNKNOWN
 } ItemTag;
 
-/**
+/*
  * @brief 인벤토리 아이템 Union
  * 
  * 소모템, 무기, 방어구 중 하나의 타입을 저장
@@ -58,17 +58,17 @@ typedef union InventoryItemUnion {
 	ArmorType armorType;
 } InventoryItemUnion;
 
-/**
+/*
  * @brief 인벤토리 아이템
  * 
- * 태그와 실제 데이터를 함께 저장하는 Tagged Union
+ * 태그와 실제 데이터를 함께 저장
  */
 typedef struct InventoryItem {
 	ItemTag tag;
 	InventoryItemUnion data;
 } InventoryItem;
 
-/**
+/*
  * @brief 인벤토리
  * 
  * 플레이어의 소지품을 관리하는 구조체
@@ -80,14 +80,14 @@ typedef struct Inventory {
 	int armors[MAX_ARMOR_TYPES];			// 방어구 (소유 여부)
 } Inventory;
 
-/**
+/*
  * @brief 인벤토리 내용 출력
  * 
  * @param *inventory 인벤토리 포인터
  */
 void showInventory(const Inventory* inventory);
 
-/**
+/*
  * @brief 골드 조회
  * 
  * @param *inventory 인벤토리 포인터
@@ -95,7 +95,7 @@ void showInventory(const Inventory* inventory);
  */
 int getGold(const Inventory* inventory);
 
-/**
+/*
  * @brief 골드 추가
  * 
  * @param *inventory 인벤토리 포인터
@@ -105,7 +105,7 @@ int getGold(const Inventory* inventory);
  */
 int addGold(Inventory* inventory, const int amount);
 
-/**
+/*
  * @brief 골드 제거
  * 
  * @param *inventory 인벤토리 포인터
@@ -125,7 +125,7 @@ int removeGold(Inventory* inventory, const int amount);
  */
 int hasItem(const Inventory* inventory, const InventoryItem* inventoryItem);
 
-/**
+/*
  * @brief 소모템 소유 여부 확인
  * 
  * @param *inventory 인벤토리 포인터
@@ -135,7 +135,7 @@ int hasItem(const Inventory* inventory, const InventoryItem* inventoryItem);
  */
 int hasConsumable(const Inventory* inventory, const ConsumableType consumableType);
 
-/**
+/*
  * @brief 소모템 수량 조회
  *
  * @param *inventory 인벤토리 포인터
@@ -145,7 +145,7 @@ int hasConsumable(const Inventory* inventory, const ConsumableType consumableTyp
  */
 int getConsumable(const Inventory* inventory, const ConsumableType consumableType);
 
-/**
+/*
  * @brief 소모템 추가
  * 
  * @param *inventory 인벤토리 포인터
@@ -156,7 +156,7 @@ int getConsumable(const Inventory* inventory, const ConsumableType consumableTyp
  */
 int addConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt);
 
-/**
+/*
  * @brief 소모템 제거
  *
  * @param *inventory 인벤토리 포인터
@@ -167,7 +167,7 @@ int addConsumable(Inventory* inventory, const ConsumableType consumableType, con
  */
 int removeConsumable(Inventory* inventory, const ConsumableType consumableType, const int cnt);
 
-/**
+/*
  * @brief 무기 소유 여부 확인
  * 
  * @param *inventory 인벤토리 포인터
@@ -177,7 +177,7 @@ int removeConsumable(Inventory* inventory, const ConsumableType consumableType, 
  */
 int hasWeapon(const Inventory *inventory, const WeaponType weaponType);
 
-/**
+/*
  * @brief 무기 추가
  * 
  * @param *inventory 인벤토리 포인터
@@ -187,7 +187,7 @@ int hasWeapon(const Inventory *inventory, const WeaponType weaponType);
  */
 int addWeapon(Inventory *inventory, const WeaponType weaponType);
 
-/**
+/*
  * @brief 무기 제거
  * 
  * @param *inventory 인벤토리 포인터
@@ -197,7 +197,7 @@ int addWeapon(Inventory *inventory, const WeaponType weaponType);
  */
 int removeWeapon(Inventory *inventory, const WeaponType weaponType);
 
-/**
+/*
  * @brief 방어구 소유 여부 확인
  * 
  * @param *inventory 인벤토리 포인터
@@ -207,7 +207,7 @@ int removeWeapon(Inventory *inventory, const WeaponType weaponType);
  */
 int hasArmor(const Inventory *inventory, const ArmorType armorType);
 
-/**
+/*
  * @brief 방어구 추가
  * 
  * @param *inventory 인벤토리 포인터
@@ -217,7 +217,7 @@ int hasArmor(const Inventory *inventory, const ArmorType armorType);
  */
 int addArmor(Inventory *inventory, const ArmorType armorType);
 
-/**
+/*
  * @brief 방어구 제거
  * 
  * @param *inventory 인벤토리 포인터

@@ -2,7 +2,6 @@
 
 #include "constants.h"
 
-struct Command;
 struct InventoryItem;
 
 // 아이템 이름 배열

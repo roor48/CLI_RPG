@@ -13,6 +13,11 @@
 
 #define SELL_RATE 0.5
 
+/*
+ * @brief amountString을 amount로 변환
+ * 
+ * amountString이 비어있다면 amount는 1로 설정
+ */
 void getItemAmount(const char* amountString, int* amount);
 
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount);
@@ -30,7 +35,7 @@ void getItemAmount(const char* amountString, int* amount) {
 	if (amountString[0] != '\0') {
 		*amount = atoi(amountString);
 		if (*amount <= 0) {
-			printf("Invalid amount. Please enter a positive number.\n");
+			*amount = 1;
 			return;
 		}
 	}

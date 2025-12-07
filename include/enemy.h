@@ -12,7 +12,7 @@ typedef struct Enemy {
 	int damage;
 } Enemy;
 
-/**
+/*
  * @brief 적에게 대미지를 줌
  * 
  * @param *enemy 대미지를 줄 enemy의 포인터
@@ -22,7 +22,7 @@ typedef struct Enemy {
  */
 int onHitEnemy(Enemy *enemy, const int dmg);
 
-/**
+/*
  * @brief Enemy가 Player를 공격
  *
  * @param *enemy Enemy의 포인터

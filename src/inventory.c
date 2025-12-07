@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 void showInventory(const Inventory* inventory) {
-	printf("Showing inventory...\n");
+	printf("Inventory:\n");
 
 	printf("Gold: %s\n", formatNum(inventory->gold));
 	printf("Consumables:\n");

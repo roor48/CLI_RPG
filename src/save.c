@@ -8,22 +8,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #include <direct.h>
 #include <io.h>
 
 #define SAVE_DIR "saves/"
 
-/**
+/*
  * @brief 디렉토리 존재 확인 및 생성
  * 
  * @return 성공 시 1, 실패 시 0
  */
 int checkAndCreateDirectory(const char *path) {
-	struct stat st = {0};
-	
-	// 디렉토리가 존재하는지 확인
-	if (stat(path, &st) == -1) {
+	// '_'없으면 에러
+	if (_access(path, 0) == -1) {  // 0 = 존재 확인
 		// 디렉토리가 없으면 생성
 		if (_mkdir(path) != 0) {
 			printf("Error: Failed to create directory: %s\n", path);

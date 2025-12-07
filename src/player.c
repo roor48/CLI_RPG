@@ -99,7 +99,6 @@ void printPlayerStatus(const Player* player) {
 }
 
 void printPlayerSkills(const Player* player) {
-	printf("Printing player skills...\n");
 	printf("Unlocked skills:\n");
 	for (int i = 0; i < MAX_SKILL_TYPES; i++) {
 		if (player->unlockedSkills[i]) {
