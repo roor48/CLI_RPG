@@ -77,11 +77,13 @@ void givePlayerExp(Player* player, const int exp) {
 		formatNum(player->maxExperience));
 
 	int beforeLevel = player->level;
-	player->level += player->experience / player->maxExperience;
-	player->experience = player->experience % player->maxExperience;
-	// 최대 경험치 양 로직은 추후에 추가
-	// 임시로 player->level * 10으로 설정
-	player->maxExperience = player->level * 10;
+	while (player->experience >= player->maxExperience) {
+		player->experience -= player->maxExperience;
+		player->level++;
+
+		// 임시로 player->level * 10으로 설정
+		player->maxExperience = player->level * 10;
+	}
 	
 	printf("Level up! New level: %s -> %s\n", formatNum(beforeLevel), formatNum(player->level));
 }
@@ -99,6 +101,7 @@ void printPlayerStatus(const Player* player) {
 }
 
 void printPlayerSkills(const Player* player) {
+	printf("Printing player skills...\n");
 	printf("Unlocked skills:\n");
 	for (int i = 0; i < MAX_SKILL_TYPES; i++) {
 		if (player->unlockedSkills[i]) {
