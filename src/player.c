@@ -56,7 +56,11 @@ int healPlayer(Player* player, const int healAmount) {
 	return player->health;
 }
 
-int getSkill(Player* player, Skill skill) {
+int hasSkill(Player* player, const Skill skill) {
+	return player->unlockedSkills[skill];
+}
+
+int getSkill(Player* player, const Skill skill) {
 	if (skill == SKILL_UNKNOWN) {
 		return -1;
 	}

@@ -49,6 +49,16 @@ int onHitPlayer(Player* player, const struct Enemy *enemy);
 int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy);
 
 /*
+ * @brief 플레이어의 스킬 보유 확인
+ *
+ * @param *player Player의 포인터
+ * @param skill 확인할 스킬
+ *
+ * @return 보유 시 1, 미보유 시 0 반환
+ */
+int hasSkill(const Player* player, const Skill skill);
+
+/*
  * @brief 플레이어의 스킬 해금
  * 
  * @param *player Player의 포인터
@@ -56,7 +66,7 @@ int attackEnemy(const Player* player, const Skill skill, struct Enemy* enemy);
  * 
  * @return 성공 시 1 반환, 오류 시 -1 반환
  */
-int getSkill(Player *player, Skill skill);
+int getSkill(Player *player, const Skill skill);
 
 /*
  * @brief 플레이어 경험치 지급

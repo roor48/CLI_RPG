@@ -364,6 +364,8 @@ void quit() {
 
 void unlockSkillLogic() {
 	if (game.player.level >= 5) {
-		getSkill(&game.player, SKILL_SLASH);
+		if (!hasSkill(&game.player, SKILL_SLASH)) {
+			getSkill(&game.player, SKILL_SLASH);
+		}
 	}
 }
