@@ -76,6 +76,9 @@ Enemy* instantiateEnemy(EnemyManager *manager, EnemyType enemyType) {
 	if (enemyType == ENEMY_UNKNOWN) {
 		return NULL;
 	}
+	if (manager->enemyRemain >= MAX_ENEMY_SPAWN) {
+		return NULL;
+	}
 
 	int newId = getEnemyId(manager);
 
