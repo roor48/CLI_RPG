@@ -57,7 +57,9 @@ int healPlayer(Player* player, const int healAmount) {
 }
 
 int hasSkill(Player* player, const Skill skill) {
-	return player->unlockedSkills[skill];
+	if (skill >= 0 && skill < MAX_SKILL_TYPES)
+		return player->unlockedSkills[skill];
+	return 0;
 }
 
 int getSkill(Player* player, const Skill skill) {
