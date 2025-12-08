@@ -49,7 +49,7 @@ int addGold(Inventory* inventory, const int amount) {
 
 int removeGold(Inventory* inventory, const int amount) {
 	if (inventory->gold < amount) {
-		printf("ERROR in inventory.removeGold: inventory->gold < amount");
+		printf("ERROR in inventory.removeGold: inventory->gold < amount\n");
 		return -1;
 	}
 
@@ -107,7 +107,7 @@ int removeConsumable(Inventory* inventory, const ConsumableType consumableType, 
 		return -1;
 	}
 	if (inventory->consumables[consumableType] < cnt) {
-		printf("Amount is too big (have: %d, input: %d)", inventory->consumables[consumableType], cnt);
+		printf("Amount is too big (have: %d, input: %d)\n", inventory->consumables[consumableType], cnt);
 		return -2;
 	}
 

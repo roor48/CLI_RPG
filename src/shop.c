@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 #define SELL_RATE 0.5
 
@@ -127,15 +128,20 @@ int sellShop(Inventory* inventory, const Player* player, const Command* cmd) {
 
 // Consumable
 int buyConsumable(Inventory* inventory, const ConsumableType consumableType, const char* consumableName, const int amount) {
-	// **오버플로우 가능성 있음!!!**
+	// 오버플로우 방지
+	if (amount > (INT_MAX / consumablePriceArray[consumableType])) {
+		printf("Amount is too large!\n");
+		return -1;
+	}
+
+	int beforeGold = inventory->gold;
 	int value = consumablePriceArray[consumableType] * amount;
-	if (inventory->gold < value) {
+	if (beforeGold < value) {
 		printf("Not enough gold to purchase %s of %s\n", formatNum(amount), consumableName);
 		return -1;
 	}
-	printf("Purchasing %s x %s\n", formatNum(amount), consumableName);
 
-	int beforeGold = inventory->gold;
+	printf("Purchasing %s x %s\n", formatNum(amount), consumableName);
 
 	removeGold(inventory, value);
 	addConsumable(inventory, consumableType, amount);
