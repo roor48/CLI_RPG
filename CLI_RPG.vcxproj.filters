@@ -3,11 +3,11 @@
   <ItemGroup>
     <Filter Include="소스 파일">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="헤더 파일">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -15,25 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CLI_RPG.c">
+    <ClCompile Include="lib\cJSON.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\game.c">
+    <ClCompile Include="src\battle.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\command.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\input.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\inventory.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shop.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="lib\cJSON.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\enemy.c">
@@ -42,30 +30,51 @@
     <ClCompile Include="src\enemyManager.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\battle.c">
+    <ClCompile Include="src\game.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\string_utils.c">
+    <ClCompile Include="src\input.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\player.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\save.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\reward.c">
+    <ClCompile Include="src\inventory.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\item_stats.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\player.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\reward.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\save.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shop.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\string_utils.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CLI_RPG.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\battle.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="include\command.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\constants.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\enemy.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\enemyManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\game.h">
@@ -77,34 +86,25 @@
     <ClInclude Include="include\inventory.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="include\item_stats.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="include\player.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shop.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\cJSON.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\enemy.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\enemyManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\battle.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\string_utils.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="include\save.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="include\reward.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="include\item_stats.h">
+    <ClInclude Include="include\save.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shop.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string_utils.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="lib\cJSON.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

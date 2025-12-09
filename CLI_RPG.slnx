@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="CLI_RPG.vcxproj" Id="7ea009d2-e33a-48ff-8ee2-51aca58d9d7b" />
-</Solution>
